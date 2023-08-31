@@ -31,14 +31,6 @@ jobs:
           node-version: 18.x
           cache: 'yarn'
 
-      - name: Auth with npm registry
-        run: |
-          echo 'npmScopes:
-                  ei-tech:
-                    npmAlwaysAuth: true
-                    npmRegistryServer: "https://registry.npmjs.org"
-                    npmAuthToken: ${{ secrets.NPM_TOKEN }}' >> ~/.yarnrc.yml
-
       - name: Install 📦
         run: yarn --immutable
 
