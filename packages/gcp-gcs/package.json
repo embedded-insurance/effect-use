@@ -1,0 +1,39 @@
+{
+  "name": "@effect-use/gcp-gcs",
+  "version": "0.0.0",
+  "packageManager": "yarn@3.5.1",
+  "dependencies": {
+    "@effect/data": "^0.17.6",
+    "@effect/io": "^0.38.2",
+    "@effect/schema": "^0.33.2",
+    "@google-cloud/storage": "^6.10.1"
+  },
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "devDependencies": {
+    "jest": "29.5.0",
+    "typescript": "5.2.2"
+  },
+  "scripts": {
+    "build": "rimraf dist && tsc -p tsconfig.build.json",
+    "test": "jest",
+    "clean": "rimraf node_modules & rimraf dist & rimraf .turbo",
+    "format": "prettier --write .",
+    "typecheck": "tsc --noEmit"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "license": "MIT",
+  "repository": {
+    "directory": "packages/gcp-gcs",
+    "type": "git",
+    "url": "https://github.com/embedded-insurance/effect-use.git"
+  },
+  "publishConfig": {
+    "access": "restricted"
+  }
+}

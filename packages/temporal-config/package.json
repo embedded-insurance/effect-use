@@ -1,0 +1,36 @@
+{
+  "name": "@effect-use/temporal-config",
+  "version": "0.0.0",
+  "packageManager": "yarn@3.5.1",
+  "dependencies": {
+    "@effect/data": "^0.17.6",
+    "@effect/io": "^0.38.2",
+    "@effect/schema": "^0.33.2"
+  },
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "devDependencies": {
+    "typescript": "5.2.2"
+  },
+  "scripts": {
+    "build": "rimraf dist && tsc -p tsconfig.build.json",
+    "format": "prettier --write .",
+    "clean": "rimraf node_modules & rimraf dist & rimraf .turbo",
+    "typecheck": "tsc --noEmit"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "license": "MIT",
+  "repository": {
+    "directory": "packages/temporal-config",
+    "type": "git",
+    "url": "https://github.com/embedded-insurance/effect-use.git"
+  },
+  "publishConfig": {
+    "access": "restricted"
+  }
+}

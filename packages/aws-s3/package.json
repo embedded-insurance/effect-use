@@ -1,0 +1,41 @@
+{
+  "name": "@effect-use/aws-s3",
+  "version": "0.0.0",
+  "packageManager": "yarn@3.5.1",
+  "dependencies": {
+    "@aws-sdk/client-s3": "^3.335.0",
+    "@effect/data": "^0.17.6",
+    "@effect/io": "^0.38.2",
+    "@effect/schema": "^0.33.2"
+  },
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "devDependencies": {
+    "@types/jest": "^29.5.1",
+    "jest": "29.5.0",
+    "ts-jest": "29.1.0",
+    "typescript": "5.2.2"
+  },
+  "scripts": {
+    "build": "rimraf dist && tsc -p tsconfig.build.json",
+    "test": "jest",
+    "clean": "rimraf node_modules & rimraf dist & rimraf .turbo",
+    "format": "prettier --write .",
+    "typecheck": "tsc --noEmit"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "license": "MIT",
+  "repository": {
+    "directory": "packages/aws-s3",
+    "type": "git",
+    "url": "https://github.com/embedded-insurance/effect-use.git"
+  },
+  "publishConfig": {
+    "access": "restricted"
+  }
+}
