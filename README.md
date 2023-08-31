@@ -8,7 +8,7 @@
   effect-use
   </h1>
 
-  > <p align="center">Use functional dependency injection</p>
+  > <p align="center">Functional dependency injection packages</p>
 <br/>
 
 <br/>
