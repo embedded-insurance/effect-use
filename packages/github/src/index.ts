@@ -4,7 +4,9 @@ import { Octokit } from '@octokit/rest'
 import { pipe } from '@effect/data/Function'
 import * as Layer from '@effect/io/Layer'
 
-export const GitHub = Context.Tag<Octokit>('GitHub')
+export type Github = Octokit
+
+export const GitHub = Context.Tag<Octokit>('@effect-use/github')
 
 /**
  * Returns the contents of a file from a GitHub repository
