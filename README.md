@@ -13,14 +13,13 @@
 
 <br/>
 
-This repo houses definitions of functional dependencies in [Effect](https://effect.website).
+`effect-use` conjures your favorite API from the ether, makes your software testable, and lets you write the anti-boilerplate.
 
-## 
-Centralizing definitions prevents duplication of effort in defining `Effect.Context` types for commonly-used APIs, SDKs, and services.
 
-Errors types are not typically represented in the underlying libraries but are desirable to add in Effect code. Centralization can also benefit the ongoing effort to have accurate error type signatures.
-
-Effect schema definitions we accumulate for these APIs can be used to generate valid example data for testing.
+## Why?
+- 🪄 Your API anywhere, anytime.
+- ✅ Testable programs, out of the box. 
+- ⏱️ Write code that hasn't been written.
 
 
 ## Project Status
