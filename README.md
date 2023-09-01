@@ -8,12 +8,9 @@
   effect-use
   </h1>
 
-  > <p align="center">Functional dependency injection packages</p>
-<br/>
-
-<br/>
 
 `effect-use` conjures your favorite API from the ether, makes your software testable, and lets you write the anti-boilerplate.
+
 
 
 ## Why?
@@ -22,8 +19,11 @@
 - ⏱️ Write code that hasn't been written.
 
 
+
 ## Project Status
 Alpha software, subject to change.
+
+
 
 ## Packages
 - [`@effect-use/aws-s3`](./packages/aws-s3) - Interact with AWS S3 buckets (via `@aws/client-s3`)
