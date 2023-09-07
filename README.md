@@ -9,15 +9,7 @@
   </h1>
 
 
-`effect-use` conjures your favorite API from the ether, makes your software testable, and lets you write the anti-boilerplate.
-
-
-
-## Why?
-- 🪄 Your API anywhere, anytime.
-- ✅ Testable programs, out of the box. 
-- ⏱️ Write code that hasn't been written.
-
+effect-use is a collection of [Effect](http:/github.com/Effect-TS/effect) wrappers for commonly-used APIs.
 
 
 ## Project Status
@@ -39,21 +31,28 @@ Alpha software, subject to change.
 ## Usage
 ```typescript
 import { GitHub } from '@effect-use/github'
+import * as Effect from '@effect/io/Effect'
+import * as Layer from '@effect/io/Layer'
+import { pipe } from '@effect/data/function'
 
-const getOrWhoops = pipe(
+
+const getLatestCommit = pipe(
   Effect.flatMap(GitHub, github => github.getRepo({owner: 'embedded-insurance', repo: 'effect-use'})),
-  Effect.map(result => result.repo.latestCommit()),
-  Effect.mapError(e => ({_tag: "Whoops"}))
+  Effect.map(result => result.repo.latestCommit),
+  Effect.mapError(e => ({ _tag: "Whoops" }))
 )
 
 // Let's provide our dependencies
 // And instead of the real GitHub, let's just make something up that looks exactly like it.
 // a.k.a., "it satisfies the interface"
-const dependencies = Layer.succeed(GitHub, {getRepo: (args: any)=> ({latestCommit:'125'}))
-pipe(
-  getOrWhoops,
-  Effect.provideLayer(
+const GitHubLayerTest = Layer.succeed(GitHub, {getRepo: (args: any)=> ({ latestCommit: '125' })} as GitHub)
+
+const result = pipe(
+  getLatestCommit,
+  Effect.provideLayer(GitHubLayerTest),
+  Effect.runPromise
 )
 
+expect(result).toEqual('125')
 ```
 
