@@ -9,7 +9,7 @@
   </h1>
 
 
-effect-use is a collection of [Effect](http:/github.com/Effect-TS/effect) wrappers for commonly-used APIs.
+effect-use is a library that collects common [Effect](https://github.com/Effect-TS/effect) wrappers in one place for developer convenience.
 
 
 ## Project Status
