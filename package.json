@@ -45,7 +45,7 @@
     "@temporalio/client": "1.7.4"
   },
   "publishConfig": {
-    "access": "restricted"
+    "access": "public"
   },
   "main": "dist/index.js"
 }
