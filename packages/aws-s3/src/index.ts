@@ -1,14 +1,11 @@
-import { S3 as S3Client, S3ClientConfig } from '@aws-sdk/client-s3'
 import * as Effect from '@effect/io/Effect'
 import * as Layer from '@effect/io/Layer'
 import * as Context from '@effect/data/Context'
-
-/**
- * Tag for the S3 client
- */
-export const S3 = Context.Tag<S3Client>('@aws-sdk/client-s3')
+import { S3 as S3Client, S3ClientConfig } from '@aws-sdk/client-s3'
 
 export type S3 = S3Client
+
+export const S3 = Context.Tag<S3>('@effect-use/aws-s3')
 
 /**
  * Create a layer for the S3 client

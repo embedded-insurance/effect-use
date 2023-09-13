@@ -4,16 +4,8 @@ import * as Layer from '@effect/io/Layer'
 import * as Context from '@effect/data/Context'
 
 export type GCS = Storage
-/**
- * Tag for the GCS client
- */
-export const GCS = Context.Tag<GCS>('@google-cloud/storage')
 
-type GCSWriteError = {
-  _tag: 'GCSWriteError'
-  meassage: string
-  stack: unknown
-}
+export const GCS = Context.Tag<GCS>('@effect-use/gcp-gcs')
 
 /**
  * Writes data to key in bucket

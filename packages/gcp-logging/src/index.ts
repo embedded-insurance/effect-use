@@ -30,7 +30,9 @@ export const logError = (message: string, data: LogMeta) =>
 export const logFatal = (message: string, data: LogMeta) =>
   Effect.locally(logMeta, data)(Effect.logFatal(message))
 
-export const customLogger = (logFn: (a: any) => void = console.log) =>
+const defaultLogFn = (a: any) => console.log(JSON.stringify(a))
+
+export const customLogger = (logFn: (a: any) => void = defaultLogFn) =>
   Logger.make<unknown, void>(
     ({
       fiberId,
