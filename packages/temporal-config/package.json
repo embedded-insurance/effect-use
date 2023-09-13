@@ -31,6 +31,6 @@
     "url": "https://github.com/embedded-insurance/effect-use.git"
   },
   "publishConfig": {
-    "access": "restricted"
+    "access": "public"
   }
 }

@@ -26,7 +26,7 @@ gen_enforced_field(WorkspaceCwd, 'license', 'MIT').
 gen_enforced_field(WorkspaceCwd, 'repository.type', 'git').
 gen_enforced_field(WorkspaceCwd, 'repository.url', 'https://github.com/embedded-insurance/effect-use.git').
 gen_enforced_field(WorkspaceCwd, 'repository.directory', WorkspaceCwd).
-gen_enforced_field(WorkspaceCwd, 'publishConfig.access', 'restricted').
+gen_enforced_field(WorkspaceCwd, 'publishConfig.access', 'public').
 gen_enforced_field(WorkspaceCwd, 'scripts.format', 'prettier --write .') :- WorkspaceCwd \= '.'.
 gen_enforced_field(WorkspaceCwd, 'scripts.clean', 'rimraf node_modules & rimraf dist & rimraf .turbo') :- WorkspaceCwd \= '.'.
 gen_enforced_field(WorkspaceCwd, 'scripts.build', 'rimraf dist && tsc -p tsconfig.build.json') :- WorkspaceCwd \= '.'.
