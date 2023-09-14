@@ -1873,6 +1873,24 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@effect-use/stripe@workspace:packages/stripe":
+  version: 0.0.0-use.local
+  resolution: "@effect-use/stripe@workspace:packages/stripe"
+  dependencies:
+    "@effect/data": ^0.17.6
+    "@effect/io": ^0.38.2
+    "@effect/schema": ^0.33.2
+    "@types/jest": ^29.5.2
+    "@types/node": 18
+    jest: 29.5.0
+    prettier: 2.8.8
+    stripe: ^12.17.0
+    ts-jest: 29.1.0
+    ts-node: ^10.9.1
+    typescript: 5.2.2
+  languageName: unknown
+  linkType: soft
+
 "@effect-use/temporal-client@workspace:packages/temporal-client":
   version: 0.0.0-use.local
   resolution: "@effect-use/temporal-client@workspace:packages/temporal-client"
@@ -2879,6 +2897,13 @@ __metadata:
   version: 18.17.12
   resolution: "@types/node@npm:18.17.12"
   checksum: 79f8bcca3067a3c529f30e172df8d14f25ab9e4cd6a05ed897a924ab1dec774e8ea172ef5c4a67ffec433d423a0c81778f17db22606d574bc83871b60aab298e
+  languageName: node
+  linkType: hard
+
+"@types/node@npm:>=8.1.0":
+  version: 20.6.0
+  resolution: "@types/node@npm:20.6.0"
+  checksum: 52611801af5cf151c6fac1963aa4a8a8ca2e388a9e9ed82b01b70bca762088ded5b32cc789c5564220d5d7dccba2b8dd34446a3d4fc74736805e1f2cf262e29d
   languageName: node
   linkType: hard
 
@@ -6493,6 +6518,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"qs@npm:^6.11.0":
+  version: 6.11.2
+  resolution: "qs@npm:6.11.2"
+  dependencies:
+    side-channel: ^1.0.4
+  checksum: e812f3c590b2262548647d62f1637b6989cc56656dc960b893fe2098d96e1bd633f36576f4cd7564dfbff9db42e17775884db96d846bebe4f37420d073ecdc0b
+  languageName: node
+  linkType: hard
+
 "queue-microtask@npm:^1.2.2":
   version: 1.2.3
   resolution: "queue-microtask@npm:1.2.3"
@@ -7126,6 +7160,16 @@ __metadata:
   version: 3.1.1
   resolution: "strip-json-comments@npm:3.1.1"
   checksum: 492f73e27268f9b1c122733f28ecb0e7e8d8a531a6662efbd08e22cccb3f9475e90a1b82cab06a392f6afae6d2de636f977e231296400d0ec5304ba70f166443
+  languageName: node
+  linkType: hard
+
+"stripe@npm:^12.17.0":
+  version: 12.18.0
+  resolution: "stripe@npm:12.18.0"
+  dependencies:
+    "@types/node": ">=8.1.0"
+    qs: ^6.11.0
+  checksum: 94f2457e4fa5b6dbe70c9282111ecc55cca6569308eebe873145afb18940c879e82d1ac6b1a29ad918771afdd63271007b13dafbd6163256b75c140016feef7e
   languageName: node
   linkType: hard
 

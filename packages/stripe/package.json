@@ -1,0 +1,43 @@
+{
+  "name": "@effect-use/stripe",
+  "version": "0.0.1",
+  "packageManager": "yarn@3.5.1",
+  "devDependencies": {
+    "@types/jest": "^29.5.2",
+    "jest": "29.5.0",
+    "prettier": "2.8.8",
+    "ts-jest": "29.1.0",
+    "ts-node": "^10.9.1",
+    "typescript": "5.2.2"
+  },
+  "scripts": {
+    "build": "rimraf dist && tsc -p tsconfig.build.json",
+    "format": "prettier --write .",
+    "clean": "rimraf node_modules & rimraf dist & rimraf .turbo",
+    "test": "jest",
+    "typecheck": "tsc --noEmit"
+  },
+  "exports": {
+    ".": "./dist/index.js"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "license": "MIT",
+  "repository": {
+    "directory": "packages/stripe",
+    "type": "git",
+    "url": "https://github.com/embedded-insurance/effect-use.git"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@effect/data": "^0.17.6",
+    "@effect/io": "^0.38.2",
+    "@effect/schema": "^0.33.2",
+    "@types/node": "18",
+    "stripe": "^12.17.0"
+  },
+  "main": "dist/index.js"
+}
