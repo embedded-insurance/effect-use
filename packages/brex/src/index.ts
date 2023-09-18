@@ -198,13 +198,6 @@ const listVendors = (): Effect.Effect<
     Effect.tap(() => Effect.logDebug('Listing Brex vendors')),
     Effect.flatMap((client) => client.get({ path: `/v1/vendors` })),
     Effect.flatMap((response) => Effect.tryPromise(() => response.json())),
-    Effect.mapError(
-      (e) =>
-        // @ts-expect-error
-        console.error(e) ||
-        // @ts-expect-error
-        Cause.fail({ status: e.status, statusText: e.statusText })
-    ),
     Effect.tapErrorCause((e) =>
       Effect.logError(`Failed to retrieve Brex vendors`, e)
     )
