@@ -1,5 +1,11 @@
 # @effect-use/gcp-logging
 
+## 0.2.0
+
+### Minor Changes
+
+- 8fe9f3e: latest effect packages
+
 ## 0.1.0
 
 ### Minor Changes
