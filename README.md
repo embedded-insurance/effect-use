@@ -24,8 +24,8 @@ Alpha software, subject to change.
 - [`@effect-use/temporal-client`](./packages/temporal-client) - Signal or start workflows (via `@temporalio/client`)
 - [`@effect-use/temporal-config`](./packages/temporal-config) - Define, require Temporal connection configuration
 - [`@effect-use/github`](./packages/github) - Interact with the GitHub API (via `@octokit/rest`)
-- [`@effect-use/stripe`](./packages/stripe) - WIP
-- [`@effect-use/brex`](./packages/brex) - WIP
+- [`@effect-use/stripe`](./packages/stripe) - Make and receive payments with Stripe (via [stripe](https://github.com/stripe/stripe-node))
+- [`@effect-use/brex`](./packages/brex) - Automate banking with Brex (via the [Brex REST API](https://developer.brex.com/))
 - [`@effect-use/kubernetes`](./packages/kubernetes) - WIP
 
 ## Usage
