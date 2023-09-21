@@ -1,6 +1,6 @@
 {
   "name": "@effect-use/brex",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "packageManager": "yarn@3.5.1",
   "devDependencies": {
     "@types/jest": "^29.5.2",
