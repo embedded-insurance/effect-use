@@ -1808,6 +1808,24 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@effect-use/brex@workspace:packages/brex":
+  version: 0.0.0-use.local
+  resolution: "@effect-use/brex@workspace:packages/brex"
+  dependencies:
+    "@effect-use/http-client": "workspace:^"
+    "@effect/data": ^0.17.6
+    "@effect/io": ^0.38.2
+    "@effect/schema": ^0.33.2
+    "@types/jest": ^29.5.2
+    "@types/node": 18
+    jest: 29.5.0
+    prettier: 2.8.8
+    ts-jest: 29.1.0
+    ts-node: ^10.9.1
+    typescript: 5.2.2
+  languageName: unknown
+  linkType: soft
+
 "@effect-use/gcp-gcs@workspace:packages/gcp-gcs":
   version: 0.0.0-use.local
   resolution: "@effect-use/gcp-gcs@workspace:packages/gcp-gcs"
@@ -1856,7 +1874,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@effect-use/http-client@workspace:packages/http-client":
+"@effect-use/http-client@workspace:^, @effect-use/http-client@workspace:packages/http-client":
   version: 0.0.0-use.local
   resolution: "@effect-use/http-client@workspace:packages/http-client"
   dependencies:
