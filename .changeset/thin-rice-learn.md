@@ -1,5 +1,6 @@
 ---
 "@effect-use/aws-s3": minor
+"@effect-use/brex": minor
 "@effect-use/gcp-gcs": minor
 "@effect-use/gcp-logging": minor
 "@effect-use/github": minor
