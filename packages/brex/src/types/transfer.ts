@@ -8,7 +8,7 @@ export const OriginatingAccount = S.struct({
   type: S.literal('BREX_CASH'),
   id: S.string,
 })
-export type OriginatingAccount = S.To<typeof OriginatingAccount>
+export type OriginatingAccount = S.Schema.To<typeof OriginatingAccount>
 
 /**
  * Recipient
@@ -17,19 +17,19 @@ export const Recipient = S.struct({
   type: S.literal('ACCOUNT_ID', 'PAYMENT_INSTRUMENT_ID'),
   id: S.string,
 })
-export type Recipient = S.To<typeof Recipient>
+export type Recipient = S.Schema.To<typeof Recipient>
 
 /**
  * Counterparty
  */
 export const CounterpartyType = S.literal('VENDOR', 'BOOK_TRANSFER')
-export type CounterpartyType = S.To<typeof CounterpartyType>
+export type CounterpartyType = S.Schema.To<typeof CounterpartyType>
 
 export const Counterparty = S.struct({
   type: CounterpartyType,
   recipient: Recipient,
 })
-export type Counterparty = S.To<typeof Counterparty>
+export type Counterparty = S.Schema.To<typeof Counterparty>
 
 /**
  * TransferStatus
@@ -42,7 +42,7 @@ export const TransferStatus = S.literal(
   'FAILED' // A grouping of multiple terminal states that prevented the transaction from completing. This includes
   // a user-cancellation, approval being denied, insufficient funds, failed verifications, etc.
 )
-export type TransferStatus = S.To<typeof TransferStatus>
+export type TransferStatus = S.Schema.To<typeof TransferStatus>
 
 /**
  * CancellationReason
@@ -53,7 +53,7 @@ export const CancellationReason = S.literal(
   'APPROVAL_DENIED', // The transfer was not sent because it was denied.
   'BLOCKED_BY_POSITIVE_PAY' // The transfer was blocked because of the ACH debit settings.
 )
-export type CancellationReason = S.To<typeof CancellationReason>
+export type CancellationReason = S.Schema.To<typeof CancellationReason>
 
 /**
  * Transfer
@@ -88,7 +88,7 @@ const TransferOptional = S.partial(
   })
 )
 export const Transfer = S.extend(TransferRequired, TransferOptional)
-export type Transfer = S.To<typeof Transfer>
+export type Transfer = S.Schema.To<typeof Transfer>
 
 /**
  * Create Transfer Payload and response
@@ -101,16 +101,18 @@ export const BrexCreateTransferPayload = S.struct({
   originating_account: OriginatingAccount,
   approval_type: S.nullable(S.literal('MANUAL')), // MANUAL requires a cash admin to approve the transaction before disbursing funds
 })
-export type BrexCreateTransferPayload = S.To<typeof BrexCreateTransferPayload>
+export type BrexCreateTransferPayload = S.Schema.To<
+  typeof BrexCreateTransferPayload
+>
 
 export const CreateTransferResponse = Transfer
-export type CreateTransferResponse = S.To<typeof CreateTransferResponse>
+export type CreateTransferResponse = S.Schema.To<typeof CreateTransferResponse>
 
 /**
  * Get Transfer response
  */
 export const GetTransferResponse = Transfer
-export type GetTransferResponse = S.To<typeof GetTransferResponse>
+export type GetTransferResponse = S.Schema.To<typeof GetTransferResponse>
 
 /**
  * List Transfers response
@@ -127,4 +129,4 @@ export const ListTransfersResponse = S.extend(
   ListTransfersResponseRequired,
   ListTransfersResponseOptional
 )
-export type ListTransfersResponse = S.To<typeof ListTransfersResponse>
+export type ListTransfersResponse = S.Schema.To<typeof ListTransfersResponse>

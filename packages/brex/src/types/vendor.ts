@@ -9,7 +9,7 @@ export const PaymentAccountType = S.literal(
   'DOMESTIC_WIRE',
   'INTERNATIONAL_WIRE'
 )
-export type PaymentAccountType = S.To<typeof PaymentAccountType>
+export type PaymentAccountType = S.Schema.To<typeof PaymentAccountType>
 
 /**
  * Address
@@ -25,7 +25,7 @@ export const Address = S.partial(
     phone_number: S.nullable(S.string),
   })
 )
-export type Address = S.To<typeof Address>
+export type Address = S.Schema.To<typeof Address>
 
 /**
  * Payment Account Details
@@ -37,7 +37,7 @@ export const PaymentAccountDetails = S.struct({
   account_number: S.string,
   address: Address,
 })
-export type PaymentAccountDetails = S.To<typeof PaymentAccountDetails>
+export type PaymentAccountDetails = S.Schema.To<typeof PaymentAccountDetails>
 
 /**
  * Vendor
@@ -54,13 +54,13 @@ const VendorOptional = S.partial(
   })
 )
 export const Vendor = S.extend(VendorRequired, VendorOptional)
-export type Vendor = S.To<typeof Vendor>
+export type Vendor = S.Schema.To<typeof Vendor>
 
 /**
  * Get Vendor Response
  */
 export const GetVendorResponse = Vendor
-export type GetVendorResponse = S.To<typeof GetVendorResponse>
+export type GetVendorResponse = S.Schema.To<typeof GetVendorResponse>
 
 /**
  * List Vendors Response
@@ -77,4 +77,4 @@ export const ListVendorsResponse = S.extend(
   ListVendorsResponseRequired,
   ListVendorsResponseOptional
 )
-export type ListVendorsResponse = S.To<typeof ListVendorsResponse>
+export type ListVendorsResponse = S.Schema.To<typeof ListVendorsResponse>

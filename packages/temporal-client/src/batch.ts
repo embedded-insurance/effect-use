@@ -24,13 +24,17 @@ import {
 } from './client'
 
 export const StartWorkflowBatchInput = S.array(StartWorkflowInput)
-export type StartWorkflowBatchInput = S.To<typeof StartWorkflowBatchInput>
+export type StartWorkflowBatchInput = S.Schema.To<
+  typeof StartWorkflowBatchInput
+>
 
 export const StartWorkflowBatchOutput = S.struct({
   successes: S.array(StartWorkflowOutput),
   failures: S.array(StartWorkflowError),
 })
-export type StartWorkflowBatchOutput = S.To<typeof StartWorkflowBatchOutput>
+export type StartWorkflowBatchOutput = S.Schema.To<
+  typeof StartWorkflowBatchOutput
+>
 
 /**
  * Starts workflows in parallel.
@@ -51,13 +55,13 @@ export const startWorkflowBatch = (
   )
 
 export const SignalBatchInput = S.array(SignalWorkflowInput)
-export type SignalBatchInput = S.To<typeof SignalBatchInput>
+export type SignalBatchInput = S.Schema.To<typeof SignalBatchInput>
 
 export const SignalBatchOutput = S.struct({
   successes: S.array(SignalWorkflowOutput),
   failures: S.array(SignalWorkflowError),
 })
-export type SignalBatchOutput = S.To<typeof SignalBatchOutput>
+export type SignalBatchOutput = S.Schema.To<typeof SignalBatchOutput>
 
 /**
  * Runs signals in parallel.
@@ -78,13 +82,17 @@ export const signalBatch = (
   )
 
 export const SignalWithStartBatchInput = S.array(SignalWithStartInput)
-export type SignalWithStartBatchInput = S.To<typeof SignalWithStartBatchInput>
+export type SignalWithStartBatchInput = S.Schema.To<
+  typeof SignalWithStartBatchInput
+>
 
 export const SignalWithStartBatchOutput = S.struct({
   successes: S.array(SignalWithStartOutput),
   failures: S.array(SignalWithStartError),
 })
-export type SignalWithStartBatchOutput = S.To<typeof SignalWithStartBatchOutput>
+export type SignalWithStartBatchOutput = S.Schema.To<
+  typeof SignalWithStartBatchOutput
+>
 
 /**
  * Signals with starts in parallel.

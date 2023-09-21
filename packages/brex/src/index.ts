@@ -17,7 +17,7 @@ export const BrexConfig = S.extend(
   S.struct({ BREX_API_KEY: S.string }),
   S.partial(S.struct({ BREX_BASE_URL: S.string }))
 )
-export type BrexConfig = S.To<typeof BrexConfig>
+export type BrexConfig = S.Schema.To<typeof BrexConfig>
 
 const defaultBrexAPIURL = 'https://platform.brexapis.com'
 
@@ -101,7 +101,7 @@ const CreateTransferArgs = S.struct({
   input: BrexCreateTransferPayload,
   idempotencyKey: S.string,
 })
-type CreateTransferArgs = S.To<typeof CreateTransferArgs>
+type CreateTransferArgs = S.Schema.To<typeof CreateTransferArgs>
 const createTransfer = (
   args: CreateTransferArgs
 ): Effect.Effect<HTTP.Client, unknown, CreateTransferResponse> =>

@@ -25,13 +25,13 @@ export const WorkflowNotFoundError = S.extend(
     })
   )
 )
-export type WorkflowNotFoundError = S.To<typeof WorkflowNotFoundError>
+export type WorkflowNotFoundError = S.Schema.To<typeof WorkflowNotFoundError>
 
 export const WorkflowExecutionAlreadyStartedError = S.struct({
   _tag: S.literal('WorkflowExecutionAlreadyStartedError'),
   workflowId: S.string,
   workflowType: S.string,
 })
-export type WorkflowExecutionAlreadyStartedError = S.To<
+export type WorkflowExecutionAlreadyStartedError = S.Schema.To<
   typeof WorkflowExecutionAlreadyStartedError
 >
