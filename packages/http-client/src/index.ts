@@ -2,7 +2,7 @@ import * as Context from '@effect/data/Context'
 import * as Effect from '@effect/io/Effect'
 import { pipe } from '@effect/data/Function'
 import * as Data from '@effect/data/Data'
-import { isRecord } from '@effect/data/Predicate'
+import { isError, isRecord } from '@effect/data/Predicate'
 
 export type Config = {
   /**
@@ -20,7 +20,7 @@ export type Method = (
     path?: string
     headers?: Record<string, string>
   }
-) => Effect.Effect<never, Response | FetchError | InvalidURL, Response>
+) => Effect.Effect<never, FetchError | InvalidURL, Response>
 
 export type Client = {
   baseUrl: string
@@ -53,7 +53,8 @@ export interface FetchError extends Data.Case {
     headers?: Record<string, string>
     body?: unknown
   }
-  error: unknown
+  message: string
+  stack?: string | unknown
 }
 
 export const FetchError = Data.tagged<FetchError>(
@@ -99,6 +100,8 @@ export const make = (args: Config): Effect.Effect<Fetch, never, Client> =>
           Effect.tap((url) => Effect.logDebug(`${method} ${url.toString()}`)),
           Effect.flatMap((url) =>
             Effect.tryPromise((signal) =>
+              // fetch promise resolves even when response type are not 2xx
+              // it only rejects when there is a network error
               fetch(url.toString(), {
                 ...req,
                 method,
@@ -110,10 +113,17 @@ export const make = (args: Config): Effect.Effect<Fetch, never, Client> =>
               })
             )
           ),
+          Effect.flatMap((response) => Effect.succeed(response)),
           Effect.mapError((e) => {
             if (isRecord(e) && e._tag === 'InvalidURL') {
               // @ts-expect-error
               return e as InvalidURL
+            }
+            let message = 'Unknown error'
+            let stack
+            if(isError(e)){
+              message = e.message
+              stack = e.stack
             }
             return FetchError({
               input: {
@@ -126,14 +136,10 @@ export const make = (args: Config): Effect.Effect<Fetch, never, Client> =>
                 },
                 body: req.body,
               },
-              error: e,
+              message,
+              stack,
             })
           }),
-          Effect.flatMap((response) =>
-            response.status >= 400
-              ? Effect.fail(response)
-              : Effect.succeed(response)
-          ),
           Effect.tapErrorCause(Effect.logDebug),
           Effect.withLogSpan('@effect-use/http-client')
         )
