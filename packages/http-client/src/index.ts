@@ -31,8 +31,8 @@ export class InvalidURL extends Error.TaggedClass('InvalidURL')<{
   readonly message: unknown
 }> {}
 
-export class TaggedErrorResponse extends Error.TaggedClass(
-  'TaggedErrorResponse'
+export class ErrorResponse extends Error.TaggedClass(
+  'ErrorResponse'
 )<{
   readonly statusCode: number
   readonly response: Response
@@ -46,7 +46,7 @@ export type Method = (
   }
 ) => Effect.Effect<
   never,
-  TaggedErrorResponse | FetchError | InvalidURL,
+  ErrorResponse | FetchError | InvalidURL,
   Response
 >
 
@@ -137,7 +137,7 @@ export const make = (args: Config): Effect.Effect<Fetch, never, Client> =>
           Effect.flatMap((response) =>
             response.status >= 400
               ? Effect.fail(
-                  new TaggedErrorResponse({
+                  new ErrorResponse({
                     response: response,
                     statusCode: response.status,
                     message: response.statusText,

@@ -69,7 +69,7 @@ it('returns the error message returned by the server with the status code', asyn
   const cause = failure.cause
   expect(cause._tag).toEqual('Fail')
 
-  const error = cause.error as HTTP.TaggedErrorResponse
+  const error = cause.error as HTTP.ErrorResponse
 
   expect(error.statusCode).toEqual(404)
   expect(error.message).toEqual('NOT FOUND')
