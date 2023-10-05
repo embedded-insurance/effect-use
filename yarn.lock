@@ -1884,6 +1884,7 @@ __metadata:
     "@types/jest": ^29.5.2
     "@types/node": 18
     "@types/uuid": ^9.0.1
+    effect: ^2.0.0-next.44
     jest: 29.5.0
     ts-jest: 29.1.0
     ts-node: ^10.9.1
@@ -3897,6 +3898,13 @@ __metadata:
     typescript: 5.2.2
   languageName: unknown
   linkType: soft
+
+"effect@npm:^2.0.0-next.44":
+  version: 2.0.0-next.44
+  resolution: "effect@npm:2.0.0-next.44"
+  checksum: 2a75308f3311ee1684c86536ac5daddfe082698be9fa691e8c7dfb36036acef6aa32c49877e2323ee5a332928acbf9c67bc0864107397770df6b903a5b32a168
+  languageName: node
+  linkType: hard
 
 "electron-to-chromium@npm:^1.4.284":
   version: 1.4.385
