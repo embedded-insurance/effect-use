@@ -7,7 +7,7 @@ import * as Option from '@effect/data/Option'
 import * as List from '@effect/data/List'
 import * as HashMap from '@effect/data/HashMap'
 import * as Cause from '@effect/io/Cause'
-import * as LogLevel from '@effect/io/Logger/Level'
+import * as LogLevel from '@effect/io/LogLevel'
 import * as S from '@effect/schema/Schema'
 import * as Layer from '@effect/io/Layer'
 
