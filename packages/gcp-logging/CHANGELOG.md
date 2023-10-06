@@ -1,5 +1,11 @@
 # @effect-use/gcp-logging
 
+## 0.3.0
+
+### Minor Changes
+
+- 470ce70: Add LogLayer to replace the default logger
+
 ## 0.2.0
 
 ### Minor Changes
