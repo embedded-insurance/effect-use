@@ -7,6 +7,9 @@ import * as Option from '@effect/data/Option'
 import * as List from '@effect/data/List'
 import * as HashMap from '@effect/data/HashMap'
 import * as Cause from '@effect/io/Cause'
+import * as LogLevel from '@effect/io/LogLevel'
+import * as S from '@effect/schema/Schema'
+import * as Layer from '@effect/io/Layer'
 
 type LogMeta = Record<string, string>
 
@@ -84,3 +87,23 @@ export const withTrace =
       Effect.annotateLogs(GCP_LOG_TRACE_KEY, args.trace),
       Effect.annotateLogs(GCP_LOG_SPAN_KEY, args.span)
     )
+
+export const LogLevelSchema = S.literal<
+  [
+    LogLevel.All['_tag'],
+    LogLevel.Fatal['_tag'],
+    LogLevel.Error['_tag'],
+    LogLevel.Warning['_tag'],
+    LogLevel.Info['_tag'],
+    LogLevel.Debug['_tag'],
+    LogLevel.Trace['_tag'],
+    LogLevel.None['_tag']
+  ]
+>('All', 'Fatal', 'Error', 'Warning', 'Info', 'Debug', 'Trace', 'None')
+
+export const LogLayer = (level: LogLevel.Literal) =>
+  Layer.provideMerge(
+    Logger.replace(Logger.defaultLogger, customLogger()),
+    Logger.minimumLogLevel(LogLevel.fromLiteral(level))
+  )
+    
