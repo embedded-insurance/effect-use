@@ -25,7 +25,7 @@ Alpha software, subject to change.
 - [`@effect-use/temporal-config`](./packages/temporal-config) - Define, require Temporal connection configuration
 - [`@effect-use/github`](./packages/github) - Interact with the GitHub API (via `@octokit/rest`)
 - [`@effect-use/stripe`](./packages/stripe) - WIP
-- [`@effect-use/brex`](./packages/brex) - WIP
+- [`@effect-use/brex`](./packages/brex) - Move money with the [Brex API](https://developer.brex.com/)
 - [`@effect-use/kubernetes`](./packages/kubernetes) - WIP
 
 ## Usage
