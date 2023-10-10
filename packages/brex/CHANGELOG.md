@@ -1,5 +1,16 @@
 # @effect-use/brex
 
+## 1.0.0
+
+### Major Changes
+
+- 38f0e5b: use effect package, upgrade schema
+
+### Patch Changes
+
+- Updated dependencies [38f0e5b]
+  - @effect-use/http-client@1.0.0
+
 ## 0.1.1
 
 ### Patch Changes

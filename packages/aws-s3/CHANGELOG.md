@@ -1,5 +1,11 @@
 # @effect-use/aws-s3
 
+## 1.0.0
+
+### Major Changes
+
+- 38f0e5b: use effect package, upgrade schema
+
 ## 0.1.0
 
 ### Minor Changes

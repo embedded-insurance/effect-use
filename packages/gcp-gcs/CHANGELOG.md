@@ -1,5 +1,11 @@
 # @effect-use/gcp-gcs
 
+## 1.0.0
+
+### Major Changes
+
+- 38f0e5b: use effect package, upgrade schema
+
 ## 0.2.0
 
 ### Minor Changes
