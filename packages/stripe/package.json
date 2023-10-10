@@ -1,6 +1,6 @@
 {
   "name": "@effect-use/stripe",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "packageManager": "yarn@3.5.1",
   "devDependencies": {
     "@types/jest": "^29.5.2",
