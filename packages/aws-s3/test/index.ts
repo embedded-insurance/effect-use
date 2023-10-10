@@ -1,6 +1,6 @@
-import * as Effect from '@effect/io/Effect'
-import * as Layer from '@effect/io/Layer'
-import { pipe } from '@effect/data/Function'
+import * as Effect from 'effect/Effect'
+import * as Layer from 'effect/Layer'
+import { pipe } from 'effect/Function'
 import { PutObjectCommand } from '@aws-sdk/client-s3'
 import { S3 } from '../src'
 
@@ -26,7 +26,7 @@ test('Fake S3 implementation', () => {
         )
       )
     ),
-    Effect.provideLayer(
+    Effect.provide(
       Layer.succeed(S3, s3CollectWrites({ writes }) as unknown as S3)
     ),
     Effect.runPromise

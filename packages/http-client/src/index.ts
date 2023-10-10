@@ -1,8 +1,8 @@
-import * as Context from '@effect/data/Context'
-import { Error } from 'effect'
-import * as Effect from '@effect/io/Effect'
-import { pipe } from '@effect/data/Function'
-import { isRecord } from '@effect/data/Predicate'
+import * as Context from 'effect/Context'
+import * as Effect from 'effect/Effect'
+import { pipe } from 'effect/Function'
+import { isRecord } from 'effect/Predicate'
+import { TaggedError } from 'effect/Data'
 
 export type Config = {
   /**
@@ -15,7 +15,7 @@ export type Config = {
   headers?: Record<'Content-Type' | 'Authorization' | string, string>
 }
 
-export class FetchError extends Error.TaggedClass('FetchError')<{
+export class FetchError extends TaggedError('FetchError')<{
   readonly input: {
     readonly baseURL?: string
     readonly path?: string
@@ -25,15 +25,13 @@ export class FetchError extends Error.TaggedClass('FetchError')<{
   readonly message: unknown
 }> {}
 
-export class InvalidURL extends Error.TaggedClass('InvalidURL')<{
+export class InvalidURL extends TaggedError('InvalidURL')<{
   readonly input: string
   readonly stack?: string
   readonly message: unknown
 }> {}
 
-export class ErrorResponse extends Error.TaggedClass(
-  'ErrorResponse'
-)<{
+export class ErrorResponse extends TaggedError('ErrorResponse')<{
   readonly statusCode: number
   readonly response: Response
   readonly message: unknown
@@ -44,11 +42,7 @@ export type Method = (
     path?: string
     headers?: Record<string, string>
   }
-) => Effect.Effect<
-  never,
-  ErrorResponse | FetchError | InvalidURL,
-  Response
->
+) => Effect.Effect<never, ErrorResponse | FetchError | InvalidURL, Response>
 
 export type Client = {
   baseUrl: string
