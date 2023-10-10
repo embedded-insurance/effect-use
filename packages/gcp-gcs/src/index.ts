@@ -1,7 +1,7 @@
 import { Storage, StorageOptions } from '@google-cloud/storage'
-import * as Effect from '@effect/io/Effect'
-import * as Layer from '@effect/io/Layer'
-import * as Context from '@effect/data/Context'
+import * as Effect from 'effect/Effect'
+import * as Layer from 'effect/Layer'
+import * as Context from 'effect/Context'
 
 export type GCS = Storage
 /**

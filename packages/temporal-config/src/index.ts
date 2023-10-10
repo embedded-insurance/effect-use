@@ -1,4 +1,4 @@
-import * as Context from '@effect/data/Context'
+import { Context } from 'effect'
 import * as S from '@effect/schema/Schema'
 
 const TemporalConfigRequired = S.struct({

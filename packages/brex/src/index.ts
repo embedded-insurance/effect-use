@@ -1,8 +1,8 @@
 import * as HTTP from '@effect-use/http-client'
-import * as Context from '@effect/data/Context'
-import { flow, pipe } from '@effect/data/Function'
-import * as Effect from '@effect/io/Effect'
-import * as Layer from '@effect/io/Layer'
+import * as Context from 'effect/Context'
+import { flow, pipe } from 'effect/Function'
+import * as Effect from 'effect/Effect'
+import * as Layer from 'effect/Layer'
 import * as S from '@effect/schema/Schema'
 import {
   BrexCreateTransferPayload,

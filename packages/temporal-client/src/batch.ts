@@ -3,10 +3,10 @@ import {
   PayloadConverter as TemporalPayloadConverter,
   ValueError,
 } from '@temporalio/workflow'
-import * as Effect from '@effect/io/Effect'
-import * as Context from '@effect/data/Context'
+import * as Effect from 'effect/Effect'
+import * as Context from 'effect/Context'
 import * as S from '@effect/schema/Schema'
-import { identity, pipe } from '@effect/data/Function'
+import { identity, pipe } from 'effect/Function'
 import {
   startWorkflow,
   signal,

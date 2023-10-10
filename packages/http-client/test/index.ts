@@ -1,7 +1,7 @@
 import * as HTTP from '../src'
-import * as Effect from '@effect/io/Effect'
-import { pipe } from '@effect/data/Function'
-import * as Cause from '@effect/io/Cause'
+import * as Effect from 'effect/Effect'
+import { pipe } from 'effect/Function'
+import * as Cause from 'effect/Cause'
 
 it('returns OK when response is 200', async () => {
   const { ok } = await pipe(

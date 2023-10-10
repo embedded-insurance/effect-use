@@ -11,12 +11,8 @@ import {
   QueryRejectedError,
   WorkflowStartOptions,
 } from '@temporalio/client'
-import * as Effect from '@effect/io/Effect'
-import * as Context from '@effect/data/Context'
-import * as Layer from '@effect/io/Layer'
+import { Effect, Context, Layer, pipe, Scope } from 'effect'
 import * as S from '@effect/schema/Schema'
-import { pipe } from '@effect/data/Function'
-import * as Scope from '@effect/io/Scope'
 import { TemporalConfig, TemporalConfigTag } from '@effect-use/temporal-config'
 import {
   WorkflowExecutionAlreadyStartedError,
@@ -33,7 +29,7 @@ export const TemporalClient = Context.Tag<TemporalClient>(
 export const buildClient = Effect.flatMap(
   Effect.all([TemporalConnection, TemporalConfigTag] as const),
   ([connection, config]) =>
-    Effect.provideLayer(
+    Effect.provide(
       TemporalClient,
       Layer.effect(
         TemporalClient,

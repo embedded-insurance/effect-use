@@ -1,15 +1,15 @@
-import { pipe } from '@effect/data/Function'
-import * as Effect from '@effect/io/Effect'
-import * as FiberRef from '@effect/io/FiberRef'
-import * as FiberRefs from '@effect/io/FiberRefs'
-import * as Logger from '@effect/io/Logger'
-import * as Option from '@effect/data/Option'
-import * as List from '@effect/data/List'
-import * as HashMap from '@effect/data/HashMap'
-import * as Cause from '@effect/io/Cause'
-import * as LogLevel from '@effect/io/LogLevel'
+import { pipe } from 'effect/Function'
+import * as Effect from 'effect/Effect'
+import * as FiberRef from 'effect/FiberRef'
+import * as FiberRefs from 'effect/FiberRefs'
+import * as Logger from 'effect/Logger'
+import * as Option from 'effect/Option'
+import * as List from 'effect/List'
+import * as HashMap from 'effect/HashMap'
+import * as Cause from 'effect/Cause'
+import * as LogLevel from 'effect/LogLevel'
 import * as S from '@effect/schema/Schema'
-import * as Layer from '@effect/io/Layer'
+import * as Layer from 'effect/Layer'
 
 type LogMeta = Record<string, string>
 
@@ -106,4 +106,3 @@ export const LogLayer = (level: LogLevel.Literal) =>
     Logger.replace(Logger.defaultLogger, customLogger()),
     Logger.minimumLogLevel(LogLevel.fromLiteral(level))
   )
-    

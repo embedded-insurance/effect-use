@@ -1,11 +1,10 @@
-// @ts-nocheck
-import { pipe } from '@effect/data/Function'
-import * as Effect from '@effect/io/Effect'
-import * as Logger from '@effect/io/Logger'
-import * as Duration from '@effect/data/Duration'
-import * as Clock from '@effect/io/Clock'
-import { ClockTypeId } from '@effect/io/Clock'
-import * as Layer from '@effect/io/Layer'
+import { pipe } from 'effect/Function'
+import * as Effect from 'effect/Effect'
+import * as Logger from 'effect/Logger'
+import * as Duration from 'effect/Duration'
+import * as Clock from 'effect/Clock'
+import { ClockTypeId } from 'effect/Clock'
+import * as Layer from 'effect/Layer'
 import { customLogger, withTrace, logInfo } from '../src'
 
 const testClock: Clock.Clock = {
@@ -36,8 +35,8 @@ const child = pipe(
 const parent = pipe(child, Effect.withLogSpan('parent'))
 
 const makeTestLayer = (onLog: (x: any) => void) =>
-  Layer.provideMerge(
-    Effect.setClock(testClock),
+  Layer.mergeAll(
+    Layer.setClock(testClock),
     Logger.replace(
       Logger.defaultLogger,
       customLogger((a) => {
@@ -47,10 +46,10 @@ const makeTestLayer = (onLog: (x: any) => void) =>
   )
 
 test('effect versions after span log changes', () => {
-  let logs = []
+  let logs: any[] = []
   pipe(
     parent,
-    Effect.provideLayer(
+    Effect.provide(
       makeTestLayer((x) => {
         logs.push(x)
       })
@@ -92,10 +91,10 @@ test.skip('logging - should be ok', () => {
       withTrace({ trace: 'test-trace', span: 'test-span' })
     ),
 
-    Effect.provideSomeLayer(
+    Effect.provide(
       pipe(
         Layer.provideMerge(
-          Effect.setClock(testClock),
+          Layer.succeed(Clock.Clock, testClock),
           Logger.replace(
             Logger.defaultLogger,
             customLogger((a) => {
