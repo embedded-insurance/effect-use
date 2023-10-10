@@ -24,16 +24,15 @@ Alpha software, subject to change.
 - [`@effect-use/temporal-client`](./packages/temporal-client) - Signal or start workflows (via `@temporalio/client`)
 - [`@effect-use/temporal-config`](./packages/temporal-config) - Define, require Temporal connection configuration
 - [`@effect-use/github`](./packages/github) - Interact with the GitHub API (via `@octokit/rest`)
-- [`@effect-use/stripe`](./packages/stripe) - WIP
+- [`@effect-use/stripe`](./packages/stripe) - Process payments with [Stripe](https://stripe.com/docs/api)
 - [`@effect-use/brex`](./packages/brex) - Move money with the [Brex API](https://developer.brex.com/)
 - [`@effect-use/kubernetes`](./packages/kubernetes) - WIP
 
 ## Usage
 ```typescript
 import { GitHub } from '@effect-use/github'
-import * as Effect from '@effect/io/Effect'
-import * as Layer from '@effect/io/Layer'
-import { pipe } from '@effect/data/function'
+import { Effect, Layer, pipe } from 'effect'
+
 
 
 const getLatestCommit = pipe(
@@ -49,7 +48,7 @@ const GitHubLayerTest = Layer.succeed(GitHub, {getRepo: (args: any)=> ({ latestC
 
 const result = pipe(
   getLatestCommit,
-  Effect.provideLayer(GitHubLayerTest),
+  Effect.provide(GitHubLayerTest),
   Effect.runPromise
 )
 
