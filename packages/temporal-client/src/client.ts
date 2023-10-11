@@ -11,12 +11,8 @@ import {
   QueryRejectedError,
   WorkflowStartOptions,
 } from '@temporalio/client'
-import * as Effect from '@effect/io/Effect'
-import * as Context from '@effect/data/Context'
-import * as Layer from '@effect/io/Layer'
+import { Effect, Context, Layer, pipe, Scope } from 'effect'
 import * as S from '@effect/schema/Schema'
-import { pipe } from '@effect/data/Function'
-import * as Scope from '@effect/io/Scope'
 import { TemporalConfig, TemporalConfigTag } from '@effect-use/temporal-config'
 import {
   WorkflowExecutionAlreadyStartedError,
@@ -33,7 +29,7 @@ export const TemporalClient = Context.Tag<TemporalClient>(
 export const buildClient = Effect.flatMap(
   Effect.all([TemporalConnection, TemporalConfigTag] as const),
   ([connection, config]) =>
-    Effect.provideLayer(
+    Effect.provide(
       TemporalClient,
       Layer.effect(
         TemporalClient,
@@ -66,7 +62,7 @@ export const SignalWithStartInput = S.struct({
   signal: S.string,
   signalArgs: S.array(S.unknown),
 })
-export type SignalWithStartInput = S.To<typeof SignalWithStartInput>
+export type SignalWithStartInput = S.Schema.To<typeof SignalWithStartInput>
 
 export const SignalWithStartOutput = pipe(
   S.struct({
@@ -77,10 +73,10 @@ export const SignalWithStartOutput = pipe(
     "Signals a running workflow or starts it if it doesn't exist. Echoes the workflowId used to make the request and the run ID of the workflow that was signaled."
   )
 )
-export type SignalWithStartOutput = S.To<typeof SignalWithStartOutput>
+export type SignalWithStartOutput = S.Schema.To<typeof SignalWithStartOutput>
 
 export const SignalWithStartError = S.unknown
-export type SignalWithStartError = S.To<typeof SignalWithStartError>
+export type SignalWithStartError = S.Schema.To<typeof SignalWithStartError>
 
 export const signalWithStart = (
   args: SignalWithStartInput
@@ -140,7 +136,7 @@ export const SignalWorkflowInput = S.extend(
   }),
   S.partial(S.struct({ correlationId: S.string }))
 )
-export type SignalWorkflowInput = S.To<typeof SignalWorkflowInput>
+export type SignalWorkflowInput = S.Schema.To<typeof SignalWorkflowInput>
 export const SignalWorkflowOutput = S.extend(
   S.struct({
     workflowId: S.string,
@@ -157,10 +153,10 @@ export const SignalWorkflowOutput = S.extend(
     })
   )
 )
-export type SignalWorkflowOutput = S.To<typeof SignalWorkflowOutput>
+export type SignalWorkflowOutput = S.Schema.To<typeof SignalWorkflowOutput>
 
 export const SignalWorkflowError = S.union(WorkflowNotFoundError, S.unknown)
-export type SignalWorkflowError = S.To<typeof SignalWorkflowError>
+export type SignalWorkflowError = S.Schema.To<typeof SignalWorkflowError>
 
 /**
  * Sends a message to a running workflow
@@ -215,18 +211,18 @@ export const StartWorkflowInput = S.extend(
   }),
   CommonWorkflowOptions
 )
-export type StartWorkflowInput = S.To<typeof StartWorkflowInput>
+export type StartWorkflowInput = S.Schema.To<typeof StartWorkflowInput>
 
 export const StartWorkflowOutput = S.struct({
   runId: S.string,
 })
-export type StartWorkflowOutput = S.To<typeof StartWorkflowOutput>
+export type StartWorkflowOutput = S.Schema.To<typeof StartWorkflowOutput>
 
 export const StartWorkflowError = S.union(
   WorkflowExecutionAlreadyStartedError,
   S.unknown
 )
-export type StartWorkflowError = S.To<typeof StartWorkflowError>
+export type StartWorkflowError = S.Schema.To<typeof StartWorkflowError>
 
 export const startWorkflow = (
   args: StartWorkflowInput

@@ -1,7 +1,7 @@
-import * as Effect from '@effect/io/Effect'
-import * as Either from '@effect/data/Either'
-import * as Layer from '@effect/io/Layer'
-import { pipe } from '@effect/data/Function'
+import * as Effect from 'effect/Effect'
+import * as Either from 'effect/Either'
+import * as Layer from 'effect/Layer'
+import { pipe } from 'effect/Function'
 import { GCS, makeGCSLayer, write } from '../src'
 
 const gcsCollectWrites = (args: { writes: unknown[] }): Partial<GCS> => {
@@ -22,7 +22,7 @@ test('Fake GCS implementation', async () => {
   let writes: unknown[] = []
   await pipe(
     write('test-bucket', 'test-key', 'test-body'),
-    Effect.provideLayer(
+    Effect.provide(
       Layer.succeed(GCS, gcsCollectWrites({ writes }) as unknown as GCS)
     ),
     Effect.runPromise
@@ -41,7 +41,7 @@ test('real call to test that failures are handled', async () => {
   const result = await pipe(
     write('dd-adfei-tech-dev-asdf-afda', 'test-key', 'test-body'),
     Effect.either,
-    Effect.provideLayer(makeGCSLayer()),
+    Effect.provide(makeGCSLayer()),
     Effect.runPromise
   )
 

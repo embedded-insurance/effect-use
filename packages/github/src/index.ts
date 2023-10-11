@@ -1,8 +1,8 @@
-import * as Effect from '@effect/io/Effect'
-import * as Context from '@effect/data/Context'
+import * as Effect from 'effect/Effect'
+import * as Context from 'effect/Context'
 import { Octokit } from '@octokit/rest'
-import { pipe } from '@effect/data/Function'
-import * as Layer from '@effect/io/Layer'
+import { pipe } from 'effect/Function'
+import * as Layer from 'effect/Layer'
 
 export const GitHub = Context.Tag<Octokit>('GitHub')
 
@@ -20,7 +20,7 @@ export const GitHub = Context.Tag<Octokit>('GitHub')
  *    path: 'packages/effect-github/README.md',
  *  },
  *   getFileContents,
- *   Effect.provideLayer( makeGitHubLayer('my-github-token')),
+ *   Effect.provide( makeGitHubLayer('my-github-token')),
  *   Effect.runPromise
  * )
  * ```

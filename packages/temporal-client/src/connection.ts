@@ -1,9 +1,5 @@
 import { Connection } from '@temporalio/client'
-import * as Context from '@effect/data/Context'
-import * as Effect from '@effect/io/Effect'
-import * as Scope from '@effect/io/Scope'
-import * as Layer from '@effect/io/Layer'
-import { pipe } from '@effect/data/Function'
+import { Effect, Context, Scope, Layer, pipe } from 'effect'
 import { TemporalConfig, TemporalConfigTag } from '@effect-use/temporal-config'
 
 export type TemporalConnection = Connection

@@ -1,8 +1,8 @@
-import * as Context from '@effect/data/Context'
-import * as Effect from '@effect/io/Effect'
-import { pipe } from '@effect/data/Function'
-import * as Data from '@effect/data/Data'
-import { isRecord } from '@effect/data/Predicate'
+import * as Context from 'effect/Context'
+import * as Effect from 'effect/Effect'
+import { pipe } from 'effect/Function'
+import { isRecord } from 'effect/Predicate'
+import { TaggedError } from 'effect/Data'
 
 export type Config = {
   /**
@@ -15,12 +15,34 @@ export type Config = {
   headers?: Record<'Content-Type' | 'Authorization' | string, string>
 }
 
+export class FetchError extends TaggedError('FetchError')<{
+  readonly input: {
+    readonly baseURL?: string
+    readonly path?: string
+    readonly method?: string
+  }
+  readonly stack?: string
+  readonly message: unknown
+}> {}
+
+export class InvalidURL extends TaggedError('InvalidURL')<{
+  readonly input: string
+  readonly stack?: string
+  readonly message: unknown
+}> {}
+
+export class ErrorResponse extends TaggedError('ErrorResponse')<{
+  readonly statusCode: number
+  readonly response: Response
+  readonly message: unknown
+}> {}
+
 export type Method = (
   args: RequestInit & {
     path?: string
     headers?: Record<string, string>
   }
-) => Effect.Effect<never, Response | FetchError | InvalidURL, Response>
+) => Effect.Effect<never, ErrorResponse | FetchError | InvalidURL, Response>
 
 export type Client = {
   baseUrl: string
@@ -34,36 +56,17 @@ export type Client = {
 export type Fetch = (input: string, init: RequestInit) => Promise<Response>
 export const Fetch = Context.Tag<Fetch>('fetch')
 
-export interface InvalidURL extends Data.Case {
-  _tag: '@effect-use/http-client/InvalidURL'
-  input: string
-  error: unknown
-}
-
-export const InvalidURL = Data.tagged<InvalidURL>(
-  '@effect-use/http-client/InvalidURL'
-)
-
-export interface FetchError extends Data.Case {
-  _tag: '@effect-use/http-client/FetchError'
-  input?: {
-    baseURL?: string
-    path?: string
-    method?: string
-    headers?: Record<string, string>
-    body?: unknown
-  }
-  error: unknown
-}
-
-export const FetchError = Data.tagged<FetchError>(
-  '@effect-use/http-client/FetchError'
-)
-
 export const makeURL = (input: string): Effect.Effect<never, InvalidURL, URL> =>
   pipe(
     Effect.try(() => new URL(input)),
-    Effect.mapError((e) => InvalidURL({ input: input, error: e }))
+    Effect.mapError(
+      (e) =>
+        new InvalidURL({
+          input: input,
+          stack: (e as Error).stack,
+          message: (e as Error).message,
+        })
+    )
   )
 
 /**
@@ -98,8 +101,8 @@ export const make = (args: Config): Effect.Effect<Fetch, never, Client> =>
           makeURL(`${args.baseURL || ''}${req.path || ''}`),
           Effect.tap((url) => Effect.logDebug(`${method} ${url.toString()}`)),
           Effect.flatMap((url) =>
-            Effect.tryPromise((signal) =>
-              fetch(url.toString(), {
+            Effect.tryPromise((signal) => {
+              return fetch(url.toString(), {
                 ...req,
                 method,
                 signal: req.signal || signal,
@@ -108,33 +111,35 @@ export const make = (args: Config): Effect.Effect<Fetch, never, Client> =>
                   ...req.headers,
                 },
               })
-            )
+            })
           ),
           Effect.mapError((e) => {
             if (isRecord(e) && e._tag === 'InvalidURL') {
               // @ts-expect-error
               return e as InvalidURL
             }
-            return FetchError({
+            return new FetchError({
               input: {
                 baseURL: args.baseURL,
                 path: req.path,
                 method,
-                headers: {
-                  ...args.headers,
-                  ...req.headers,
-                },
-                body: req.body,
               },
-              error: e,
+              stack: (e as Error).stack,
+              message: (e as Error).message,
             })
           }),
           Effect.flatMap((response) =>
             response.status >= 400
-              ? Effect.fail(response)
+              ? Effect.fail(
+                  new ErrorResponse({
+                    response: response,
+                    statusCode: response.status,
+                    message: response.statusText,
+                  })
+                )
               : Effect.succeed(response)
           ),
-          Effect.tapErrorCause(Effect.logDebug),
+          Effect.tapErrorCause(Effect.logError),
           Effect.withLogSpan('@effect-use/http-client')
         )
       Object.defineProperty(fn, 'name', { value: method })

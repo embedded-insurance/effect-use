@@ -1,4 +1,4 @@
-import * as Context from '@effect/data/Context'
+import { Context } from 'effect'
 import * as S from '@effect/schema/Schema'
 
 const TemporalConfigRequired = S.struct({
@@ -22,7 +22,7 @@ export const TemporalConfig = S.extend(
 /**
  * Data required to establish a connection to Temporal.
  */
-export type TemporalConfig = S.To<typeof TemporalConfig>
+export type TemporalConfig = S.Schema.To<typeof TemporalConfig>
 
 /**
  * Data required to establish a connection to Temporal.
@@ -58,7 +58,7 @@ export const TemporalEnv = S.extend(TemporalEnvRequired, TemporalEnvOptional)
 /**
  * Data required to establish a connection to Temporal.
  */
-export type TemporalEnv = S.To<typeof TemporalEnv>
+export type TemporalEnv = S.Schema.To<typeof TemporalEnv>
 
 /**
  * Data required to establish a connection to Temporal.

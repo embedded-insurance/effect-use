@@ -1,7 +1,7 @@
 import { S3 as S3Client, S3ClientConfig } from '@aws-sdk/client-s3'
-import * as Effect from '@effect/io/Effect'
-import * as Layer from '@effect/io/Layer'
-import * as Context from '@effect/data/Context'
+import * as Effect from 'effect/Effect'
+import * as Layer from 'effect/Layer'
+import * as Context from 'effect/Context'
 
 /**
  * Tag for the S3 client

@@ -1798,12 +1798,28 @@ __metadata:
   resolution: "@effect-use/aws-s3@workspace:packages/aws-s3"
   dependencies:
     "@aws-sdk/client-s3": ^3.335.0
-    "@effect/data": ^0.17.6
-    "@effect/io": ^0.38.2
-    "@effect/schema": ^0.33.2
+    "@effect/schema": 0.42.0
     "@types/jest": ^29.5.1
+    effect: 2.0.0-next.47
     jest: 29.5.0
     ts-jest: 29.1.0
+    typescript: 5.2.2
+  languageName: unknown
+  linkType: soft
+
+"@effect-use/brex@workspace:packages/brex":
+  version: 0.0.0-use.local
+  resolution: "@effect-use/brex@workspace:packages/brex"
+  dependencies:
+    "@effect-use/http-client": "workspace:^"
+    "@effect/schema": 0.42.0
+    "@types/jest": ^29.5.2
+    "@types/node": 18
+    effect: 2.0.0-next.47
+    jest: 29.5.0
+    prettier: 2.8.8
+    ts-jest: 29.1.0
+    ts-node: ^10.9.1
     typescript: 5.2.2
   languageName: unknown
   linkType: soft
@@ -1812,10 +1828,9 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@effect-use/gcp-gcs@workspace:packages/gcp-gcs"
   dependencies:
-    "@effect/data": ^0.17.6
-    "@effect/io": ^0.38.2
-    "@effect/schema": ^0.33.2
+    "@effect/schema": 0.42.0
     "@google-cloud/storage": ^6.10.1
+    effect: 2.0.0-next.47
     jest: 29.5.0
     typescript: 5.2.2
   languageName: unknown
@@ -1825,12 +1840,11 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@effect-use/gcp-logging@workspace:packages/gcp-logging"
   dependencies:
-    "@effect/data": ^0.17.6
-    "@effect/io": ^0.38.2
-    "@effect/schema": ^0.33.2
+    "@effect/schema": 0.42.0
     "@types/jest": ^29.5.2
     "@types/node": 18
     "@types/uuid": ^9.0.1
+    effect: 2.0.0-next.47
     jest: 29.5.0
     ts-jest: 29.1.0
     ts-node: ^10.9.1
@@ -1842,13 +1856,12 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@effect-use/github@workspace:packages/github"
   dependencies:
-    "@effect/data": ^0.17.6
-    "@effect/io": ^0.38.2
-    "@effect/schema": ^0.33.2
+    "@effect/schema": 0.42.0
     "@octokit/rest": ^20.0.1
     "@types/jest": ^29.5.2
     "@types/node": 18
     "@types/uuid": ^9.0.1
+    effect: 2.0.0-next.47
     jest: 29.5.0
     ts-jest: 29.1.0
     ts-node: ^10.9.1
@@ -1856,17 +1869,33 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@effect-use/http-client@workspace:packages/http-client":
+"@effect-use/http-client@workspace:^, @effect-use/http-client@workspace:packages/http-client":
   version: 0.0.0-use.local
   resolution: "@effect-use/http-client@workspace:packages/http-client"
   dependencies:
-    "@effect/data": ^0.17.6
-    "@effect/io": ^0.38.2
-    "@effect/schema": ^0.33.2
+    "@effect/schema": 0.42.0
     "@types/jest": ^29.5.2
     "@types/node": 18
     "@types/uuid": ^9.0.1
+    effect: 2.0.0-next.47
     jest: 29.5.0
+    ts-jest: 29.1.0
+    ts-node: ^10.9.1
+    typescript: 5.2.2
+  languageName: unknown
+  linkType: soft
+
+"@effect-use/stripe@workspace:packages/stripe":
+  version: 0.0.0-use.local
+  resolution: "@effect-use/stripe@workspace:packages/stripe"
+  dependencies:
+    "@effect/schema": 0.42.0
+    "@types/jest": ^29.5.2
+    "@types/node": 18
+    effect: 2.0.0-next.47
+    jest: 29.5.0
+    prettier: 2.8.8
+    stripe: ^12.17.0
     ts-jest: 29.1.0
     ts-node: ^10.9.1
     typescript: 5.2.2
@@ -1878,11 +1907,10 @@ __metadata:
   resolution: "@effect-use/temporal-client@workspace:packages/temporal-client"
   dependencies:
     "@effect-use/temporal-config": "workspace:^"
-    "@effect/data": ^0.17.6
-    "@effect/io": ^0.38.2
-    "@effect/schema": ^0.33.2
+    "@effect/schema": 0.42.0
     "@temporalio/client": 1.7.4
     "@temporalio/workflow": 1.7.4
+    effect: 2.0.0-next.47
   languageName: unknown
   linkType: soft
 
@@ -1890,38 +1918,19 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@effect-use/temporal-config@workspace:packages/temporal-config"
   dependencies:
-    "@effect/data": ^0.17.6
-    "@effect/io": ^0.38.2
-    "@effect/schema": ^0.33.2
+    "@effect/schema": 0.42.0
+    effect: 2.0.0-next.47
     typescript: 5.2.2
   languageName: unknown
   linkType: soft
 
-"@effect/data@npm:^0.17.6":
-  version: 0.17.6
-  resolution: "@effect/data@npm:0.17.6"
-  checksum: 4990fb549236ac6311635c1b5539a9afd5a654a562b5a698c9eea2a46f6846a164c8b9de1f4e9b40f50d85bd430c390893a1cfbf7880ca9dad25f73515ade1e7
-  languageName: node
-  linkType: hard
-
-"@effect/io@npm:^0.38.2":
-  version: 0.38.2
-  resolution: "@effect/io@npm:0.38.2"
+"@effect/schema@npm:0.43.0":
+  version: 0.43.0
+  resolution: "@effect/schema@npm:0.43.0"
   peerDependencies:
-    "@effect/data": ^0.17.1
-  checksum: 8c17c3ac09f7983ede8147823429e15b20ab54090a9a4039eb312868eb84ab55d81ef95205b453085050475b7b3db837f0693c3680040c65fba4ac1cf0635c20
-  languageName: node
-  linkType: hard
-
-"@effect/schema@npm:^0.33.2":
-  version: 0.33.2
-  resolution: "@effect/schema@npm:0.33.2"
-  dependencies:
-    fast-check: ^3.12.0
-  peerDependencies:
-    "@effect/data": ^0.17.1
-    "@effect/io": ^0.38.0
-  checksum: 066b90505d63d12537798cd589dcabab708213313b6f3e13faa933826fafabddb85ecd2c9e95745f7b5f90b9c3a276f14639e9a1fe6a57b1399ccd3500ef6719
+    effect: 2.0.0-next.48
+    fast-check: ^3.13.1
+  checksum: e9302a6f5ad62edf5663f8eb8f90262d433caad7dbdd7dfe604f307ba0d8a07be5148177ac6b19de276ab0a0064b91fe1d1feceaba262c70439cf2d6bc7860c5
   languageName: node
   linkType: hard
 
@@ -3111,6 +3120,13 @@ __metadata:
   version: 18.17.12
   resolution: "@types/node@npm:18.17.12"
   checksum: 79f8bcca3067a3c529f30e172df8d14f25ab9e4cd6a05ed897a924ab1dec774e8ea172ef5c4a67ffec433d423a0c81778f17db22606d574bc83871b60aab298e
+  languageName: node
+  linkType: hard
+
+"@types/node@npm:>=8.1.0":
+  version: 20.6.0
+  resolution: "@types/node@npm:20.6.0"
+  checksum: 52611801af5cf151c6fac1963aa4a8a8ca2e388a9e9ed82b01b70bca762088ded5b32cc789c5564220d5d7dccba2b8dd34446a3d4fc74736805e1f2cf262e29d
   languageName: node
   linkType: hard
 
@@ -4337,10 +4353,12 @@ __metadata:
   resolution: "effect-use@workspace:."
   dependencies:
     "@changesets/cli": 2.26.1
+    "@effect/schema": 0.43.0
     "@temporalio/testing": ^1.8.5
     "@temporalio/worker": ^1.8.5
     "@types/jest": ^29.5.1
     "@types/node": 18
+    effect: 2.0.0-next.48
     jest: 29.5.0
     prettier: 2.8.8
     rimraf: ^5.0.1
@@ -4350,6 +4368,13 @@ __metadata:
     typescript: 5.2.2
   languageName: unknown
   linkType: soft
+
+"effect@npm:2.0.0-next.48":
+  version: 2.0.0-next.48
+  resolution: "effect@npm:2.0.0-next.48"
+  checksum: 48de5da550a8f49e580646cb12ba5f52b64695384bb32a347d9b04d94d1c597f55a6967107555377199fc0559f257b4de69bf3ad0fbacb08812cc679f1aad628
+  languageName: node
+  linkType: hard
 
 "electron-to-chromium@npm:^1.4.284":
   version: 1.4.385
@@ -4670,15 +4695,6 @@ __metadata:
     iconv-lite: ^0.4.24
     tmp: ^0.0.33
   checksum: 1c2a616a73f1b3435ce04030261bed0e22d4737e14b090bb48e58865da92529c9f2b05b893de650738d55e692d071819b45e1669259b2b354bc3154d27a698c7
-  languageName: node
-  linkType: hard
-
-"fast-check@npm:^3.12.0":
-  version: 3.12.0
-  resolution: "fast-check@npm:3.12.0"
-  dependencies:
-    pure-rand: ^6.0.0
-  checksum: 3ac61af9344731ebf63ae52c6a211bbcd8497fc2d030b980d96e4caeb04d47592a864db9085669e8b683684cf45d9bc7bf8a6dfb995367d4ef2c87bf5122e088
   languageName: node
   linkType: hard
 
@@ -7163,6 +7179,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"qs@npm:^6.11.0":
+  version: 6.11.2
+  resolution: "qs@npm:6.11.2"
+  dependencies:
+    side-channel: ^1.0.4
+  checksum: e812f3c590b2262548647d62f1637b6989cc56656dc960b893fe2098d96e1bd633f36576f4cd7564dfbff9db42e17775884db96d846bebe4f37420d073ecdc0b
+  languageName: node
+  linkType: hard
+
 "queue-microtask@npm:^1.2.2":
   version: 1.2.3
   resolution: "queue-microtask@npm:1.2.3"
@@ -7871,6 +7896,16 @@ __metadata:
   version: 3.1.1
   resolution: "strip-json-comments@npm:3.1.1"
   checksum: 492f73e27268f9b1c122733f28ecb0e7e8d8a531a6662efbd08e22cccb3f9475e90a1b82cab06a392f6afae6d2de636f977e231296400d0ec5304ba70f166443
+  languageName: node
+  linkType: hard
+
+"stripe@npm:^12.17.0":
+  version: 12.18.0
+  resolution: "stripe@npm:12.18.0"
+  dependencies:
+    "@types/node": ">=8.1.0"
+    qs: ^6.11.0
+  checksum: 94f2457e4fa5b6dbe70c9282111ecc55cca6569308eebe873145afb18940c879e82d1ac6b1a29ad918771afdd63271007b13dafbd6163256b75c140016feef7e
   languageName: node
   linkType: hard
 

@@ -1,4 +1,4 @@
-# @effect-use/temporal-client
+# @effect-use/brex
 
 ## 1.0.0
 
@@ -9,7 +9,14 @@
 ### Patch Changes
 
 - Updated dependencies [38f0e5b]
-  - @effect-use/temporal-config@1.0.0
+  - @effect-use/http-client@1.0.0
+
+## 0.1.1
+
+### Patch Changes
+
+- Updated dependencies [645ba6d]
+  - @effect-use/http-client@0.1.1
 
 ## 0.1.0
 
@@ -20,11 +27,10 @@
 ### Patch Changes
 
 - Updated dependencies [8fe9f3e]
-  - @effect-use/temporal-config@0.1.0
+  - @effect-use/http-client@0.1.0
 
-## 0.0.1
+## 0.0.2
 
 ### Patch Changes
 
-- Updated dependencies [73bbd53]
-  - @effect-use/temporal-config@0.0.1
+- e719486: add brex package
