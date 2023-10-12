@@ -1,8 +1,8 @@
 import { TestWorkflowEnvironment } from '@temporalio/testing'
-import * as Layer from '@effect/io/Layer'
+import * as Layer from 'effect/Layer'
 import { TemporalClient } from '../src'
-import { pipe } from '@effect/data/Function'
-import * as Effect from '@effect/io/Effect'
+import { pipe } from 'effect/Function'
+import * as Effect from 'effect/Effect'
 import { signalWithStart } from '../src'
 import { Worker } from '@temporalio/worker'
 import { Trigger } from './lib/Trigger'
@@ -47,7 +47,7 @@ test('signalWithStart - should be idempotent', async () => {
           )
         )
       ),
-      Effect.provideLayer(Layer.succeed(TemporalClient, testEnv.client)),
+      Effect.provide(Layer.succeed(TemporalClient, testEnv.client)),
       Effect.either,
       Effect.runPromise
     )
