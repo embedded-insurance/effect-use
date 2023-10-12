@@ -1,5 +1,11 @@
 # @effect-use/temporal-client
 
+## 1.0.1
+
+### Patch Changes
+
+- 64fccac: latest temporal sdks, add signal with start test
+
 ## 1.0.0
 
 ### Major Changes
