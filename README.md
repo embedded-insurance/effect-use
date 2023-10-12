@@ -33,8 +33,6 @@ Alpha software, subject to change.
 import { GitHub } from '@effect-use/github'
 import { Effect, Layer, pipe } from 'effect'
 
-
-
 const getLatestCommit = pipe(
   Effect.flatMap(GitHub, github => github.getRepo({owner: 'embedded-insurance', repo: 'effect-use'})),
   Effect.map(result => result.repo.latestCommit),
@@ -44,7 +42,9 @@ const getLatestCommit = pipe(
 // Let's provide our dependencies
 // And instead of the real GitHub, let's just make something up that looks exactly like it.
 // a.k.a., "it satisfies the interface"
-const GitHubLayerTest = Layer.succeed(GitHub, {getRepo: (args: any)=> ({ latestCommit: '125' })} as GitHub)
+const GitHubLayerTest = Layer.succeed(GitHub, {
+  getRepo: (args: any)=> ({ latestCommit: '125' })
+} as GitHub)
 
 const result = pipe(
   getLatestCommit,
@@ -52,6 +52,6 @@ const result = pipe(
   Effect.runPromise
 )
 
-expect(result).toEqual('125')
+expect(result).toEqual({latestCommit: '125'})
 ```
 
