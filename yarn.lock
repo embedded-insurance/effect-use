@@ -1907,10 +1907,10 @@ __metadata:
   resolution: "@effect-use/temporal-client@workspace:packages/temporal-client"
   dependencies:
     "@effect-use/temporal-config": "workspace:^"
-    "@effect/schema": 0.42.0
-    "@temporalio/client": 1.7.4
-    "@temporalio/workflow": 1.7.4
-    effect: 2.0.0-next.47
+    "@effect/schema": 0.43.0
+    "@temporalio/client": 1.8.6
+    "@temporalio/workflow": 1.8.6
+    effect: 2.0.0-next.48
   languageName: unknown
   linkType: soft
 
