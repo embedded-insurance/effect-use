@@ -2,22 +2,27 @@ import { Storage, StorageOptions } from '@google-cloud/storage'
 import * as Effect from 'effect/Effect'
 import * as Layer from 'effect/Layer'
 import * as Context from 'effect/Context'
+import fs from 'fs'
+import * as NodeStreamP from 'node:stream/promises'
 
 export type GCS = Storage
-/**
- * Tag for the GCS client
- */
 export const GCS = Context.Tag<GCS>('@google-cloud/storage')
 
 type GCSWriteError = {
   _tag: 'GCSWriteError'
-  meassage: string
+  message: string
+  stack: unknown
+}
+
+type GCSDownloadError = {
+  _tag: 'GCSDownloadError'
+  message: string
   stack: unknown
 }
 
 type GCSUrlSigningError = {
   _tag: 'GCSUrlSigningError'
-  meassage: string
+  message: string
   stack: unknown
 }
 
@@ -31,22 +36,63 @@ export const write = (
   bucket: string,
   key: string,
   data: string | Buffer
-): Effect.Effect<GCS, unknown, void> =>
+): Effect.Effect<GCS, GCSWriteError, void> =>
   Effect.flatMap(GCS, (gcs) =>
     Effect.tryPromise({
       try: () => gcs.bucket(bucket).file(key).save(data),
       catch: (e) => ({
         _tag: 'GCSWriteError',
         message: `${e}`,
-        error: (e as Error).stack,
+        stack: (e as Error).stack,
       }),
     })
   )
 
+/**
+ * Download data from a bucket to tmp local file
+ * @param bucket
+ * @param key
+ */
+export const download = (
+  bucket: string,
+  key: string
+): Effect.Effect<GCS, GCSDownloadError, string> => {
+  const tmp = require('tmp')
+  const fileName: string = tmp.tmpNameSync()
+
+  return Effect.flatMap(GCS, (gcs) =>
+    Effect.as(
+      Effect.tryPromise({
+        try: (signal) => {
+          const readStream = gcs.bucket(bucket).file(key).createReadStream()
+
+          return NodeStreamP.pipeline(
+            readStream,
+            fs.createWriteStream(fileName),
+            { signal }
+          )
+        },
+        catch: (e) => ({
+          _tag: 'GCSDownloadError',
+          message: `${e}`,
+          stack: (e as Error).stack,
+        }),
+      }),
+      fileName
+    )
+  )
+}
+
+/**
+ * Returns the presigned URL for a file in a bucket
+ * @param bucket
+ * @param key
+ * @param lifetime as time to live in milliseconds (relative to when URL is created)
+ */
 export const getPresignedUrl = (
   bucket: string,
   key: string,
-  lifetime: number // time to live in milliseconds (relative to when URL is created)
+  lifetime: number
 ) =>
   Effect.flatMap(GCS, (gcs) =>
     Effect.tryPromise({
@@ -62,7 +108,7 @@ export const getPresignedUrl = (
       catch: (e) => ({
         _tag: 'GCSUrlSigningError',
         message: `${e}`,
-        error: (e as Error).stack,
+        stack: (e as Error).stack,
       }),
     })
   )
