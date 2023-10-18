@@ -1,5 +1,11 @@
 # @effect-use/gcp-gcs
 
+## 1.1.0
+
+### Minor Changes
+
+- e27159f: Add download function to GCS
+
 ## 1.0.0
 
 ### Major Changes
