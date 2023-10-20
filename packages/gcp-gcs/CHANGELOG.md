@@ -1,5 +1,11 @@
 # @effect-use/gcp-gcs
 
+## 1.1.2
+
+### Patch Changes
+
+- f7fb0ee: Export layers
+
 ## 1.1.1
 
 ### Patch Changes
