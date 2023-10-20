@@ -1,6 +1,6 @@
 {
   "name": "@effect-use/gcp-gcs",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "packageManager": "yarn@3.5.1",
   "dependencies": {
     "@effect/schema": "0.42.0",
