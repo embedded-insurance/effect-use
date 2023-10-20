@@ -1,10 +1,10 @@
-import { GetSignedUrlResponse, Storage, StorageOptions } from '@google-cloud/storage'
+import { GetSignedUrlResponse, Storage } from '@google-cloud/storage'
 import * as Effect from 'effect/Effect'
-import * as Layer from 'effect/Layer'
 import * as Context from 'effect/Context'
 import fs from 'fs'
 import * as NodeStreamP from 'node:stream/promises'
 
+export * from './layers'
 export type GCS = Storage
 export const GCS = Context.Tag<GCS>('@google-cloud/storage')
 
@@ -111,16 +111,4 @@ export const getPresignedUrl = (
         stack: (e as Error).stack,
       }),
     })
-  )
-
-/**
- * Create a layer for the GCS client
- * @param options
- */
-export const makeGCSLayer = (
-  options?: StorageOptions
-): Layer.Layer<never, unknown, GCS> =>
-  Layer.effect(
-    GCS,
-    Effect.try(() => new Storage(options))
   )

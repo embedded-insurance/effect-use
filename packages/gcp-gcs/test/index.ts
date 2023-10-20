@@ -1,9 +1,9 @@
 import * as Effect from 'effect/Effect'
 import * as Either from 'effect/Either'
 import { pipe } from 'effect/Function'
-import { download, getPresignedUrl, makeGCSLayer, write } from '../src'
+import { download, getPresignedUrl, write } from '../src'
 import fs from 'fs'
-import { makeFakeGCSLayer } from '../src/testing'
+import { makeGCSLiveLayer, makeGCSTestLayer } from '../src/layers'
 
 describe('write', () => {
   it('writes a file to a bucket', async () => {
@@ -11,7 +11,7 @@ describe('write', () => {
 
     const program = Effect.provide(
       write('test-bucket', 'test-key', 'test-body'),
-      makeFakeGCSLayer({ writer })
+      makeGCSTestLayer({ writer })
     )
     await Effect.runPromise(
       pipe(
@@ -34,7 +34,7 @@ describe('write', () => {
     it('returns a typed error', async () => {
       const program = Effect.provide(
         write('test-bucket', 'test-key', 'test-body'),
-        makeFakeGCSLayer({ throws: true })
+        makeGCSTestLayer({ throws: true })
       )
       await Effect.runPromise(
         pipe(
@@ -61,7 +61,7 @@ describe('write', () => {
       const result = await pipe(
         write('dd-adfei-tech-dev-asdf-afda', 'test-key', 'test-body'),
         Effect.either,
-        Effect.provide(makeGCSLayer()),
+        Effect.provide(makeGCSLiveLayer()),
         Effect.runPromise
       )
 
@@ -74,7 +74,7 @@ describe('presigned URL', () => {
   it('returns a presigned URL for a file in a bucket', async () => {
     const program = Effect.provide(
       getPresignedUrl('a-bucket-name', 'file.txt', 1000),
-      makeFakeGCSLayer({})
+      makeGCSTestLayer({})
     )
     const url = await Effect.runPromise(program)
     expect(url[0]).toContain('https://gcp.com/a-bucket-name/file.txt/v4/read/')
@@ -84,7 +84,7 @@ describe('presigned URL', () => {
     it('returns a typed error', async () => {
       const program = Effect.provide(
         getPresignedUrl('a-bucket-name', 'file.txt', 100),
-        makeFakeGCSLayer({ throws: true })
+        makeGCSTestLayer({ throws: true })
       )
       await Effect.runPromise(
         pipe(
@@ -112,7 +112,7 @@ describe('download', () => {
     const output = 'ciao!'
     const program = Effect.provide(
       download('a-bucket-name', 'file.txt'),
-      makeFakeGCSLayer({ output })
+      makeGCSTestLayer({ output })
     )
     const filePath = await Effect.runPromise(program)
     fs.readFile(filePath, 'utf8', (err, data) => {
@@ -124,7 +124,7 @@ describe('download', () => {
     it('returns a typed error', async () => {
       const program = Effect.provide(
         download('a-bucket-name', 'file.txt'),
-        makeFakeGCSLayer({ throws: true })
+        makeGCSTestLayer({ throws: true })
       )
       await Effect.runPromise(
         pipe(
