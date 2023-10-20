@@ -1,4 +1,4 @@
-import { Storage, StorageOptions } from '@google-cloud/storage'
+import { GetSignedUrlResponse, Storage, StorageOptions } from '@google-cloud/storage'
 import * as Effect from 'effect/Effect'
 import * as Layer from 'effect/Layer'
 import * as Context from 'effect/Context'
@@ -8,19 +8,19 @@ import * as NodeStreamP from 'node:stream/promises'
 export type GCS = Storage
 export const GCS = Context.Tag<GCS>('@google-cloud/storage')
 
-type GCSWriteError = {
+export type GCSWriteError = {
   _tag: 'GCSWriteError'
   message: string
   stack: unknown
 }
 
-type GCSDownloadError = {
+export type GCSDownloadError = {
   _tag: 'GCSDownloadError'
   message: string
   stack: unknown
 }
 
-type GCSUrlSigningError = {
+export type GCSUrlSigningError = {
   _tag: 'GCSUrlSigningError'
   message: string
   stack: unknown
@@ -93,7 +93,7 @@ export const getPresignedUrl = (
   bucket: string,
   key: string,
   lifetime: number
-) =>
+): Effect.Effect<GCS, GCSUrlSigningError, GetSignedUrlResponse> =>
   Effect.flatMap(GCS, (gcs) =>
     Effect.tryPromise({
       try: () =>
