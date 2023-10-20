@@ -1,5 +1,11 @@
 # @effect-use/gcp-gcs
 
+## 1.1.1
+
+### Patch Changes
+
+- d4be62f: Export types
+
 ## 1.1.0
 
 ### Minor Changes
