@@ -5,7 +5,8 @@
   "dependencies": {
     "@effect/schema": "0.42.0",
     "@google-cloud/storage": "^6.10.1",
-    "effect": "2.0.0-next.47"
+    "effect": "2.0.0-next.47",
+    "tmp": "^0.2.1"
   },
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
