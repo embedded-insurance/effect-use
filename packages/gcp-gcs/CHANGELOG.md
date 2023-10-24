@@ -1,5 +1,11 @@
 # @effect-use/gcp-gcs
 
+## 1.1.3
+
+### Patch Changes
+
+- 803942e: Add dependency
+
 ## 1.1.2
 
 ### Patch Changes
