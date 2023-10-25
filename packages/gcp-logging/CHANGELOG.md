@@ -1,5 +1,11 @@
 # @effect-use/gcp-logging
 
+## 2.0.0
+
+### Major Changes
+
+- 677e5a0: log to stderr when error, format cause
+
 ## 1.0.0
 
 ### Major Changes
