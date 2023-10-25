@@ -10,6 +10,7 @@ import * as Cause from 'effect/Cause'
 import * as LogLevel from 'effect/LogLevel'
 import * as S from '@effect/schema/Schema'
 import * as Layer from 'effect/Layer'
+import * as LogSpan from 'effect/LogSpan'
 
 type LogMeta = Record<string, string>
 
@@ -33,9 +34,30 @@ export const logError = (message: string, data: LogMeta) =>
 export const logFatal = (message: string, data: LogMeta) =>
   Effect.locally(logMeta, data)(Effect.logFatal(message))
 
-const defaultLogFunction = (a: any) => console.log(JSON.stringify(a))
+export const defaultLogFunction = (a: LogEntry) => {
+  if (a.level === 'ERROR' || a.level === 'FATAL') {
+    console.error(JSON.stringify(a))
+  } else {
+    console.log(JSON.stringify(a))
+  }
+}
 
-export const customLogger = (logFn: (a: any) => void = defaultLogFunction) =>
+export type LogEntry = {
+  annotations: Record<string, string>
+  timestamp: string
+  level: LogLevel.LogLevel['label']
+  message: unknown
+  meta: Record<string, string>
+  span?: LogSpan.LogSpan | undefined
+  parent?: LogSpan.LogSpan | undefined
+  cause?: string
+  [GCP_LOG_SPAN_KEY]?: string | undefined
+  [GCP_LOG_TRACE_KEY]?: string | undefined
+}
+
+export const customLogger = (
+  logFn: (a: LogEntry) => void = defaultLogFunction
+) =>
   Logger.make<unknown, void>(
     ({
       fiberId,
@@ -57,13 +79,14 @@ export const customLogger = (logFn: (a: any) => void = defaultLogFunction) =>
         ...a,
         [k]: v,
       }))
+
       logFn({
         annotations: {
           ...anno,
         },
-        timestamp: new Date(date).toISOString(),
+        timestamp: date.toISOString(),
         level: logLevel.label,
-        ...(Cause.isEmpty(cause) ? undefined : { cause }),
+        ...(Cause.isEmpty(cause) ? undefined : { cause: Cause.pretty(cause) }),
         message,
         meta,
         span,
