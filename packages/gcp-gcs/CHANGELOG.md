@@ -1,5 +1,11 @@
 # @effect-use/gcp-gcs
 
+## 1.1.4
+
+### Patch Changes
+
+- 03d4004: Support cases when errors are not of Error type
+
 ## 1.1.3
 
 ### Patch Changes
