@@ -46,7 +46,7 @@ describe('write', () => {
           Effect.catchTag('GCSWriteError', (e) => {
             expect(e).toEqual({
               _tag: 'GCSWriteError',
-              message: 'Error: save: test error',
+              message: 'save: test error',
               stack: expect.any(String),
             })
             return Effect.unit
@@ -56,17 +56,18 @@ describe('write', () => {
     })
   })
 
-  describe.skip('e2e implementation', () => {
-    it('calls to test that failures are handled', async () => {
+  describe('e2e implementation', () => {
+    it.skip('calls to test that failures are handled', async () => {
       const result = await pipe(
-        write('dd-adfei-tech-dev-asdf-afda', 'test-key', 'test-body'),
+        write('ei-tech-dev-broker-reportings', 'test-key2', 'test-body'),
         Effect.either,
         Effect.provide(makeGCSLiveLayer()),
         Effect.runPromise
       )
-
+      console.log(result)
       expect(Either.isLeft(result)).toBe(true)
-    })
+
+    }, 40000)
   })
 })
 
@@ -96,7 +97,7 @@ describe('presigned URL', () => {
           Effect.catchTag('GCSUrlSigningError', (e) => {
             expect(e).toEqual({
               _tag: 'GCSUrlSigningError',
-              message: 'Error: getSignedUrl: test error',
+              message: 'getSignedUrl: test error',
               stack: expect.any(String),
             })
             return Effect.unit
@@ -136,7 +137,7 @@ describe('download', () => {
           Effect.catchTag('GCSDownloadError', (e) => {
             expect(e).toEqual({
               _tag: 'GCSDownloadError',
-              message: 'Error: createReadStream: test error',
+              message: 'createReadStream: test error',
               stack: expect.any(String),
             })
             return Effect.unit

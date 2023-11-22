@@ -2,7 +2,6 @@ import { GetSignedUrlResponse, Storage } from '@google-cloud/storage'
 import * as Effect from 'effect/Effect'
 import * as Context from 'effect/Context'
 import fs from 'fs'
-import os from 'os'
 import * as NodeStreamP from 'node:stream/promises'
 
 export * from './layers'
@@ -27,6 +26,26 @@ export type GCSUrlSigningError = {
   stack: unknown
 }
 
+type Errors = GCSWriteError | GCSDownloadError | GCSUrlSigningError
+type GenericMessage= {
+  message: string
+}
+const createError = <T extends Errors>(e: Error |GenericMessage, type: T['_tag']): T => {
+  if (e instanceof Error) {
+    return {
+      _tag: type,
+      message: e.message,
+      stack: e.stack,
+    } as T
+  }
+
+  return {
+    _tag: type,
+    message: `${e.message}`,
+    stack: 'No stack available',
+  } as T
+}
+
 /**
  * Writes data to key in bucket
  * @param bucket
@@ -41,11 +60,7 @@ export const write = (
   Effect.flatMap(GCS, (gcs) =>
     Effect.tryPromise({
       try: () => gcs.bucket(bucket).file(key).save(data),
-      catch: (e) => ({
-        _tag: 'GCSWriteError',
-        message: `${e}`,
-        stack: (e as Error).stack,
-      }),
+      catch: (e) => createError<GCSWriteError>(e as any, 'GCSWriteError'),
     })
   )
 
@@ -73,11 +88,7 @@ export const download = (
             { signal }
           )
         },
-        catch: (e) => ({
-          _tag: 'GCSDownloadError',
-          message: `${e}`,
-          stack: (e as Error).stack,
-        }),
+        catch: (e) => createError<GCSDownloadError>(e as any, 'GCSDownloadError')
       }),
       fileName
     )
@@ -106,10 +117,6 @@ export const getPresignedUrl = (
             action: 'read',
             expires: Date.now() + lifetime,
           }),
-      catch: (e) => ({
-        _tag: 'GCSUrlSigningError',
-        message: `${e}`,
-        stack: (e as Error).stack,
-      }),
+      catch: (e) => createError<GCSUrlSigningError>(e as any, 'GCSUrlSigningError')
     })
   )
