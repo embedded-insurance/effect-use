@@ -51,6 +51,8 @@ export type Client = {
   post: Method
   put: Method
   delete: Method
+  patch: Method
+  head: Method
 }
 
 export type Fetch = (input: string, init: RequestInit) => Promise<Response>
@@ -153,7 +155,7 @@ export const make = (args: Config): Effect.Effect<Fetch, never, Client> =>
       post: f('POST'),
       put: f('PUT'),
       delete: f('DELETE'),
-      path: f('PATCH'),
+      patch: f('PATCH'),
       head: f('HEAD'),
     }
   })
