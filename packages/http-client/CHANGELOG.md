@@ -1,5 +1,11 @@
 # @effect-use/http-client
 
+## 1.0.1
+
+### Patch Changes
+
+- fba1a70: fix: patch method typo, missing type def for patch, head methods
+
 ## 1.0.0
 
 ### Major Changes
