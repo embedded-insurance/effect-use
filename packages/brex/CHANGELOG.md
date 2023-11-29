@@ -1,5 +1,12 @@
 # @effect-use/brex
 
+## 1.0.1
+
+### Patch Changes
+
+- Updated dependencies [fba1a70]
+  - @effect-use/http-client@1.0.1
+
 ## 1.0.0
 
 ### Major Changes
