@@ -11,6 +11,7 @@ import * as LogLevel from 'effect/LogLevel'
 import * as S from '@effect/schema/Schema'
 import * as Layer from 'effect/Layer'
 import * as LogSpan from 'effect/LogSpan'
+import { sortWith } from 'effect/ReadonlyArray'
 
 type LogMeta = Record<string, string>
 
@@ -50,7 +51,7 @@ export type LogEntry = {
   meta: Record<string, string>
   span?: LogSpan.LogSpan | undefined
   parent?: LogSpan.LogSpan | undefined
-  cause?: string
+  exception?: string
   [GCP_LOG_SPAN_KEY]?: string | undefined
   [GCP_LOG_TRACE_KEY]?: string | undefined
 }
@@ -80,13 +81,30 @@ export const customLogger = (
         [k]: v,
       }))
 
+      let messageOrCause = message
+      let exception: any = undefined
+
+      if (cause) {
+        messageOrCause = message ?? Cause.pretty(cause)
+        switch(cause._tag){
+          case 'Fail':
+            exception = Cause.pretty(cause)
+            break
+          case 'Die':
+            exception = Option.getOrElse(Cause.dieOption(cause), () => {stack: 'Exception came with no defect!'})
+            exception = exception.stack
+            break
+        }
+      }
+
+      // TODO: should we use logAnnotations for span & trace?
       logFn({
         annotations: {
           ...anno,
         },
         timestamp: date.toISOString(),
         level: logLevel.label,
-        ...(Cause.isEmpty(cause) ? undefined : { cause: Cause.pretty(cause) }),
+        exception,
         message,
         meta,
         span,

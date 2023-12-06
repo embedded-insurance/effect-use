@@ -6,6 +6,7 @@ import * as Clock from 'effect/Clock'
 import { ClockTypeId } from 'effect/Clock'
 import * as Layer from 'effect/Layer'
 import { customLogger, withTrace, logInfo } from '../src'
+import { Cause } from 'effect'
 
 const testClock: Clock.Clock = {
   [Clock.ClockTypeId]: ClockTypeId,
@@ -44,6 +45,94 @@ const makeTestLayer = (onLog: (x: any) => void) =>
       })
     )
   )
+
+describe('logError', () => {
+  describe ('when logging error with a message and a cause from a handled error', () => {
+    let log: unknown[] = []
+
+    pipe(
+      pipe(
+        Effect.logError('message in the log', Cause.fail('cause of the error'))
+      ),
+
+      Effect.provide(
+        pipe(
+          Layer.provideMerge(
+            Layer.succeed(Clock.Clock, testClock),
+            Logger.replace(
+              Logger.defaultLogger,
+              customLogger((a) => {
+                log.push(a)
+              })
+            )
+          )
+        )
+      ),
+      Effect.runSync
+    )
+
+    expect(log).toEqual([
+      {
+        annotations: {},
+        level: 'ERROR',
+        'logging.googleapis.com/spanId': undefined,
+        'logging.googleapis.com/trace': undefined,
+        message: 'message in the log',
+        exception: "Error: cause of the error",
+        meta: {},
+        parent: undefined,
+        span: undefined,
+        timestamp: expect.any(String),
+      },
+    ])
+  })
+
+  describe('when logging error with a message and a cause from an unhandled error', () => {
+    let log: unknown[] = []
+
+    pipe(
+      pipe(
+        Effect.Do,
+        Effect.flatMap(() => {
+          throw Error('an error message')
+          return Effect.unit
+        }),
+        Effect.catchAllCause((cause) =>
+          Effect.logError('message in the log', cause)
+        )
+      ),
+
+      Effect.provide(
+        pipe(
+          Layer.provideMerge(
+            Layer.succeed(Clock.Clock, testClock),
+            Logger.replace(
+              Logger.defaultLogger,
+              customLogger((a) => {
+                log.push(a)
+              })
+            )
+          )
+        )
+      ),
+      Effect.runSync
+    )
+    expect(log).toEqual([
+      {
+        annotations: {},
+        level: 'ERROR',
+        'logging.googleapis.com/spanId': undefined,
+        'logging.googleapis.com/trace': undefined,
+        message: 'message in the log',
+        meta: {},
+        exception: expect.stringContaining('at EffectPrimitive.'),
+        parent: undefined,
+        span: undefined,
+        timestamp: expect.any(String),
+      },
+    ])
+  })
+})
 
 test('effect versions after span log changes', () => {
   let logs: any[] = []
