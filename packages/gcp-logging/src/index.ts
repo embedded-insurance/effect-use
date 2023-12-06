@@ -11,7 +11,6 @@ import * as LogLevel from 'effect/LogLevel'
 import * as S from '@effect/schema/Schema'
 import * as Layer from 'effect/Layer'
 import * as LogSpan from 'effect/LogSpan'
-import { sortWith } from 'effect/ReadonlyArray'
 
 type LogMeta = Record<string, string>
 
