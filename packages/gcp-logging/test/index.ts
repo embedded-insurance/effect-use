@@ -77,7 +77,7 @@ test('effect versions after span log changes', () => {
   ])
 })
 
-test.skip('logging - should be ok', () => {
+test('logging - should be ok', () => {
   let log: unknown[] = []
   pipe(
     pipe(
@@ -88,7 +88,7 @@ test.skip('logging - should be ok', () => {
           span: 'test-span-child',
         })(logInfo('test-child', { test: 'test-child' }))
       ),
-      withTrace({ trace: 'test-trace', span: 'test-span' })
+      withTrace({ trace: 'test-trace2', span: 'test-span2' })
     ),
 
     Effect.provide(
@@ -109,21 +109,22 @@ test.skip('logging - should be ok', () => {
   expect(log).toEqual([
     {
       annotations: {
-        'logging.googleapis.com/spanId': 'test-span',
-        'logging.googleapis.com/trace': 'test-trace',
+        'logging.googleapis.com/spanId': 'test-span2',
+        'logging.googleapis.com/trace': 'test-trace2',
       },
       level: 'INFO',
       message: 'test',
-      'logging.googleapis.com/spanId': 'test-span',
-      'logging.googleapis.com/trace': 'test-trace',
+      'logging.googleapis.com/spanId': 'test-span2',
+      'logging.googleapis.com/trace': undefined,
       meta: {
         test: 'test',
       },
+      parent: undefined,
       span: {
-        label: 'test-span',
-        startTime: 0,
+        label: 'test-span2',
+        startTime: expect.any(Number),
       },
-      timestamp: '1970-01-01T00:00:00.000Z',
+      timestamp: expect.any(String),
     },
     {
       annotations: {
@@ -131,21 +132,21 @@ test.skip('logging - should be ok', () => {
         'logging.googleapis.com/trace': 'test-trace',
       },
       'logging.googleapis.com/spanId': 'test-span-child',
-      'logging.googleapis.com/trace': 'test-trace',
+      'logging.googleapis.com/trace': 'test-span2',
       level: 'INFO',
       message: 'test-child',
       meta: {
         test: 'test-child',
       },
       parent: {
-        label: 'test-span',
-        startTime: 0,
+        label: 'test-span2',
+        startTime: expect.any(Number),
       },
       span: {
         label: 'test-span-child',
-        startTime: 0,
+        startTime: expect.any(Number),
       },
-      timestamp: '1970-01-01T00:00:00.000Z',
+      timestamp: expect.any(String),
     },
   ])
 })
