@@ -83,8 +83,9 @@ export const customLogger = (
       let messageOrCause = message
       let exception: any = undefined
 
-      if (cause) {
+      if (cause && cause._tag != 'Interrupt') {
         messageOrCause = message ?? Cause.pretty(cause)
+        // TODO: this code could go away when https://github.com/Effect-TS/effect/pull/1756 is merged
         switch(cause._tag){
           case 'Fail':
             exception = Cause.pretty(cause)
@@ -92,6 +93,10 @@ export const customLogger = (
           case 'Die':
             exception = Option.getOrElse(Cause.dieOption(cause), () => {stack: 'Exception came with no defect!'})
             exception = exception.stack
+            break
+          case 'Parallel':
+          case 'Sequential':
+            exception = Cause.pretty(cause)
             break
         }
       }
