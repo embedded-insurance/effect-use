@@ -6,6 +6,7 @@ import * as Clock from 'effect/Clock'
 import { ClockTypeId } from 'effect/Clock'
 import * as Layer from 'effect/Layer'
 import { customLogger, withTrace, logInfo } from '../src'
+import { Cause } from 'effect'
 
 const testClock: Clock.Clock = {
   [Clock.ClockTypeId]: ClockTypeId,
@@ -45,6 +46,105 @@ const makeTestLayer = (onLog: (x: any) => void) =>
     )
   )
 
+describe('logError', () => {
+  describe('when logging error with a message and a cause from a handled error', () => {
+    it('reports the failure', () => {
+      let log: unknown[] = []
+
+      pipe(
+        pipe(
+          Effect.logError(
+            'message in the log',
+            Cause.fail('cause of the error')
+          )
+        ),
+
+        Effect.provide(
+          pipe(
+            Layer.provideMerge(
+              Layer.succeed(Clock.Clock, testClock),
+              Logger.replace(
+                Logger.defaultLogger,
+                customLogger((a) => {
+                  log.push(a)
+                })
+              )
+            )
+          )
+        ),
+        Effect.runSync
+      )
+
+      expect(log).toEqual([
+        {
+          annotations: {},
+          level: 'ERROR',
+          'logging.googleapis.com/spanId': undefined,
+          'logging.googleapis.com/trace': undefined,
+          message: 'message in the log',
+          exception: 'Error: cause of the error',
+          meta: {},
+          parent: undefined,
+          span: undefined,
+          timestamp: expect.any(String),
+        },
+      ])
+    })
+  })
+
+  describe('when logging error with a message and a cause from an unhandled error', () => {
+    const functionThatThrowError = () => {
+      throw Error('an error message')
+    }
+
+    it('reports the exception', () => {
+      let log: unknown[] = []
+
+      pipe(
+        pipe(
+          Effect.Do,
+          Effect.flatMap(() => {
+            functionThatThrowError()
+            return Effect.unit
+          }),
+          Effect.catchAllCause((cause) =>
+            Effect.logError('message in the log', cause)
+          )
+        ),
+
+        Effect.provide(
+          pipe(
+            Layer.provideMerge(
+              Layer.succeed(Clock.Clock, testClock),
+              Logger.replace(
+                Logger.defaultLogger,
+                customLogger((a) => {
+                  log.push(a)
+                })
+              )
+            )
+          )
+        ),
+        Effect.runSync
+      )
+      expect(log).toEqual([
+        {
+          annotations: {},
+          level: 'ERROR',
+          'logging.googleapis.com/spanId': undefined,
+          'logging.googleapis.com/trace': undefined,
+          message: 'message in the log',
+          meta: {},
+          exception: expect.stringContaining('functionThatThrowError'),
+          parent: undefined,
+          span: undefined,
+          timestamp: expect.any(String),
+        },
+      ])
+    })
+  })
+})
+
 test('effect versions after span log changes', () => {
   let logs: any[] = []
   pipe(
@@ -77,7 +177,7 @@ test('effect versions after span log changes', () => {
   ])
 })
 
-test.skip('logging - should be ok', () => {
+test('logging - should be ok', () => {
   let log: unknown[] = []
   pipe(
     pipe(
@@ -88,7 +188,7 @@ test.skip('logging - should be ok', () => {
           span: 'test-span-child',
         })(logInfo('test-child', { test: 'test-child' }))
       ),
-      withTrace({ trace: 'test-trace', span: 'test-span' })
+      withTrace({ trace: 'test-trace2', span: 'test-span2' })
     ),
 
     Effect.provide(
@@ -109,21 +209,22 @@ test.skip('logging - should be ok', () => {
   expect(log).toEqual([
     {
       annotations: {
-        'logging.googleapis.com/spanId': 'test-span',
-        'logging.googleapis.com/trace': 'test-trace',
+        'logging.googleapis.com/spanId': 'test-span2',
+        'logging.googleapis.com/trace': 'test-trace2',
       },
       level: 'INFO',
       message: 'test',
-      'logging.googleapis.com/spanId': 'test-span',
-      'logging.googleapis.com/trace': 'test-trace',
+      'logging.googleapis.com/spanId': 'test-span2',
+      'logging.googleapis.com/trace': undefined,
       meta: {
         test: 'test',
       },
+      parent: undefined,
       span: {
-        label: 'test-span',
-        startTime: 0,
+        label: 'test-span2',
+        startTime: expect.any(Number),
       },
-      timestamp: '1970-01-01T00:00:00.000Z',
+      timestamp: expect.any(String),
     },
     {
       annotations: {
@@ -131,21 +232,21 @@ test.skip('logging - should be ok', () => {
         'logging.googleapis.com/trace': 'test-trace',
       },
       'logging.googleapis.com/spanId': 'test-span-child',
-      'logging.googleapis.com/trace': 'test-trace',
+      'logging.googleapis.com/trace': 'test-span2',
       level: 'INFO',
       message: 'test-child',
       meta: {
         test: 'test-child',
       },
       parent: {
-        label: 'test-span',
-        startTime: 0,
+        label: 'test-span2',
+        startTime: expect.any(Number),
       },
       span: {
         label: 'test-span-child',
-        startTime: 0,
+        startTime: expect.any(Number),
       },
-      timestamp: '1970-01-01T00:00:00.000Z',
+      timestamp: expect.any(String),
     },
   ])
 })

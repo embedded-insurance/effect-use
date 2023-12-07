@@ -50,7 +50,7 @@ export type LogEntry = {
   meta: Record<string, string>
   span?: LogSpan.LogSpan | undefined
   parent?: LogSpan.LogSpan | undefined
-  cause?: string
+  exception?: string
   [GCP_LOG_SPAN_KEY]?: string | undefined
   [GCP_LOG_TRACE_KEY]?: string | undefined
 }
@@ -80,13 +80,35 @@ export const customLogger = (
         [k]: v,
       }))
 
+      let messageOrCause = message
+      let exception: any = undefined
+
+      if (cause && cause._tag != 'Interrupt') {
+        messageOrCause = message ?? Cause.pretty(cause)
+        // TODO: this code could go away when https://github.com/Effect-TS/effect/pull/1756 is merged
+        switch(cause._tag){
+          case 'Fail':
+            exception = Cause.pretty(cause)
+            break
+          case 'Die':
+            exception = Option.getOrElse(Cause.dieOption(cause), () => {stack: 'Exception came with no defect!'})
+            exception = exception.stack
+            break
+          case 'Parallel':
+          case 'Sequential':
+            exception = Cause.pretty(cause)
+            break
+        }
+      }
+
+      // TODO: should we use logAnnotations for span & trace?
       logFn({
         annotations: {
           ...anno,
         },
         timestamp: date.toISOString(),
         level: logLevel.label,
-        ...(Cause.isEmpty(cause) ? undefined : { cause: Cause.pretty(cause) }),
+        exception,
         message,
         meta,
         span,
