@@ -1,5 +1,11 @@
 # @effect-use/gcp-logging
 
+## 2.0.1
+
+### Patch Changes
+
+- ff53ed2: Log format
+
 ## 2.0.0
 
 ### Major Changes
