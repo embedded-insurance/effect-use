@@ -79,8 +79,9 @@ export const BaseWorkflowOptions = S.struct({
        * @default 2
        */
       backoffCoefficient: S.optional(
-        pipe(S.number, S.greaterThanOrEqualTo(1))
-      ).withDefault(() => 2),
+        pipe(S.number, S.greaterThanOrEqualTo(1)),
+        { default: () => 2 }
+      ),
 
       /**
        * Interval of the first retry.
