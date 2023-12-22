@@ -1,5 +1,16 @@
 # @effect-use/brex
 
+## 2.0.0
+
+### Major Changes
+
+- 62aa9e7: upgrade to effect next.61, schema 0.55
+
+### Patch Changes
+
+- Updated dependencies [62aa9e7]
+  - @effect-use/http-client@2.0.0
+
 ## 1.0.1
 
 ### Patch Changes

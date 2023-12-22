@@ -1,5 +1,11 @@
 # @effect-use/gcp-gcs
 
+## 2.0.0
+
+### Major Changes
+
+- 62aa9e7: upgrade to effect next.61, schema 0.55
+
 ## 1.1.4
 
 ### Patch Changes
