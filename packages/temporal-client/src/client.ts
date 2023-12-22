@@ -272,9 +272,9 @@ export const createSignalLayer = (
   config: TemporalConfig
 ): Layer.Layer<Scope.Scope, unknown, Client | Connection | TemporalConfig> =>
   pipe(
-    Layer.effect(TemporalConfigTag, Effect.succeed(config)),
+    Layer.effect(TemporalClient, buildClient),
     Layer.provideMerge(ConnectionLive),
-    Layer.provideMerge(Layer.effect(TemporalClient, buildClient))
+    Layer.provideMerge(Layer.effect(TemporalConfigTag, Effect.succeed(config)))
   )
 
 export const createTemporalClientLayer = createSignalLayer

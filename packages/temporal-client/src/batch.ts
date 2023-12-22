@@ -238,8 +238,8 @@ export const BatchOperationResult = S.struct({
   ),
   startTime: DateFromGoogleProtobufTimestamp,
   closeTime: DateFromGoogleProtobufTimestamp,
-  totalOperationCount: S.numberFromString(S.string),
-  completeOperationCount: S.numberFromString(S.string),
+  totalOperationCount: S.NumberFromString,
+  completeOperationCount: S.NumberFromString,
   identity: S.string,
   reason: S.string,
 })

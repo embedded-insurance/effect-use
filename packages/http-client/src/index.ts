@@ -117,7 +117,6 @@ export const make = (args: Config): Effect.Effect<Fetch, never, Client> =>
           ),
           Effect.mapError((e) => {
             if (isRecord(e) && e._tag === 'InvalidURL') {
-              // @ts-expect-error
               return e as InvalidURL
             }
             return new FetchError({

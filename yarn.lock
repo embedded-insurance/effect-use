@@ -1925,13 +1925,13 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@effect/schema@npm:0.43.0":
-  version: 0.43.0
-  resolution: "@effect/schema@npm:0.43.0"
+"@effect/schema@npm:0.55.0":
+  version: 0.55.0
+  resolution: "@effect/schema@npm:0.55.0"
   peerDependencies:
-    effect: 2.0.0-next.48
-    fast-check: ^3.13.1
-  checksum: e9302a6f5ad62edf5663f8eb8f90262d433caad7dbdd7dfe604f307ba0d8a07be5148177ac6b19de276ab0a0064b91fe1d1feceaba262c70439cf2d6bc7860c5
+    effect: 2.0.0-next.61
+    fast-check: ^3.13.2
+  checksum: 5be99393ce485a48244a4cb8b71729d0d9182aebfd3a1f619dad53cd4ca1a3e73a32c15930b113c675c0ff0db50a3ff222d23672f4e4d1d775bd26b4ebfff496
   languageName: node
   linkType: hard
 
@@ -4354,12 +4354,12 @@ __metadata:
   resolution: "effect-use@workspace:."
   dependencies:
     "@changesets/cli": 2.26.1
-    "@effect/schema": 0.43.0
+    "@effect/schema": 0.55.0
     "@temporalio/testing": 1.8.6
     "@temporalio/worker": 1.8.6
     "@types/jest": ^29.5.1
     "@types/node": 18
-    effect: 2.0.0-next.48
+    effect: 2.0.0-next.61
     jest: 29.5.0
     prettier: 2.8.8
     rimraf: ^5.0.1
@@ -4370,10 +4370,10 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"effect@npm:2.0.0-next.48":
-  version: 2.0.0-next.48
-  resolution: "effect@npm:2.0.0-next.48"
-  checksum: 48de5da550a8f49e580646cb12ba5f52b64695384bb32a347d9b04d94d1c597f55a6967107555377199fc0559f257b4de69bf3ad0fbacb08812cc679f1aad628
+"effect@npm:2.0.0-next.61":
+  version: 2.0.0-next.61
+  resolution: "effect@npm:2.0.0-next.61"
+  checksum: cc2c245376c613b7e246a4777be5c731e3ccd857be1e60548927b67f4b71c756cf59ec1de170c2cf301f0f8561dbbaba3c0fda465a38c6720efb780cbbca134c
   languageName: node
   linkType: hard
 
