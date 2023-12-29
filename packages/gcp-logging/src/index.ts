@@ -51,6 +51,7 @@ export type LogEntry = {
   span?: LogSpan.LogSpan | undefined
   parent?: LogSpan.LogSpan | undefined
   exception?: string
+  debuggingInfo?: string
   [GCP_LOG_SPAN_KEY]?: string | undefined
   [GCP_LOG_TRACE_KEY]?: string | undefined
 }
@@ -82,6 +83,7 @@ export const customLogger = (
 
       let messageOrCause = message
       let exception: any = undefined
+      let debuggingInfo: any = undefined
 
       if (cause && cause._tag != 'Interrupt') {
         messageOrCause = message ?? Cause.pretty(cause)
@@ -101,6 +103,11 @@ export const customLogger = (
         }
       }
 
+      if(logLevel.label === 'WARN'){
+        debuggingInfo = exception
+        exception = undefined
+      }
+
       // TODO: should we use logAnnotations for span & trace?
       logFn({
         annotations: {
@@ -109,7 +116,8 @@ export const customLogger = (
         timestamp: date.toISOString(),
         level: logLevel.label,
         exception,
-        message,
+        message: messageOrCause,
+        debuggingInfo,
         meta,
         span,
         parent: parentSpan,
