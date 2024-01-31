@@ -1,6 +1,21 @@
 import * as S from '@effect/schema/Schema'
 import { pipe } from 'effect'
 
+export const MsStr = S.templateLiteral(
+  S.number,
+  S.literal('y', 'w', 'd', 'h', 'm', 's', 'ms')
+)
+
+export const SearchAttributes = S.record(
+  S.string,
+  S.union(
+    S.array(S.string),
+    S.array(S.number),
+    S.array(S.boolean),
+    S.array(S.Date)
+  )
+)
+
 // Avoid importing the proto implementation to reduce workflow bundle size
 // Copied from temporal.api.enums.v1.WorkflowIdReusePolicy
 /**
@@ -48,7 +63,7 @@ export const WorkflowDurationOptions = S.struct({
    *
    * @format number of milliseconds or {@link https://www.npmjs.com/package/ms | ms-formatted string}
    */
-  workflowRunTimeout: S.optional(S.union(S.string, S.number)),
+  workflowRunTimeout: S.optional(S.union(MsStr, S.number)),
 
   /**
    *
@@ -58,18 +73,45 @@ export const WorkflowDurationOptions = S.struct({
    *
    * @format number of milliseconds or {@link https://www.npmjs.com/package/ms | ms-formatted string}
    */
-  workflowExecutionTimeout: S.optional(S.union(S.string, S.number)),
+  workflowExecutionTimeout: S.optional(S.union(MsStr, S.number)),
 
   /**
    * Maximum execution time of a single workflow task. Default is 10 seconds.
    *
    * @format number of milliseconds or {@link https://www.npmjs.com/package/ms | ms-formatted string}
    */
-  workflowTaskTimeout: S.optional(S.union(S.string, S.number)),
+  workflowTaskTimeout: S.optional(S.union(MsStr, S.number)),
 })
 
 export const BaseWorkflowOptions = S.struct({
   workflowIdReusePolicy: S.optional(S.enums(WorkflowIdReusePolicy)),
+  /**
+   * Optional cron schedule for Workflow. If a cron schedule is specified, the Workflow will run as a cron based on the
+   * schedule. The scheduling will be based on UTC time. The schedule for the next run only happens after the current
+   * run is completed/failed/timeout. If a RetryPolicy is also supplied, and the Workflow failed or timed out, the
+   * Workflow will be retried based on the retry policy. While the Workflow is retrying, it won't schedule its next run.
+   * If the next schedule is due while the Workflow is running (or retrying), then it will skip that schedule. Cron
+   * Workflow will not stop until it is terminated or cancelled (by returning temporal.CanceledError).
+   * https://crontab.guru/ is useful for testing your cron expressions.
+   */
+  chronSchedule: S.optional(S.string),
+
+  /**
+   * Specifies additional non-indexed information to attach to the Workflow Execution. The values can be anything that
+   * is serializable by {@link DataConverter}.
+   */
+
+  memo: S.optional(S.record(S.string, S.unknown)),
+  /**
+   * Specifies additional indexed information to attach to the Workflow Execution. More info:
+   * https://docs.temporal.io/docs/typescript/search-attributes
+   *
+   * Values are always converted using {@link JsonPayloadConverter}, even when a custom data converter is provided.
+   */
+  searchAttributes: S.optional(SearchAttributes),
+
+  followRuns: S.optional(S.boolean),
+
   retry: S.optional(
     S.struct({
       /**
@@ -89,7 +131,7 @@ export const BaseWorkflowOptions = S.struct({
        * @format number of milliseconds or {@link https://www.npmjs.com/package/ms | ms-formatted string}
        * @default 1 second
        */
-      initialInterval: S.optional(S.union(S.string, S.number)),
+      initialInterval: S.optional(S.union(MsStr, S.number)),
 
       /**
        * Maximum number of attempts. When exceeded, retries stop (even if {@link ActivityOptions.scheduleToCloseTimeout}
@@ -107,7 +149,7 @@ export const BaseWorkflowOptions = S.struct({
        * @default 100x of {@link initialInterval}
        * @format number of milliseconds or {@link https://www.npmjs.com/package/ms | ms-formatted string}
        */
-      maximumInterval: S.optional(S.union(S.string, S.number)),
+      maximumInterval: S.optional(S.union(MsStr, S.number)),
 
       /**
        * List of application failures types to not retry.
