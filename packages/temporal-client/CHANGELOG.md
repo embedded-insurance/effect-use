@@ -1,5 +1,11 @@
 # @effect-use/temporal-client
 
+## 2.0.1
+
+### Patch Changes
+
+- b2a60d7: add client types, use tagged error, remove createSignalLayer
+
 ## 2.0.0
 
 ### Major Changes
