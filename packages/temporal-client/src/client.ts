@@ -54,14 +54,17 @@ export const makeClient = (args: {
     catch: (e) => e,
   })
 
-export const SignalWithStartInput = S.struct({
-  workflowType: S.string,
-  workflowId: S.string,
-  taskQueue: S.string,
-  workflowExecutionTimeout: S.string,
-  signal: S.string,
-  signalArgs: S.array(S.unknown),
-})
+export const SignalWithStartInput = S.extend(
+  S.struct({
+    workflowType: S.string,
+    workflowId: S.string,
+    taskQueue: S.string,
+    signal: S.string,
+    signalArgs: S.array(S.unknown),
+  }),
+  CommonWorkflowOptions
+)
+
 export type SignalWithStartInput = S.Schema.To<typeof SignalWithStartInput>
 
 export const SignalWithStartOutput = pipe(
@@ -187,14 +190,13 @@ export const signal = (
       })),
       Effect.mapError((e) => {
         if (e instanceof TemporalWorkflowNotFoundError) {
-          return {
-            _tag: 'WorkflowNotFoundError',
+          return new WorkflowNotFoundError({
             workflowId: args.workflowId,
             runId: args.runId,
             // TODO. Verify this is the correct source of truth for the namespace that was used for this signal
             namespace: client.options.namespace,
             correlationId: args.correlationId,
-          }
+          })
         }
         return e
       })
@@ -207,7 +209,6 @@ export const StartWorkflowInput = S.extend(
     workflowType: S.string,
     args: S.optional(S.array(S.unknown)),
     taskQueue: S.string,
-    followRuns: S.optional(S.boolean),
   }),
   CommonWorkflowOptions
 )
@@ -238,10 +239,7 @@ export const startWorkflow = (
           ),
         catch: (e: TemporalWorkflowExecutionAlreadyStartedError | unknown) => {
           if (e instanceof TemporalWorkflowExecutionAlreadyStartedError) {
-            return {
-              _tag: 'WorkflowExecutionAlreadyStartedError',
-              ...e,
-            }
+            return new WorkflowExecutionAlreadyStartedError(e)
           }
           return e
         },
@@ -264,11 +262,8 @@ export const query = (args: {
       })
     )
   )
-/**
- * @deprecated Use createTemporalClientLayer
- * @param config
- */
-export const createSignalLayer = (
+
+export const createTemporalClientLayer = (
   config: TemporalConfig
 ): Layer.Layer<Scope.Scope, unknown, Client | Connection | TemporalConfig> =>
   pipe(
@@ -276,5 +271,3 @@ export const createSignalLayer = (
     Layer.provideMerge(ConnectionLive),
     Layer.provideMerge(Layer.effect(TemporalConfigTag, Effect.succeed(config)))
   )
-
-export const createTemporalClientLayer = createSignalLayer
