@@ -2,7 +2,7 @@ import { GetSignedUrlResponse, Storage } from '@google-cloud/storage'
 import * as Effect from 'effect/Effect'
 import * as Context from 'effect/Context'
 import fs from 'fs'
-import * as NodeStreamP from 'node:stream/promises'
+import * as NodeStreamP from 'stream/promises'
 
 export * from './layers'
 export type GCS = Storage
