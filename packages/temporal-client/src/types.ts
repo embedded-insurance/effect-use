@@ -11,8 +11,8 @@ export const SearchAttributes = S.record(
   S.union(
     S.array(S.string),
     S.array(S.number),
-    S.array(S.boolean),
-    S.array(S.Date)
+    S.array(S.boolean)
+    // S.array(S.Date)
   )
 )
 
@@ -108,7 +108,9 @@ export const BaseWorkflowOptions = S.struct({
    *
    * Values are always converted using {@link JsonPayloadConverter}, even when a custom data converter is provided.
    */
-  searchAttributes: S.optional(SearchAttributes),
+  searchAttributes: S.optional(SearchAttributes, {
+    exact: true,
+  }),
 
   followRuns: S.optional(S.boolean),
 
@@ -121,8 +123,8 @@ export const BaseWorkflowOptions = S.struct({
        * @default 2
        */
       backoffCoefficient: S.optional(
-        pipe(S.number, S.greaterThanOrEqualTo(1)),
-        { default: () => 2 }
+        pipe(S.number, S.greaterThanOrEqualTo(1))
+        // { default: () => 2 }
       ),
 
       /**

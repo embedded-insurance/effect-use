@@ -1908,10 +1908,12 @@ __metadata:
   resolution: "@effect-use/temporal-client@workspace:packages/temporal-client"
   dependencies:
     "@effect-use/temporal-config": "workspace:^"
-    "@effect/schema": 0.43.0
+    "@effect/schema": 0.55.0
     "@temporalio/client": 1.8.6
     "@temporalio/workflow": 1.8.6
     effect: 2.0.0-next.48
+    jest: 29.5.0
+    typescript: 5.2.2
   languageName: unknown
   linkType: soft
 
