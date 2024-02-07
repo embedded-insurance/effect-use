@@ -1,5 +1,11 @@
 # @effect-use/temporal-client
 
+## 2.0.2
+
+### Patch Changes
+
+- 7b8dbe7: prevent from/to issues with S.Date
+
 ## 2.0.1
 
 ### Patch Changes
