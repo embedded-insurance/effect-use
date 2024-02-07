@@ -11,8 +11,8 @@ export const SearchAttributes = S.record(
   S.union(
     S.array(S.string),
     S.array(S.number),
-    S.array(S.boolean),
-    S.array(S.Date)
+    S.array(S.boolean)
+    // S.array(S.Date)
   )
 )
 
