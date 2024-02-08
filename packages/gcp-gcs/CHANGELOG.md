@@ -1,5 +1,11 @@
 # @effect-use/gcp-gcs
 
+## 2.0.1
+
+### Patch Changes
+
+- 3941b18: Update import for NodeStreamP
+
 ## 2.0.0
 
 ### Major Changes
