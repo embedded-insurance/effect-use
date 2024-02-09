@@ -1,6 +1,6 @@
 {
   "name": "@effect-use/temporal-client",
-  "version": "2.0.2",
+  "version": "3.0.0",
   "packageManager": "yarn@3.5.1",
   "engines": {
     "node": ">=18"

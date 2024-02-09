@@ -1,5 +1,16 @@
 # @effect-use/temporal-client
 
+## 3.0.0
+
+### Major Changes
+
+- 513f048: upgrade effect packages
+
+### Patch Changes
+
+- Updated dependencies [513f048]
+  - @effect-use/temporal-config@3.0.0
+
 ## 2.0.2
 
 ### Patch Changes
