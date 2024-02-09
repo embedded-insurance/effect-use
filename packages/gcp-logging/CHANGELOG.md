@@ -1,5 +1,11 @@
 # @effect-use/gcp-logging
 
+## 4.0.0
+
+### Major Changes
+
+- 513f048: upgrade effect packages
+
 ## 3.0.0
 
 ### Major Changes

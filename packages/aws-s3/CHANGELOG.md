@@ -1,5 +1,11 @@
 # @effect-use/aws-s3
 
+## 3.0.0
+
+### Major Changes
+
+- 513f048: upgrade effect packages
+
 ## 2.0.0
 
 ### Major Changes

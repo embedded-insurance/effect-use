@@ -1,6 +1,6 @@
 {
   "name": "@effect-use/temporal-config",
-  "version": "2.0.0",
+  "version": "3.0.0",
   "packageManager": "yarn@3.5.1",
   "dependencies": {
     "@effect/schema": "0.61.5",
