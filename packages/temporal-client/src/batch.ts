@@ -256,6 +256,8 @@ export const describeBatchOperation = (args: {
           jobId: args.jobId,
         })
       ),
-      Effect.flatMap((x) => pipe(x.toJSON(), S.parse(BatchOperationResult)))
+      Effect.flatMap((x) =>
+        pipe(x.toJSON(), S.decodeUnknown(BatchOperationResult))
+      )
     )
   )

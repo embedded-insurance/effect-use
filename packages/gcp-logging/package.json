@@ -36,7 +36,7 @@
     "access": "public"
   },
   "dependencies": {
-    "@effect/schema": "0.42.0",
-    "effect": "2.0.0-next.47"
+    "@effect/schema": "0.61.5",
+    "effect": "2.2.3"
   }
 }
