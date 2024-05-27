@@ -26,7 +26,7 @@
     "ts-jest": "29.1.0",
     "ts-node": "10.9.1",
     "turbo": "1.10.13",
-    "typescript": "5.2.2"
+    "typescript": "5.4.5"
   },
   "engines": {
     "node": ">=18"
@@ -51,6 +51,6 @@
   "main": "dist/index.js",
   "dependencies": {
     "@effect/schema": "0.67.14",
-    "effect": "3.0.4"
+    "effect": "3.2.5"
   }
 }
