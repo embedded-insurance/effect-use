@@ -3,7 +3,7 @@ import { Effect, Context, Scope, Layer, pipe } from 'effect'
 import { TemporalConfig, TemporalConfigTag } from '@effect-use/temporal-config'
 
 export type TemporalConnection = Connection
-export const TemporalConnection = Context.Tag<TemporalConnection>(
+export const TemporalConnection = Context.GenericTag<TemporalConnection>(
   '@effect-use.temporal-client/Connection'
 )
 
@@ -20,9 +20,9 @@ const optionalConnectionConfig = (config: TemporalConfig) =>
     : undefined
 
 export const acquireConnection: Effect.Effect<
-  TemporalConfig,
+  Connection,
   unknown,
-  Connection
+  TemporalConfig
 > = Effect.flatMap(TemporalConfigTag, (config) =>
   pipe(
     Effect.logDebug('Acquiring Temporal connection...'),
@@ -38,11 +38,7 @@ export const acquireConnection: Effect.Effect<
   )
 )
 
-export const connectionResource: Effect.Effect<
-  Scope.Scope | TemporalConfig,
-  unknown,
-  Connection
-> = Effect.acquireRelease(acquireConnection, (conn) =>
+export const connectionResource: Effect.Effect<Connection, unknown, Scope.Scope | TemporalConfig> = Effect.acquireRelease(acquireConnection, (conn) =>
   pipe(
     Effect.logDebug('Closing Temporal connection...'),
     Effect.flatMap(() => Effect.promise(() => conn.close())),
@@ -52,8 +48,4 @@ export const connectionResource: Effect.Effect<
 /**
  * @category dependency layer
  */
-export const ConnectionLive: Layer.Layer<
-  TemporalConfig | Scope.Scope,
-  unknown,
-  Connection
-> = Layer.effect(TemporalConnection, connectionResource)
+export const ConnectionLive: Layer.Layer<Connection, unknown, TemporalConfig | Scope.Scope> = Layer.effect(TemporalConnection, connectionResource)

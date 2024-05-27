@@ -38,8 +38,8 @@
     "url": "https://github.com/embedded-insurance/effect-use.git"
   },
   "resolutions": {
-    "effect": "2.2.3",
-    "@effect/schema": "0.61.5",
+    "effect": "3.2.5",
+    "@effect/schema": "0.67.14",
     "@temporalio/activity": "1.8.6",
     "@temporalio/worker": "1.8.6",
     "@temporalio/workflow": "1.8.6",
@@ -50,7 +50,7 @@
   },
   "main": "dist/index.js",
   "dependencies": {
-    "@effect/schema": "0.61.5",
-    "effect": "2.2.3"
+    "@effect/schema": "0.67.14",
+    "effect": "3.0.4"
   }
 }

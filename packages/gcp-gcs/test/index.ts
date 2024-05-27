@@ -24,7 +24,7 @@ describe('write', () => {
               body: 'test-body',
             },
           ])
-          return Effect.unit
+          return Effect.void;
         })
       )
     )
@@ -41,7 +41,7 @@ describe('write', () => {
           program,
           Effect.flatMap((r) => {
             expect(r).not.toBeDefined()
-            return Effect.unit
+            return Effect.void;
           }),
           Effect.catchTag('GCSWriteError', (e) => {
             expect(e).toEqual({
@@ -49,7 +49,7 @@ describe('write', () => {
               message: 'save: test error',
               stack: expect.any(String),
             })
-            return Effect.unit
+            return Effect.void;
           })
         )
       )
@@ -92,7 +92,7 @@ describe('presigned URL', () => {
           program,
           Effect.flatMap((r) => {
             expect(r).not.toBeDefined()
-            return Effect.unit
+            return Effect.void;
           }),
           Effect.catchTag('GCSUrlSigningError', (e) => {
             expect(e).toEqual({
@@ -100,7 +100,7 @@ describe('presigned URL', () => {
               message: 'getSignedUrl: test error',
               stack: expect.any(String),
             })
-            return Effect.unit
+            return Effect.void;
           })
         )
       )
@@ -132,7 +132,7 @@ describe('download', () => {
           program,
           Effect.flatMap((r) => {
             expect(r).not.toBeDefined()
-            return Effect.unit
+            return Effect.void;
           }),
           Effect.catchTag('GCSDownloadError', (e) => {
             expect(e).toEqual({
@@ -140,7 +140,7 @@ describe('download', () => {
               message: 'createReadStream: test error',
               stack: expect.any(String),
             })
-            return Effect.unit
+            return Effect.void;
           })
         )
       )

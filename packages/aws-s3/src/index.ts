@@ -6,7 +6,7 @@ import * as Context from 'effect/Context'
 /**
  * Tag for the S3 client
  */
-export const S3 = Context.Tag<S3Client>('@aws-sdk/client-s3')
+export const S3 = Context.GenericTag<S3Client>('@aws-sdk/client-s3')
 
 export type S3 = S3Client
 

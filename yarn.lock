@@ -1925,13 +1925,14 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@effect/schema@npm:0.61.5":
-  version: 0.61.5
-  resolution: "@effect/schema@npm:0.61.5"
+"@effect/schema@npm:0.67.14":
+  version: 0.67.14
+  resolution: "@effect/schema@npm:0.67.14"
+  dependencies:
+    fast-check: ^3.17.2
   peerDependencies:
-    effect: ^2.2.3
-    fast-check: ^3.13.2
-  checksum: 6943420df2580a74b73fcd7efa3dc34e00c725a1ad1080af23128f93b5a9161bd8cea6efeb52ab265b9da11087e248ecae3265771fe5db6b7e1c2bfd839c02de
+    effect: ^3.2.5
+  checksum: 929603e9aff64c041078748f64eeb62f859a7beb21ba5055480d62604b5f0246099496fb964691a37f56c58ee78660bde7b6a539cbd9af7eeda0386e654b1a69
   languageName: node
   linkType: hard
 
@@ -4363,12 +4364,12 @@ __metadata:
   resolution: "effect-use@workspace:."
   dependencies:
     "@changesets/cli": 2.26.1
-    "@effect/schema": 0.61.5
+    "@effect/schema": 0.67.14
     "@temporalio/testing": 1.8.6
     "@temporalio/worker": 1.8.6
     "@types/jest": ^29.5.1
     "@types/node": 18
-    effect: 2.2.3
+    effect: 3.0.4
     jest: 29.5.0
     prettier: 2.8.8
     rimraf: ^5.0.1
@@ -4379,10 +4380,10 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"effect@npm:2.2.3":
-  version: 2.2.3
-  resolution: "effect@npm:2.2.3"
-  checksum: 055c6bce498bcaef8b9998c9123045bcd5e9468b96292dd7ff336e2ea4f0c5ad4c9830fbcbc4c7c0c0a7e88286e731c0e624dfa47e86fce364ce3290d68035fe
+"effect@npm:3.2.5":
+  version: 3.2.5
+  resolution: "effect@npm:3.2.5"
+  checksum: 0f8e0a8849d25d6882d0e2f7a5d602723ff17725f972cf860b2b36f6b35108b4dbfa9a63ec0871cd188377c57054b3947d38abcb8e42ebdbf04548fce9290d6b
   languageName: node
   linkType: hard
 
@@ -4705,6 +4706,15 @@ __metadata:
     iconv-lite: ^0.4.24
     tmp: ^0.0.33
   checksum: 1c2a616a73f1b3435ce04030261bed0e22d4737e14b090bb48e58865da92529c9f2b05b893de650738d55e692d071819b45e1669259b2b354bc3154d27a698c7
+  languageName: node
+  linkType: hard
+
+"fast-check@npm:^3.17.2":
+  version: 3.19.0
+  resolution: "fast-check@npm:3.19.0"
+  dependencies:
+    pure-rand: ^6.1.0
+  checksum: 7863849b45e66c2ea121510d99cb949ec55533822114421dde1d485c50f96850241d2119d212749b56871e06a0e034bcb6cc8fb5eb2f7d21d19e862ecaa19030
   languageName: node
   linkType: hard
 
@@ -7186,6 +7196,13 @@ __metadata:
   version: 6.0.2
   resolution: "pure-rand@npm:6.0.2"
   checksum: 79de33876a4f515d759c48e98d00756bbd916b4ea260cc572d7adfa4b62cace9952e89f0241d0410214554503d25061140fe325c66f845213d2b1728ba8d413e
+  languageName: node
+  linkType: hard
+
+"pure-rand@npm:^6.1.0":
+  version: 6.1.0
+  resolution: "pure-rand@npm:6.1.0"
+  checksum: 8d53bc02bed99eca0b65b505090152ee7e9bd67dd74f8ff32ba1c883b87234067c5bf68d2614759fb217d82594d7a92919e6df80f97885e7b12b42af4bd3316a
   languageName: node
   linkType: hard
 

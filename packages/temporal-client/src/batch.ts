@@ -23,16 +23,16 @@ import {
   TemporalClient,
 } from './client'
 
-export const StartWorkflowBatchInput = S.array(StartWorkflowInput)
-export type StartWorkflowBatchInput = S.Schema.To<
+export const StartWorkflowBatchInput = S.Array(StartWorkflowInput)
+export type StartWorkflowBatchInput = S.Schema.Type<
   typeof StartWorkflowBatchInput
 >
 
-export const StartWorkflowBatchOutput = S.struct({
-  successes: S.array(StartWorkflowOutput),
-  failures: S.array(StartWorkflowError),
+export const StartWorkflowBatchOutput = S.Struct({
+  successes: S.Array(StartWorkflowOutput),
+  failures: S.Array(StartWorkflowError),
 })
-export type StartWorkflowBatchOutput = S.Schema.To<
+export type StartWorkflowBatchOutput = S.Schema.Type<
   typeof StartWorkflowBatchOutput
 >
 
@@ -43,7 +43,7 @@ export type StartWorkflowBatchOutput = S.Schema.To<
  */
 export const startWorkflowBatch = (
   args: StartWorkflowBatchInput
-): Effect.Effect<TemporalClient, never, StartWorkflowBatchOutput> =>
+): Effect.Effect<StartWorkflowBatchOutput, never, TemporalClient> =>
   pipe(
     Effect.partition(args.map(startWorkflow), identity, {
       batching: true,
@@ -54,14 +54,14 @@ export const startWorkflowBatch = (
     // https://effect.website/docs/guide/batching-caching
   )
 
-export const SignalBatchInput = S.array(SignalWorkflowInput)
-export type SignalBatchInput = S.Schema.To<typeof SignalBatchInput>
+export const SignalBatchInput = S.Array(SignalWorkflowInput)
+export type SignalBatchInput = S.Schema.Type<typeof SignalBatchInput>
 
-export const SignalBatchOutput = S.struct({
-  successes: S.array(SignalWorkflowOutput),
-  failures: S.array(SignalWorkflowError),
+export const SignalBatchOutput = S.Struct({
+  successes: S.Array(SignalWorkflowOutput),
+  failures: S.Array(SignalWorkflowError),
 })
-export type SignalBatchOutput = S.Schema.To<typeof SignalBatchOutput>
+export type SignalBatchOutput = S.Schema.Type<typeof SignalBatchOutput>
 
 /**
  * Runs signals in parallel.
@@ -70,7 +70,7 @@ export type SignalBatchOutput = S.Schema.To<typeof SignalBatchOutput>
  */
 export const signalBatch = (
   args: SignalBatchInput
-): Effect.Effect<TemporalClient, never, SignalBatchOutput> =>
+): Effect.Effect<SignalBatchOutput, never, TemporalClient> =>
   pipe(
     Effect.partition(args.map(signal), identity, {
       batching: true,
@@ -81,16 +81,16 @@ export const signalBatch = (
     // https://effect.website/docs/guide/batching-caching
   )
 
-export const SignalWithStartBatchInput = S.array(SignalWithStartInput)
-export type SignalWithStartBatchInput = S.Schema.To<
+export const SignalWithStartBatchInput = S.Array(SignalWithStartInput)
+export type SignalWithStartBatchInput = S.Schema.Type<
   typeof SignalWithStartBatchInput
 >
 
-export const SignalWithStartBatchOutput = S.struct({
-  successes: S.array(SignalWithStartOutput),
-  failures: S.array(SignalWithStartError),
+export const SignalWithStartBatchOutput = S.Struct({
+  successes: S.Array(SignalWithStartOutput),
+  failures: S.Array(SignalWithStartError),
 })
-export type SignalWithStartBatchOutput = S.Schema.To<
+export type SignalWithStartBatchOutput = S.Schema.Type<
   typeof SignalWithStartBatchOutput
 >
 
@@ -101,7 +101,7 @@ export type SignalWithStartBatchOutput = S.Schema.To<
  */
 export const signalWithStartBatch = (
   args: SignalWithStartBatchInput
-): Effect.Effect<TemporalClient, never, SignalWithStartBatchOutput> =>
+): Effect.Effect<SignalWithStartBatchOutput, never, TemporalClient> =>
   pipe(
     Effect.partition(args.map(signalWithStart), identity, {
       batching: true,
@@ -113,7 +113,7 @@ export const signalWithStartBatch = (
   )
 
 export type PayloadConverter = TemporalPayloadConverter
-export const PayloadConverter = Context.Tag<PayloadConverter>(
+export const PayloadConverter = Context.GenericTag<PayloadConverter>(
   '@temporalio/workflow.PayloadConverter'
 )
 
@@ -123,7 +123,7 @@ export const getPayloadConverter = Effect.flatMap(TemporalClient, (client) =>
 
 export const convertPayload = (
   payload: any
-): Effect.Effect<PayloadConverter, ValueError | unknown, Payload> =>
+): Effect.Effect<Payload, ValueError | unknown, PayloadConverter> =>
   Effect.flatMap(PayloadConverter, (c) =>
     Effect.try({
       try: () => c.toPayload(payload),
@@ -210,27 +210,27 @@ export const batchSignal = (args: {
     )
   })
 
-export const GoogleProtobufTimestamp = S.struct({
-  seconds: S.string,
-  nanos: S.number,
+export const GoogleProtobufTimestamp = S.Struct({
+  seconds: S.String,
+  nanos: S.Number,
 })
 
 export const DateFromGoogleProtobufTimestamp = pipe(
   GoogleProtobufTimestamp,
-  S.transform(
-    S.ValidDateFromSelf,
-    (x) => new Date(Number(x.seconds) * 1000 + x.nanos / 1000000),
-    (x) => ({
+  S.transform(S.ValidDateFromSelf, {
+    decode: (x) => new Date(Number(x.seconds) * 1000 + x.nanos / 1000000),
+
+    encode: (x) => ({
       seconds: String(x.getTime() / 1000),
       nanos: x.getMilliseconds() * 1000000,
-    })
-  )
+    }),
+  })
 )
 
-export const BatchOperationResult = S.struct({
-  operationType: S.union(S.literal('BATCH_OPERATION_TYPE_SIGNAL'), S.string),
-  jobId: S.string,
-  state: S.literal(
+export const BatchOperationResult = S.Struct({
+  operationType: S.Union(S.Literal('BATCH_OPERATION_TYPE_SIGNAL'), S.String),
+  jobId: S.String,
+  state: S.Literal(
     'BATCH_OPERATION_STATE_UNSPECIFIED',
     'BATCH_OPERATION_STATE_RUNNING',
     'BATCH_OPERATION_STATE_COMPLETED',
@@ -240,8 +240,8 @@ export const BatchOperationResult = S.struct({
   closeTime: DateFromGoogleProtobufTimestamp,
   totalOperationCount: S.NumberFromString,
   completeOperationCount: S.NumberFromString,
-  identity: S.string,
-  reason: S.string,
+  identity: S.String,
+  reason: S.String,
 })
 
 export const describeBatchOperation = (args: {

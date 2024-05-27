@@ -6,26 +6,26 @@ export class WorkflowNotFoundError extends S.TaggedError<WorkflowNotFoundError>(
     /**
      * The workflowId that wasn't found
      */
-    workflowId: S.string,
+    workflowId: S.String,
     /**
      * The namespace workflow wasn't found in
      */
-    namespace: S.string,
+    namespace: S.String,
     /**
      * The runId that was provided to `signal`, if any
      */
-    runId: S.optional(S.string),
+    runId: S.optional(S.String),
     /**
      * The correlationId that was provided to `signal`, if any
      */
-    correlationId: S.optional(S.string),
+    correlationId: S.optional(S.String),
   }
 ) {}
 
 export class WorkflowExecutionAlreadyStartedError extends S.TaggedError<WorkflowExecutionAlreadyStartedError>()(
   'WorkflowExecutionAlreadyStartedError',
   {
-    workflowId: S.string,
-    workflowType: S.string,
+    workflowId: S.String,
+    workflowType: S.String,
   }
 ) {}
