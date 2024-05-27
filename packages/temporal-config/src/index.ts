@@ -1,14 +1,14 @@
 import { Context } from 'effect'
 import * as S from '@effect/schema/Schema'
 
-const TemporalConfigRequired = S.struct({
-  address: S.string,
-  namespace: S.string,
+const TemporalConfigRequired = S.Struct({
+  address: S.String,
+  namespace: S.String,
 })
 const TemporalConfigOptional = S.partial(
-  S.struct({
-    clientCert: S.string,
-    clientKey: S.string,
+  S.Struct({
+    clientCert: S.String,
+    clientKey: S.String,
   })
 )
 /**
@@ -22,23 +22,23 @@ export const TemporalConfig = S.extend(
 /**
  * Data required to establish a connection to Temporal.
  */
-export type TemporalConfig = S.Schema.To<typeof TemporalConfig>
+export type TemporalConfig = S.Schema.Type<typeof TemporalConfig>
 
 /**
  * Data required to establish a connection to Temporal.
  */
-export const TemporalConfigTag = Context.Tag<TemporalConfig>(
+export const TemporalConfigTag = Context.GenericTag<TemporalConfig>(
   '@effect-use.temporal-config/TemporalConfig'
 )
 
-const TemporalEnvRequired = S.struct({
-  TEMPORAL_ADDRESS: S.string,
-  TEMPORAL_NAMESPACE: S.string,
+const TemporalEnvRequired = S.Struct({
+  TEMPORAL_ADDRESS: S.String,
+  TEMPORAL_NAMESPACE: S.String,
 })
 const TemporalEnvOptional = S.partial(
-  S.struct({
-    TEMPORAL_CLIENT_CERT: S.string,
-    TEMPORAL_CLIENT_KEY: S.string,
+  S.Struct({
+    TEMPORAL_CLIENT_CERT: S.String,
+    TEMPORAL_CLIENT_KEY: S.String,
   })
 )
 
@@ -58,12 +58,12 @@ export const TemporalEnv = S.extend(TemporalEnvRequired, TemporalEnvOptional)
 /**
  * Data required to establish a connection to Temporal.
  */
-export type TemporalEnv = S.Schema.To<typeof TemporalEnv>
+export type TemporalEnv = S.Schema.Type<typeof TemporalEnv>
 
 /**
  * Data required to establish a connection to Temporal.
  */
-export const TemporalEnvTag = Context.Tag<TemporalEnv>(
+export const TemporalEnvTag = Context.GenericTag<TemporalEnv>(
   '@effect-use.temporal-config/TemporalEnv'
 )
 

@@ -22,7 +22,7 @@ import { ConnectionLive, TemporalConnection } from './connection'
 import { CommonWorkflowOptions } from './types'
 
 export type TemporalClient = Client
-export const TemporalClient = Context.Tag<TemporalClient>(
+export const TemporalClient = Context.GenericTag<TemporalClient>(
   '@effect-use.temporal-client/TemporalClient'
 )
 
@@ -55,35 +55,35 @@ export const makeClient = (args: {
   })
 
 export const SignalWithStartInput = S.extend(
-  S.struct({
-    workflowType: S.string,
-    workflowId: S.string,
-    taskQueue: S.string,
-    signal: S.string,
-    signalArgs: S.array(S.unknown),
+  S.Struct({
+    workflowType: S.String,
+    workflowId: S.String,
+    taskQueue: S.String,
+    signal: S.String,
+    signalArgs: S.Array(S.Unknown),
   }),
   CommonWorkflowOptions
 )
 
-export type SignalWithStartInput = S.Schema.To<typeof SignalWithStartInput>
+export type SignalWithStartInput = S.Schema.Type<typeof SignalWithStartInput>
 
 export const SignalWithStartOutput = pipe(
-  S.struct({
-    workflowId: S.string,
-    signaledRunId: S.string,
+  S.Struct({
+    workflowId: S.String,
+    signaledRunId: S.String,
   }),
   S.description(
     "Signals a running workflow or starts it if it doesn't exist. Echoes the workflowId used to make the request and the run ID of the workflow that was signaled."
   )
 )
-export type SignalWithStartOutput = S.Schema.To<typeof SignalWithStartOutput>
+export type SignalWithStartOutput = S.Schema.Type<typeof SignalWithStartOutput>
 
-export const SignalWithStartError = S.unknown
-export type SignalWithStartError = S.Schema.To<typeof SignalWithStartError>
+export const SignalWithStartError = S.Unknown
+export type SignalWithStartError = S.Schema.Type<typeof SignalWithStartError>
 
 export const signalWithStart = (
   args: SignalWithStartInput
-): Effect.Effect<TemporalClient, SignalWithStartError, SignalWithStartOutput> =>
+): Effect.Effect<SignalWithStartOutput, SignalWithStartError, TemporalClient> =>
   Effect.flatMap(TemporalClient, (client) =>
     pipe(
       Effect.tryPromise(() =>
@@ -107,9 +107,9 @@ export const getWorkflowHandle = <T extends Workflow = Workflow>(args: {
   workflowId: string
   runId?: string
 }): Effect.Effect<
-  TemporalClient,
+  WorkflowHandle<T>,
   TemporalWorkflowNotFoundError | unknown,
-  WorkflowHandle<T>
+  TemporalClient
 > =>
   Effect.flatMap(TemporalClient, (client) =>
     pipe(
@@ -131,35 +131,35 @@ export const getWorkflowHandle = <T extends Workflow = Workflow>(args: {
   )
 
 export const SignalWorkflowInput = S.extend(
-  S.struct({
-    workflowId: S.string,
-    runId: S.optional(S.string),
-    signal: S.string,
-    signalArgs: S.array(S.unknown),
+  S.Struct({
+    workflowId: S.String,
+    runId: S.optional(S.String),
+    signal: S.String,
+    signalArgs: S.Array(S.Unknown),
   }),
-  S.partial(S.struct({ correlationId: S.string }))
+  S.partial(S.Struct({ correlationId: S.String }))
 )
-export type SignalWorkflowInput = S.Schema.To<typeof SignalWorkflowInput>
+export type SignalWorkflowInput = S.Schema.Type<typeof SignalWorkflowInput>
 export const SignalWorkflowOutput = S.extend(
-  S.struct({
-    workflowId: S.string,
-    runId: S.string,
-    taskQueue: S.string,
+  S.Struct({
+    workflowId: S.String,
+    runId: S.String,
+    taskQueue: S.String,
   }),
   S.partial(
-    S.struct({
+    S.Struct({
       /**
        * The correlationId that was provided to `signal`, if any
        * Can be used to correlate inputs and outputs when broadcasting signals with signalBatch
        */
-      correlationId: S.optional(S.string),
+      correlationId: S.optional(S.String),
     })
   )
 )
-export type SignalWorkflowOutput = S.Schema.To<typeof SignalWorkflowOutput>
+export type SignalWorkflowOutput = S.Schema.Type<typeof SignalWorkflowOutput>
 
-export const SignalWorkflowError = S.union(WorkflowNotFoundError, S.unknown)
-export type SignalWorkflowError = S.Schema.To<typeof SignalWorkflowError>
+export const SignalWorkflowError = S.Union(WorkflowNotFoundError, S.Unknown)
+export type SignalWorkflowError = S.Schema.Type<typeof SignalWorkflowError>
 
 /**
  * Sends a message to a running workflow
@@ -169,7 +169,7 @@ export type SignalWorkflowError = S.Schema.To<typeof SignalWorkflowError>
  */
 export const signal = (
   args: SignalWorkflowInput
-): Effect.Effect<TemporalClient, SignalWorkflowError, SignalWorkflowOutput> =>
+): Effect.Effect<SignalWorkflowOutput, SignalWorkflowError, TemporalClient> =>
   Effect.flatMap(TemporalClient, (client) =>
     pipe(
       Effect.Do,
@@ -204,30 +204,30 @@ export const signal = (
   )
 
 export const StartWorkflowInput = S.extend(
-  S.struct({
-    workflowId: S.string,
-    workflowType: S.string,
-    args: S.optional(S.array(S.unknown)),
-    taskQueue: S.string,
+  S.Struct({
+    workflowId: S.String,
+    workflowType: S.String,
+    args: S.optional(S.Array(S.Unknown)),
+    taskQueue: S.String,
   }),
   CommonWorkflowOptions
 )
-export type StartWorkflowInput = S.Schema.To<typeof StartWorkflowInput>
+export type StartWorkflowInput = S.Schema.Type<typeof StartWorkflowInput>
 
-export const StartWorkflowOutput = S.struct({
-  runId: S.string,
+export const StartWorkflowOutput = S.Struct({
+  runId: S.String,
 })
-export type StartWorkflowOutput = S.Schema.To<typeof StartWorkflowOutput>
+export type StartWorkflowOutput = S.Schema.Type<typeof StartWorkflowOutput>
 
-export const StartWorkflowError = S.union(
+export const StartWorkflowError = S.Union(
   WorkflowExecutionAlreadyStartedError,
-  S.unknown
+  S.Unknown
 )
-export type StartWorkflowError = S.Schema.To<typeof StartWorkflowError>
+export type StartWorkflowError = S.Schema.Type<typeof StartWorkflowError>
 
 export const startWorkflow = (
   args: StartWorkflowInput
-): Effect.Effect<TemporalClient, StartWorkflowError, StartWorkflowOutput> =>
+): Effect.Effect<StartWorkflowOutput, StartWorkflowError, TemporalClient> =>
   Effect.flatMap(TemporalClient, (client) =>
     pipe(
       Effect.tryPromise({
@@ -265,7 +265,7 @@ export const query = (args: {
 
 export const createTemporalClientLayer = (
   config: TemporalConfig
-): Layer.Layer<Scope.Scope, unknown, Client | Connection | TemporalConfig> =>
+): Layer.Layer<Client | Connection | TemporalConfig, unknown, Scope.Scope> =>
   pipe(
     Layer.effect(TemporalClient, buildClient),
     Layer.provideMerge(ConnectionLive),

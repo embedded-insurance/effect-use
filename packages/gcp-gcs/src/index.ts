@@ -6,7 +6,7 @@ import * as NodeStreamP from 'stream/promises'
 
 export * from './layers'
 export type GCS = Storage
-export const GCS = Context.Tag<GCS>('@google-cloud/storage')
+export const GCS = Context.GenericTag<GCS>('@google-cloud/storage')
 
 export type GCSWriteError = {
   _tag: 'GCSWriteError'
@@ -56,7 +56,7 @@ export const write = (
   bucket: string,
   key: string,
   data: string | Buffer
-): Effect.Effect<GCS, GCSWriteError, void> =>
+): Effect.Effect<void, GCSWriteError, GCS> =>
   Effect.flatMap(GCS, (gcs) =>
     Effect.tryPromise({
       try: () => gcs.bucket(bucket).file(key).save(data),
@@ -72,7 +72,7 @@ export const write = (
 export const download = (
   bucket: string,
   key: string
-): Effect.Effect<GCS, GCSDownloadError, string> => {
+): Effect.Effect<string, GCSDownloadError, GCS> => {
   const tmp = require('tmp')
   const fileName: string = tmp.tmpNameSync()
 
@@ -105,7 +105,7 @@ export const getPresignedUrl = (
   bucket: string,
   key: string,
   lifetime: number
-): Effect.Effect<GCS, GCSUrlSigningError, GetSignedUrlResponse> =>
+): Effect.Effect<GetSignedUrlResponse, GCSUrlSigningError, GCS> =>
   Effect.flatMap(GCS, (gcs) =>
     Effect.tryPromise({
       try: () =>
