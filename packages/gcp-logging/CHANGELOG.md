@@ -1,5 +1,11 @@
 # @effect-use/gcp-logging
 
+## 5.0.0
+
+### Major Changes
+
+- aa3f556: use effect 3
+
 ## 4.0.0
 
 ### Major Changes
