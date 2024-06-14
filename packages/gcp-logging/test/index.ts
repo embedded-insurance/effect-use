@@ -46,6 +46,51 @@ const makeTestLayer = (onLog: (x: any) => void) =>
     )
   )
 
+describe('logWarning', ()=>{
+  describe('when logging with an error', ()=>{
+    it('stores the stacktrace in debugging property', ()=>{
+      let log: unknown[] = []
+
+      pipe(
+        pipe(
+          Effect.logWarning('message in the log', Cause.fail(new Error('cause of the error')))
+        ),
+
+        Effect.provide(
+          pipe(
+            Layer.provideMerge(
+              Layer.succeed(Clock.Clock, testClock),
+              Logger.replace(
+                Logger.defaultLogger,
+                customLogger((a) => {
+                  log.push(a)
+                })
+              )
+            )
+          )
+        ),
+        Effect.runSync
+      )
+
+      expect(log).toEqual([
+        {
+          annotations: {},
+          level: 'WARN',
+          'logging.googleapis.com/spanId': undefined,
+          'logging.googleapis.com/trace': undefined,
+          message: 'message in the log',
+          debuggingInfo: expect.stringContaining('at Object.<anonymous>'),
+          meta: {},
+          exception: undefined,
+          parent: undefined,
+          span: undefined,
+          timestamp: expect.any(String),
+        },
+      ])
+    })
+  })
+})
+
 describe('logError', () => {
   describe('when logging error with a message and a cause from a handled error', () => {
     it('reports the failure', () => {
