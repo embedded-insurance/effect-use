@@ -27,10 +27,13 @@ export type GCSUrlSigningError = {
 }
 
 type Errors = GCSWriteError | GCSDownloadError | GCSUrlSigningError
-type GenericMessage= {
+type GenericMessage = {
   message: string
 }
-const createError = <T extends Errors>(e: Error |GenericMessage, type: T['_tag']): T => {
+const createError = <T extends Errors>(
+  e: Error | GenericMessage,
+  type: T['_tag']
+): T => {
   if (e instanceof Error) {
     return {
       _tag: type,
@@ -45,6 +48,17 @@ const createError = <T extends Errors>(e: Error |GenericMessage, type: T['_tag']
     stack: 'No stack available',
   } as T
 }
+
+const isURLEncoded = (str: string) => {
+  try {
+    return decodeURI(str) === str
+  } catch (e) {
+    return false
+  }
+}
+
+const ensureURLEncoded = (str: string) =>
+  isURLEncoded(str) ? str : encodeURI(str)
 
 /**
  * Writes data to key in bucket
@@ -66,12 +80,14 @@ export const write = (
 
 /**
  * Download data from a bucket to tmp local file
- * @param bucket
- * @param key
+ * @param bucket - bucket name
+ * @param key - key of the file to download
+ * @param options - urlEncodeKey: boolean
  */
 export const download = (
   bucket: string,
-  key: string
+  key: string,
+  options: { urlEncodeKey?: boolean } = { urlEncodeKey: true }
 ): Effect.Effect<string, GCSDownloadError, GCS> => {
   const tmp = require('tmp')
   const fileName: string = tmp.tmpNameSync()
@@ -80,7 +96,10 @@ export const download = (
     Effect.as(
       Effect.tryPromise({
         try: (signal) => {
-          const readStream = gcs.bucket(bucket).file(key).createReadStream()
+          const readStream = gcs
+            .bucket(bucket)
+            .file(options.urlEncodeKey ? ensureURLEncoded(key) : key)
+            .createReadStream()
 
           return NodeStreamP.pipeline(
             readStream,
@@ -88,7 +107,8 @@ export const download = (
             { signal }
           )
         },
-        catch: (e) => createError<GCSDownloadError>(e as any, 'GCSDownloadError')
+        catch: (e) =>
+          createError<GCSDownloadError>(e as any, 'GCSDownloadError'),
       }),
       fileName
     )
@@ -100,23 +120,26 @@ export const download = (
  * @param bucket
  * @param key
  * @param lifetime as time to live in milliseconds (relative to when URL is created)
+ * @param options
  */
 export const getPresignedUrl = (
   bucket: string,
   key: string,
-  lifetime: number
+  lifetime: number,
+  options: { urlEncodeKey?: boolean } = { urlEncodeKey: true }
 ): Effect.Effect<GetSignedUrlResponse, GCSUrlSigningError, GCS> =>
   Effect.flatMap(GCS, (gcs) =>
     Effect.tryPromise({
       try: () =>
         gcs
           .bucket(bucket)
-          .file(key)
+          .file(options.urlEncodeKey ? ensureURLEncoded(key) : key)
           .getSignedUrl({
             version: 'v4',
             action: 'read',
             expires: Date.now() + lifetime,
           }),
-      catch: (e) => createError<GCSUrlSigningError>(e as any, 'GCSUrlSigningError')
+      catch: (e) =>
+        createError<GCSUrlSigningError>(e as any, 'GCSUrlSigningError'),
     })
   )
