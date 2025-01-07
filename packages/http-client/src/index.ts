@@ -42,7 +42,7 @@ export type Method = (
     path?: string
     headers?: Record<string, string>
   }
-) => Effect.Effect<never, ErrorResponse | FetchError | InvalidURL, Response>
+) => Effect.Effect<Response, ErrorResponse | FetchError | InvalidURL>
 
 export type Client = {
   baseUrl: string
@@ -56,9 +56,9 @@ export type Client = {
 }
 
 export type Fetch = (input: string, init: RequestInit) => Promise<Response>
-export const Fetch = Context.Tag<Fetch>('fetch')
+export const Fetch = Context.GenericTag<Fetch>('fetch')
 
-export const makeURL = (input: string): Effect.Effect<never, InvalidURL, URL> =>
+export const makeURL = (input: string): Effect.Effect<URL, InvalidURL> =>
   pipe(
     Effect.try(() => new URL(input)),
     Effect.mapError(
@@ -93,7 +93,7 @@ export const makeURL = (input: string): Effect.Effect<never, InvalidURL, URL> =>
  * )
  * @param args
  */
-export const make = (args: Config): Effect.Effect<Fetch, never, Client> =>
+export const make = (args: Config): Effect.Effect<Client, never, Fetch> =>
   Effect.map(Fetch, (fetch) => {
     const f = (
       method: 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH' | 'HEAD'

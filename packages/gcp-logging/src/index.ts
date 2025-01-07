@@ -125,7 +125,7 @@ export const GCP_LOG_SPAN_KEY = 'logging.googleapis.com/spanId' as const
 
 export const withTrace =
   (args: { trace: string; span: string }) =>
-  <R, E, A>(effect: Effect.Effect<R, E, A>) =>
+  <R, E, A>(effect: Effect.Effect<A, E, R>) =>
     pipe(
       effect,
       Effect.withLogSpan(args.span),
@@ -133,7 +133,7 @@ export const withTrace =
       Effect.annotateLogs(GCP_LOG_SPAN_KEY, args.span)
     )
 
-export const LogLevelSchema = S.literal<
+export const LogLevelSchema = S.Literal<
   [
     LogLevel.All['_tag'],
     LogLevel.Fatal['_tag'],

@@ -14,39 +14,37 @@ import {
 } from './types'
 
 export const BrexConfig = S.extend(
-  S.struct({ BREX_API_KEY: S.string }),
-  S.partial(S.struct({ BREX_BASE_URL: S.string }))
+  S.Struct({ BREX_API_KEY: S.String }),
+  S.partial(S.Struct({ BREX_BASE_URL: S.String }))
 )
-export type BrexConfig = S.Schema.To<typeof BrexConfig>
+export type BrexConfig = S.Schema.Type<typeof BrexConfig>
 
 const defaultBrexAPIURL = 'https://platform.brexapis.com'
 
-const BrexHTTPClient = Context.Tag<HTTP.Client>('brex')
+const BrexHTTPClient = Context.GenericTag<HTTP.Client>('brex')
 
 export type BrexClient = {
   Transfer: {
     createTransfer: (
       input: CreateTransferArgs
-    ) => Effect.Effect<never, unknown, CreateTransferResponse>
-    getTransfer: (
-      id: string
-    ) => Effect.Effect<never, unknown, GetTransferResponse>
+    ) => Effect.Effect<CreateTransferResponse, unknown>
+    getTransfer: (id: string) => Effect.Effect<GetTransferResponse, unknown>
     listTransfers: (
       cursor?: string,
       limit?: number
-    ) => Effect.Effect<never, unknown, ListTransfersResponse>
+    ) => Effect.Effect<ListTransfersResponse, unknown>
   }
   Vendor: {
-    getVendor: (id: string) => Effect.Effect<never, unknown, GetVendorResponse>
-    listVendors: () => Effect.Effect<never, unknown, ListVendorsResponse>
+    getVendor: (id: string) => Effect.Effect<GetVendorResponse, unknown>
+    listVendors: () => Effect.Effect<ListVendorsResponse, unknown>
   }
 }
 
-export const Brex = Context.Tag<BrexClient>('brex')
+export const Brex = Context.GenericTag<BrexClient>('brex')
 
 export const makeBrexClientLayer = (
   config: BrexConfig
-): Layer.Layer<never, never, BrexClient> =>
+): Layer.Layer<BrexClient> =>
   Layer.sync(Brex, () => {
     const http = pipe(
       HTTP.make({
@@ -97,14 +95,14 @@ export const makeBrexClientLayer = (
  * https://developer.brex.com/openapi/payments_api/#tag/Transfers
  *
  */
-const CreateTransferArgs = S.struct({
+const CreateTransferArgs = S.Struct({
   input: BrexCreateTransferPayload,
-  idempotencyKey: S.string,
+  idempotencyKey: S.String,
 })
-type CreateTransferArgs = S.Schema.To<typeof CreateTransferArgs>
+type CreateTransferArgs = S.Schema.Type<typeof CreateTransferArgs>
 const createTransfer = (
   args: CreateTransferArgs
-): Effect.Effect<HTTP.Client, unknown, CreateTransferResponse> =>
+): Effect.Effect<CreateTransferResponse, unknown, HTTP.Client> =>
   pipe(
     Effect.flatMap(BrexHTTPClient, (client) =>
       pipe(
@@ -129,7 +127,7 @@ const createTransfer = (
 
 const getTransfer = (
   id: string
-): Effect.Effect<HTTP.Client, unknown, GetTransferResponse> =>
+): Effect.Effect<GetTransferResponse, unknown, HTTP.Client> =>
   Effect.flatMap(BrexHTTPClient, (client) =>
     pipe(
       client.get({
@@ -145,7 +143,7 @@ const getTransfer = (
 const listTransfers = (
   cursor?: string,
   limit?: number
-): Effect.Effect<HTTP.Client, unknown, ListTransfersResponse> =>
+): Effect.Effect<ListTransfersResponse, unknown, HTTP.Client> =>
   Effect.flatMap(BrexHTTPClient, (client) =>
     pipe(
       Effect.Do,
@@ -177,7 +175,7 @@ const listTransfers = (
  */
 const getVendor = (
   id: string
-): Effect.Effect<HTTP.Client, unknown, GetVendorResponse> =>
+): Effect.Effect<GetVendorResponse, unknown, HTTP.Client> =>
   pipe(
     Effect.flatMap(BrexHTTPClient, (client) =>
       client.get({ path: `/v1/vendors?id=${id}` })
@@ -189,9 +187,9 @@ const getVendor = (
   )
 
 const listVendors = (): Effect.Effect<
-  HTTP.Client,
+  ListVendorsResponse,
   unknown,
-  ListVendorsResponse
+  HTTP.Client
 > =>
   pipe(
     BrexHTTPClient,

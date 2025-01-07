@@ -1,5 +1,16 @@
 # @effect-use/temporal-client
 
+## 4.0.0
+
+### Major Changes
+
+- aa3f556: use effect 3
+
+### Patch Changes
+
+- Updated dependencies [aa3f556]
+  - @effect-use/temporal-config@4.0.0
+
 ## 3.0.0
 
 ### Major Changes

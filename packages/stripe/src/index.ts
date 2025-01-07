@@ -7,67 +7,43 @@ import * as StripeAPI from 'stripe'
 // https://stripe.com/docs/reports/api
 // https://stripe.com/docs/reports/report-types
 
-const Stripe = Context.Tag<StripeAPI.Stripe>('stripe')
+const Stripe = Context.GenericTag<StripeAPI.Stripe>('stripe')
 
 export type StripeClient = {
   BalanceTransactions: {
     getBalanceTransaction: (
       balanceTransactionId: string
-    ) => Effect.Effect<
-      never,
-      unknown,
-      StripeAPI.Stripe.Response<StripeAPI.Stripe.BalanceTransaction>
-    >
+    ) => Effect.Effect<StripeAPI.Stripe.Response<StripeAPI.Stripe.BalanceTransaction>, unknown>
     listBalanceTransactions: (
       args: StripeAPI.Stripe.BalanceTransactionListParams
-    ) => Effect.Effect<
-      never,
-      unknown,
-      {
-        data: Array<StripeAPI.Stripe.BalanceTransaction>
-        has_more: boolean
-      }
-    >
+    ) => Effect.Effect<{
+      data: Array<StripeAPI.Stripe.BalanceTransaction>
+      has_more: boolean
+    }, unknown>
   }
   Payouts: {
     getPayoutById: (
       payoutId: string
-    ) => Effect.Effect<
-      never,
-      unknown,
-      StripeAPI.Stripe.Response<StripeAPI.Stripe.Payout>
-    >
+    ) => Effect.Effect<StripeAPI.Stripe.Response<StripeAPI.Stripe.Payout>, unknown>
     listPayouts: (
       args: StripeAPI.Stripe.PayoutListParams
-    ) => Effect.Effect<
-      never,
-      unknown,
-      StripeAPI.Stripe.Response<
-        StripeAPI.Stripe.ApiList<StripeAPI.Stripe.Payout>
-      >
-    >
-    getPayoutReconciliationReport: () => Effect.Effect<
-      never,
-      unknown,
-      StripeAPI.Stripe.Response<StripeAPI.Stripe.Reporting.ReportType>
-    >
+    ) => Effect.Effect<StripeAPI.Stripe.Response<
+      StripeAPI.Stripe.ApiList<StripeAPI.Stripe.Payout>
+    >, unknown>
+    getPayoutReconciliationReport: () => Effect.Effect<StripeAPI.Stripe.Response<StripeAPI.Stripe.Reporting.ReportType>, unknown>
   }
   Invoices: {
     getInvoice: (
       invoiceId: string
-    ) => Effect.Effect<
-      never,
-      unknown,
-      StripeAPI.Stripe.Response<StripeAPI.Stripe.Invoice>
-    >
+    ) => Effect.Effect<StripeAPI.Stripe.Response<StripeAPI.Stripe.Invoice>, unknown>
   }
 }
 
-export const StripeClient = Context.Tag<StripeClient>('stripe-client')
+export const StripeClient = Context.GenericTag<StripeClient>('stripe-client')
 
 export const makeStripeClientLayer = (
   stripeAPIKey: string
-): Layer.Layer<never, never, StripeClient> =>
+): Layer.Layer<StripeClient> =>
   Layer.sync(StripeClient, () => {
     const stripeClient = new StripeAPI.Stripe(stripeAPIKey, {
       apiVersion: '2022-11-15',
@@ -122,9 +98,9 @@ export const makeStripeClientLayer = (
 const getBalanceTransaction = (
   balanceTransactionId: string
 ): Effect.Effect<
-  StripeAPI.Stripe,
+  StripeAPI.Stripe.Response<StripeAPI.Stripe.BalanceTransaction>,
   unknown,
-  StripeAPI.Stripe.Response<StripeAPI.Stripe.BalanceTransaction>
+  StripeAPI.Stripe
 > =>
   Effect.flatMap(Stripe, (stripe) =>
     Effect.tryPromise(() =>
@@ -134,14 +110,10 @@ const getBalanceTransaction = (
 
 const listBalanceTransactions = (
   args: StripeAPI.Stripe.BalanceTransactionListParams
-): Effect.Effect<
-  StripeAPI.Stripe,
-  unknown,
-  {
-    data: Array<StripeAPI.Stripe.BalanceTransaction>
-    has_more: boolean
-  }
-> =>
+): Effect.Effect<{
+  data: Array<StripeAPI.Stripe.BalanceTransaction>
+  has_more: boolean
+}, unknown, StripeAPI.Stripe> =>
   Effect.flatMap(Stripe, (stripe) =>
     Effect.tryPromise(() => stripe.balanceTransactions.list(args))
   )
@@ -154,9 +126,9 @@ const listBalanceTransactions = (
 const getPayoutById = (
   payoutId: string
 ): Effect.Effect<
-  StripeAPI.Stripe,
+  StripeAPI.Stripe.Response<StripeAPI.Stripe.Payout>,
   unknown,
-  StripeAPI.Stripe.Response<StripeAPI.Stripe.Payout>
+  StripeAPI.Stripe
 > =>
   Effect.flatMap(Stripe, (stripe) =>
     Effect.tryPromise(() => stripe.payouts.retrieve(payoutId))
@@ -165,9 +137,9 @@ const getPayoutById = (
 const listPayouts = (
   args: StripeAPI.Stripe.PayoutListParams
 ): Effect.Effect<
-  StripeAPI.Stripe,
+  StripeAPI.Stripe.Response<StripeAPI.Stripe.ApiList<StripeAPI.Stripe.Payout>>,
   unknown,
-  StripeAPI.Stripe.Response<StripeAPI.Stripe.ApiList<StripeAPI.Stripe.Payout>>
+  StripeAPI.Stripe
 > =>
   Effect.flatMap(Stripe, (stripe) =>
     Effect.tryPromise(() => stripe.payouts.list(args))
@@ -177,9 +149,9 @@ const listPayouts = (
 const getItemizedPayoutReconciliationReport = (
   reportTypeId: '1' | '2' | '3' | '4' | '5' = '5'
 ): Effect.Effect<
-  StripeAPI.Stripe,
+  StripeAPI.Stripe.Response<StripeAPI.Stripe.Reporting.ReportType>,
   unknown,
-  StripeAPI.Stripe.Response<StripeAPI.Stripe.Reporting.ReportType>
+  StripeAPI.Stripe
 > =>
   Effect.flatMap(Stripe, (stripe) =>
     Effect.tryPromise(() =>
@@ -195,9 +167,9 @@ const getItemizedPayoutReconciliationReport = (
 const getInvoice = (
   invoiceId: string
 ): Effect.Effect<
-  StripeAPI.Stripe,
+  StripeAPI.Stripe.Response<StripeAPI.Stripe.Invoice>,
   unknown,
-  StripeAPI.Stripe.Response<StripeAPI.Stripe.Invoice>
+  StripeAPI.Stripe
 > =>
   Effect.flatMap(Stripe, (stripe) =>
     Effect.tryPromise(() => stripe.invoices.retrieve(invoiceId))

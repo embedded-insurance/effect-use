@@ -60,7 +60,7 @@ export const makeGCSTestLayer = ({
  */
 export const makeGCSLiveLayer = (
   options?: StorageOptions,
-): Layer.Layer<never, unknown, GCS> =>
+): Layer.Layer<GCS, unknown> =>
   Layer.effect(
     GCS,
     Effect.try(() => new Storage(options))

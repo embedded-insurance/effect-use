@@ -1,17 +1,17 @@
 import * as S from '@effect/schema/Schema'
 import { pipe } from 'effect'
 
-export const MsStr = S.templateLiteral(
-  S.number,
-  S.literal('y', 'w', 'd', 'h', 'm', 's', 'ms')
+export const MsStr = S.TemplateLiteral(
+  S.Number,
+  S.Literal('y', 'w', 'd', 'h', 'm', 's', 'ms')
 )
 
-export const SearchAttributes = S.record(
-  S.string,
-  S.union(
-    S.array(S.string),
-    S.array(S.number),
-    S.array(S.boolean)
+export const SearchAttributes = S.Record(
+  S.String,
+  S.Union(
+    S.Array(S.String),
+    S.Array(S.Number),
+    S.Array(S.Boolean)
     // S.array(S.Date)
   )
 )
@@ -55,7 +55,7 @@ export enum WorkflowIdReusePolicy {
   WORKFLOW_ID_REUSE_POLICY_TERMINATE_IF_RUNNING = 4,
 }
 
-export const WorkflowDurationOptions = S.struct({
+export const WorkflowDurationOptions = S.Struct({
   /**
    * The time after which workflow run is automatically terminated by Temporal service. Do not
    * rely on run timeout for business level timeouts. It is preferred to use in workflow timers
@@ -63,7 +63,7 @@ export const WorkflowDurationOptions = S.struct({
    *
    * @format number of milliseconds or {@link https://www.npmjs.com/package/ms | ms-formatted string}
    */
-  workflowRunTimeout: S.optional(S.union(MsStr, S.number)),
+  workflowRunTimeout: S.optional(S.Union(MsStr, S.Number)),
 
   /**
    *
@@ -73,18 +73,18 @@ export const WorkflowDurationOptions = S.struct({
    *
    * @format number of milliseconds or {@link https://www.npmjs.com/package/ms | ms-formatted string}
    */
-  workflowExecutionTimeout: S.optional(S.union(MsStr, S.number)),
+  workflowExecutionTimeout: S.optional(S.Union(MsStr, S.Number)),
 
   /**
    * Maximum execution time of a single workflow task. Default is 10 seconds.
    *
    * @format number of milliseconds or {@link https://www.npmjs.com/package/ms | ms-formatted string}
    */
-  workflowTaskTimeout: S.optional(S.union(MsStr, S.number)),
+  workflowTaskTimeout: S.optional(S.Union(MsStr, S.Number)),
 })
 
-export const BaseWorkflowOptions = S.struct({
-  workflowIdReusePolicy: S.optional(S.enums(WorkflowIdReusePolicy)),
+export const BaseWorkflowOptions = S.Struct({
+  workflowIdReusePolicy: S.optional(S.Enums(WorkflowIdReusePolicy)),
   /**
    * Optional cron schedule for Workflow. If a cron schedule is specified, the Workflow will run as a cron based on the
    * schedule. The scheduling will be based on UTC time. The schedule for the next run only happens after the current
@@ -94,14 +94,14 @@ export const BaseWorkflowOptions = S.struct({
    * Workflow will not stop until it is terminated or cancelled (by returning temporal.CanceledError).
    * https://crontab.guru/ is useful for testing your cron expressions.
    */
-  chronSchedule: S.optional(S.string),
+  chronSchedule: S.optional(S.String),
 
   /**
    * Specifies additional non-indexed information to attach to the Workflow Execution. The values can be anything that
    * is serializable by {@link DataConverter}.
    */
 
-  memo: S.optional(S.record(S.string, S.unknown)),
+  memo: S.optional(S.Record(S.String, S.Unknown)),
   /**
    * Specifies additional indexed information to attach to the Workflow Execution. More info:
    * https://docs.temporal.io/docs/typescript/search-attributes
@@ -110,10 +110,10 @@ export const BaseWorkflowOptions = S.struct({
    */
   searchAttributes: S.optional(SearchAttributes),
 
-  followRuns: S.optional(S.boolean),
+  followRuns: S.optional(S.Boolean),
 
   retry: S.optional(
-    S.struct({
+    S.Struct({
       /**
        * Coefficient used to calculate the next retry interval.
        * The next retry interval is previous interval multiplied by this coefficient.
@@ -121,7 +121,7 @@ export const BaseWorkflowOptions = S.struct({
        * @default 2
        */
       backoffCoefficient: S.optional(
-        pipe(S.number, S.greaterThanOrEqualTo(1)),
+        pipe(S.Number, S.greaterThanOrEqualTo(1)),
         { default: () => 2 }
       ),
 
@@ -131,7 +131,7 @@ export const BaseWorkflowOptions = S.struct({
        * @format number of milliseconds or {@link https://www.npmjs.com/package/ms | ms-formatted string}
        * @default 1 second
        */
-      initialInterval: S.optional(S.union(MsStr, S.number)),
+      initialInterval: S.optional(S.Union(MsStr, S.Number)),
 
       /**
        * Maximum number of attempts. When exceeded, retries stop (even if {@link ActivityOptions.scheduleToCloseTimeout}
@@ -139,7 +139,7 @@ export const BaseWorkflowOptions = S.struct({
        *
        * @default Infinity
        */
-      maximumAttempts: S.optional(S.number),
+      maximumAttempts: S.optional(S.Number),
 
       /**
        * Maximum interval between retries.
@@ -149,12 +149,12 @@ export const BaseWorkflowOptions = S.struct({
        * @default 100x of {@link initialInterval}
        * @format number of milliseconds or {@link https://www.npmjs.com/package/ms | ms-formatted string}
        */
-      maximumInterval: S.optional(S.union(MsStr, S.number)),
+      maximumInterval: S.optional(S.Union(MsStr, S.Number)),
 
       /**
        * List of application failures types to not retry.
        */
-      nonRetryableErrorTypes: S.optional(S.array(S.string)),
+      nonRetryableErrorTypes: S.optional(S.Array(S.String)),
     })
   ),
 })

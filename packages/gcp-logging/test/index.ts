@@ -10,16 +10,16 @@ import { Cause } from 'effect'
 
 const testClock: Clock.Clock = {
   [Clock.ClockTypeId]: ClockTypeId,
-  get currentTimeMillis(): Effect.Effect<never, never, number> {
+  get currentTimeMillis(): Effect.Effect<number> {
     return Effect.succeed(0)
   },
-  sleep(duration: Duration.Duration): Effect.Effect<never, never, void> {
-    return Effect.unit
+  sleep(duration: Duration.Duration): Effect.Effect<void> {
+    return Effect.void;
   },
   unsafeCurrentTimeMillis(): number {
     return 0
   },
-  get currentTimeNanos(): Effect.Effect<never, never, bigint> {
+  get currentTimeNanos(): Effect.Effect<bigint> {
     return Effect.succeed(0n)
   },
   unsafeCurrentTimeNanos(): bigint {
@@ -105,7 +105,7 @@ describe('logError', () => {
           Effect.Do,
           Effect.flatMap(() => {
             functionThatThrowError()
-            return Effect.unit
+            return Effect.void;
           }),
           Effect.catchAllCause((cause) =>
             Effect.logError('message in the log', cause)
