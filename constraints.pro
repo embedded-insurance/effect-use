@@ -1,12 +1,12 @@
 requires_specific_version(DependencyIdent,  Version) :-
-    (DependencyIdent, Version) = ('@temporalio/activity', '1.7.4');
-    (DependencyIdent, Version) = ('@temporalio/worker', '1.7.4');
-    (DependencyIdent, Version) = ('@temporalio/workflow', '1.7.4');
-    (DependencyIdent, Version) = ('@temporalio/client', '1.7.4');
+    (DependencyIdent, Version) = ('@temporalio/activity', '1.8.6');
+    (DependencyIdent, Version) = ('@temporalio/worker', '1.8.6');
+    (DependencyIdent, Version) = ('@temporalio/workflow', '1.8.6');
+    (DependencyIdent, Version) = ('@temporalio/client', '1.8.6');
 
     (DependencyIdent, Version) = ('effect', '3.12.1');
 
-    (DependencyIdent, Version) = ('typescript', '5.4.5');
+    (DependencyIdent, Version) = ('typescript', '5.7.2');
     (DependencyIdent, Version) = ('prettier', '2.8.8');
 
     (DependencyIdent, Version) = ('jest', '29.5.0');
