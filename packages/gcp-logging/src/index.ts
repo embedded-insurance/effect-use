@@ -8,7 +8,7 @@ import * as List from 'effect/List'
 import * as HashMap from 'effect/HashMap'
 import * as Cause from 'effect/Cause'
 import * as LogLevel from 'effect/LogLevel'
-import * as S from '@effect/schema/Schema'
+import * as S from 'effect/Schema'
 import * as Layer from 'effect/Layer'
 import * as LogSpan from 'effect/LogSpan'
 
@@ -86,12 +86,14 @@ export const customLogger = (
       if (cause && cause._tag != 'Interrupt') {
         messageOrCause = message ?? Cause.pretty(cause)
         // TODO: this code could go away when https://github.com/Effect-TS/effect/pull/1756 is merged
-        switch(cause._tag){
+        switch (cause._tag) {
           case 'Fail':
             exception = Cause.pretty(cause)
             break
           case 'Die':
-            exception = Option.getOrElse(Cause.dieOption(cause), () => {stack: 'Exception came with no defect!'})
+            exception = Option.getOrElse(Cause.dieOption(cause), () => ({
+              stack: 'Exception came with no defect!',
+            }))
             exception = exception.stack
             break
           case 'Parallel':
@@ -99,6 +101,14 @@ export const customLogger = (
             exception = Cause.pretty(cause)
             break
         }
+      }
+      if (
+        message &&
+        Array.isArray(message) &&
+        message.length === 1 &&
+        typeof message[0] === 'string'
+      ) {
+        message = message[0]
       }
 
       // TODO: should we use logAnnotations for span & trace?

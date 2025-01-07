@@ -13,29 +13,47 @@ export type StripeClient = {
   BalanceTransactions: {
     getBalanceTransaction: (
       balanceTransactionId: string
-    ) => Effect.Effect<StripeAPI.Stripe.Response<StripeAPI.Stripe.BalanceTransaction>, unknown>
+    ) => Effect.Effect<
+      StripeAPI.Stripe.Response<StripeAPI.Stripe.BalanceTransaction>,
+      unknown
+    >
     listBalanceTransactions: (
       args: StripeAPI.Stripe.BalanceTransactionListParams
-    ) => Effect.Effect<{
-      data: Array<StripeAPI.Stripe.BalanceTransaction>
-      has_more: boolean
-    }, unknown>
+    ) => Effect.Effect<
+      {
+        data: Array<StripeAPI.Stripe.BalanceTransaction>
+        has_more: boolean
+      },
+      unknown
+    >
   }
   Payouts: {
     getPayoutById: (
       payoutId: string
-    ) => Effect.Effect<StripeAPI.Stripe.Response<StripeAPI.Stripe.Payout>, unknown>
+    ) => Effect.Effect<
+      StripeAPI.Stripe.Response<StripeAPI.Stripe.Payout>,
+      unknown
+    >
     listPayouts: (
       args: StripeAPI.Stripe.PayoutListParams
-    ) => Effect.Effect<StripeAPI.Stripe.Response<
-      StripeAPI.Stripe.ApiList<StripeAPI.Stripe.Payout>
-    >, unknown>
-    getPayoutReconciliationReport: () => Effect.Effect<StripeAPI.Stripe.Response<StripeAPI.Stripe.Reporting.ReportType>, unknown>
+    ) => Effect.Effect<
+      StripeAPI.Stripe.Response<
+        StripeAPI.Stripe.ApiList<StripeAPI.Stripe.Payout>
+      >,
+      unknown
+    >
+    getPayoutReconciliationReport: () => Effect.Effect<
+      StripeAPI.Stripe.Response<StripeAPI.Stripe.Reporting.ReportType>,
+      unknown
+    >
   }
   Invoices: {
     getInvoice: (
       invoiceId: string
-    ) => Effect.Effect<StripeAPI.Stripe.Response<StripeAPI.Stripe.Invoice>, unknown>
+    ) => Effect.Effect<
+      StripeAPI.Stripe.Response<StripeAPI.Stripe.Invoice>,
+      unknown
+    >
   }
 }
 
@@ -103,19 +121,27 @@ const getBalanceTransaction = (
   StripeAPI.Stripe
 > =>
   Effect.flatMap(Stripe, (stripe) =>
-    Effect.tryPromise(() =>
-      stripe.balanceTransactions.retrieve(balanceTransactionId)
-    )
+    Effect.tryPromise({
+      try: () => stripe.balanceTransactions.retrieve(balanceTransactionId),
+      catch: (e) => e,
+    })
   )
 
 const listBalanceTransactions = (
   args: StripeAPI.Stripe.BalanceTransactionListParams
-): Effect.Effect<{
-  data: Array<StripeAPI.Stripe.BalanceTransaction>
-  has_more: boolean
-}, unknown, StripeAPI.Stripe> =>
+): Effect.Effect<
+  {
+    data: Array<StripeAPI.Stripe.BalanceTransaction>
+    has_more: boolean
+  },
+  unknown,
+  StripeAPI.Stripe
+> =>
   Effect.flatMap(Stripe, (stripe) =>
-    Effect.tryPromise(() => stripe.balanceTransactions.list(args))
+    Effect.tryPromise({
+      try: () => stripe.balanceTransactions.list(args),
+      catch: (e) => e,
+    })
   )
 
 /**
@@ -131,7 +157,10 @@ const getPayoutById = (
   StripeAPI.Stripe
 > =>
   Effect.flatMap(Stripe, (stripe) =>
-    Effect.tryPromise(() => stripe.payouts.retrieve(payoutId))
+    Effect.tryPromise({
+      try: () => stripe.payouts.retrieve(payoutId),
+      catch: (e) => e,
+    })
   )
 
 const listPayouts = (
@@ -142,7 +171,7 @@ const listPayouts = (
   StripeAPI.Stripe
 > =>
   Effect.flatMap(Stripe, (stripe) =>
-    Effect.tryPromise(() => stripe.payouts.list(args))
+    Effect.tryPromise({ try: () => stripe.payouts.list(args), catch: (e) => e })
   )
 
 // https://stripe.com/docs/reports/report-types#payout-reconciliation
@@ -154,11 +183,13 @@ const getItemizedPayoutReconciliationReport = (
   StripeAPI.Stripe
 > =>
   Effect.flatMap(Stripe, (stripe) =>
-    Effect.tryPromise(() =>
-      stripe.reporting.reportTypes.retrieve(
-        `payout_reconciliation.itemized.${reportTypeId}`
-      )
-    )
+    Effect.tryPromise({
+      try: () =>
+        stripe.reporting.reportTypes.retrieve(
+          `payout_reconciliation.itemized.${reportTypeId}`
+        ),
+      catch: (e) => e,
+    })
   )
 
 /**
@@ -172,5 +203,8 @@ const getInvoice = (
   StripeAPI.Stripe
 > =>
   Effect.flatMap(Stripe, (stripe) =>
-    Effect.tryPromise(() => stripe.invoices.retrieve(invoiceId))
+    Effect.tryPromise({
+      try: () => stripe.invoices.retrieve(invoiceId),
+      catch: (e) => e,
+    })
   )

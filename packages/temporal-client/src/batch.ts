@@ -5,7 +5,7 @@ import {
 } from '@temporalio/workflow'
 import * as Effect from 'effect/Effect'
 import * as Context from 'effect/Context'
-import * as S from '@effect/schema/Schema'
+import * as S from 'effect/Schema'
 import { identity, pipe } from 'effect/Function'
 import {
   startWorkflow,
@@ -183,21 +183,23 @@ export const batchSignal = (args: {
           runId: x.runId || null,
         }))
         return pipe(
-          Effect.tryPromise(() =>
-            client.workflowService.startBatchOperation({
-              reason: 'testing',
-              namespace: args.namespace,
-              jobId: args.jobId,
-              executions: identifiers,
-              signalOperation: {
-                signal: args.signal,
-                identity: 'waas-operator@v0.0.0',
-                input: {
-                  payloads: signals.map((x) => x.payload),
+          Effect.tryPromise({
+            try: () =>
+              client.workflowService.startBatchOperation({
+                reason: 'testing',
+                namespace: args.namespace,
+                jobId: args.jobId,
+                executions: identifiers,
+                signalOperation: {
+                  signal: args.signal,
+                  identity: 'waas-operator@v0.0.0',
+                  input: {
+                    payloads: signals.map((x) => x.payload),
+                  },
                 },
-              },
-            })
-          ),
+              }),
+            catch: (e) => e,
+          }),
           Effect.map((x) => ({
             failures: failedEncodings,
             successes: identifiers,
@@ -250,12 +252,14 @@ export const describeBatchOperation = (args: {
 }) =>
   Effect.flatMap(TemporalClient, (client) =>
     pipe(
-      Effect.tryPromise(() =>
-        client.workflowService.describeBatchOperation({
-          namespace: args.namespace,
-          jobId: args.jobId,
-        })
-      ),
+      Effect.tryPromise({
+        try: () =>
+          client.workflowService.describeBatchOperation({
+            namespace: args.namespace,
+            jobId: args.jobId,
+          }),
+        catch: (e) => e,
+      }),
       Effect.flatMap((x) =>
         pipe(x.toJSON(), S.decodeUnknown(BatchOperationResult))
       )

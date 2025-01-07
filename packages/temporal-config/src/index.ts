@@ -1,5 +1,5 @@
 import { Context } from 'effect'
-import * as S from '@effect/schema/Schema'
+import * as S from 'effect/Schema'
 
 const TemporalConfigRequired = S.Struct({
   address: S.String,

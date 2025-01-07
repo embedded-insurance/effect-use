@@ -27,18 +27,24 @@ export const acquireConnection: Effect.Effect<
   pipe(
     Effect.logDebug('Acquiring Temporal connection...'),
     Effect.flatMap(() =>
-      Effect.tryPromise(() =>
-        Connection.connect({
-          address: config.address,
-          ...optionalConnectionConfig(config),
-        })
-      )
+      Effect.tryPromise({
+        try: () =>
+          Connection.connect({
+            address: config.address,
+            ...optionalConnectionConfig(config),
+          }),
+        catch: (e) => e,
+      })
     ),
     Effect.tap(() => Effect.logDebug('Temporal connection acquired.'))
   )
 )
 
-export const connectionResource: Effect.Effect<Connection, unknown, Scope.Scope | TemporalConfig> = Effect.acquireRelease(acquireConnection, (conn) =>
+export const connectionResource: Effect.Effect<
+  Connection,
+  unknown,
+  Scope.Scope | TemporalConfig
+> = Effect.acquireRelease(acquireConnection, (conn) =>
   pipe(
     Effect.logDebug('Closing Temporal connection...'),
     Effect.flatMap(() => Effect.promise(() => conn.close())),
@@ -48,4 +54,8 @@ export const connectionResource: Effect.Effect<Connection, unknown, Scope.Scope 
 /**
  * @category dependency layer
  */
-export const ConnectionLive: Layer.Layer<Connection, unknown, TemporalConfig | Scope.Scope> = Layer.effect(TemporalConnection, connectionResource)
+export const ConnectionLive: Layer.Layer<
+  Connection,
+  unknown,
+  TemporalConfig | Scope.Scope
+> = Layer.effect(TemporalConnection, connectionResource)

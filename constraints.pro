@@ -4,11 +4,9 @@ requires_specific_version(DependencyIdent,  Version) :-
     (DependencyIdent, Version) = ('@temporalio/workflow', '1.7.4');
     (DependencyIdent, Version) = ('@temporalio/client', '1.7.4');
 
-    (DependencyIdent, Version) = ('@effect/io', '^0.40.3');
-    (DependencyIdent, Version) = ('@effect/data', '^0.18.5');
-    (DependencyIdent, Version) = ('@effect/schema', '^0.36.3');
+    (DependencyIdent, Version) = ('effect', '3.12.1');
 
-    (DependencyIdent, Version) = ('typescript', '5.2.2');
+    (DependencyIdent, Version) = ('typescript', '5.4.5');
     (DependencyIdent, Version) = ('prettier', '2.8.8');
 
     (DependencyIdent, Version) = ('jest', '29.5.0');

@@ -1,4 +1,4 @@
-import * as S from '@effect/schema/Schema'
+import * as S from 'effect/Schema'
 import { pipe } from 'effect'
 
 export const MsStr = S.TemplateLiteral(
@@ -6,15 +6,15 @@ export const MsStr = S.TemplateLiteral(
   S.Literal('y', 'w', 'd', 'h', 'm', 's', 'ms')
 )
 
-export const SearchAttributes = S.Record(
-  S.String,
-  S.Union(
+export const SearchAttributes = S.Record({
+  key: S.String,
+  value: S.Union(
     S.Array(S.String),
     S.Array(S.Number),
     S.Array(S.Boolean)
     // S.array(S.Date)
-  )
-)
+  ),
+})
 
 // Avoid importing the proto implementation to reduce workflow bundle size
 // Copied from temporal.api.enums.v1.WorkflowIdReusePolicy
@@ -101,7 +101,7 @@ export const BaseWorkflowOptions = S.Struct({
    * is serializable by {@link DataConverter}.
    */
 
-  memo: S.optional(S.Record(S.String, S.Unknown)),
+  memo: S.optional(S.Record({ key: S.String, value: S.Unknown })),
   /**
    * Specifies additional indexed information to attach to the Workflow Execution. More info:
    * https://docs.temporal.io/docs/typescript/search-attributes
@@ -120,7 +120,7 @@ export const BaseWorkflowOptions = S.Struct({
        * @minimum 1
        * @default 2
        */
-      backoffCoefficient: S.optional(
+      backoffCoefficient: S.optionalWith(
         pipe(S.Number, S.greaterThanOrEqualTo(1)),
         { default: () => 2 }
       ),

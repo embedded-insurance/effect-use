@@ -12,7 +12,7 @@ import {
   WorkflowStartOptions,
 } from '@temporalio/client'
 import { Effect, Context, Layer, pipe, Scope } from 'effect'
-import * as S from '@effect/schema/Schema'
+import * as S from 'effect/Schema'
 import { TemporalConfig, TemporalConfigTag } from '@effect-use/temporal-config'
 import {
   WorkflowExecutionAlreadyStartedError,
@@ -72,9 +72,10 @@ export const SignalWithStartOutput = pipe(
     workflowId: S.String,
     signaledRunId: S.String,
   }),
-  S.description(
-    "Signals a running workflow or starts it if it doesn't exist. Echoes the workflowId used to make the request and the run ID of the workflow that was signaled."
-  )
+  S.annotations({
+    description:
+      "Signals a running workflow or starts it if it doesn't exist. Echoes the workflowId used to make the request and the run ID of the workflow that was signaled.",
+  })
 )
 export type SignalWithStartOutput = S.Schema.Type<typeof SignalWithStartOutput>
 
@@ -86,12 +87,14 @@ export const signalWithStart = (
 ): Effect.Effect<SignalWithStartOutput, SignalWithStartError, TemporalClient> =>
   Effect.flatMap(TemporalClient, (client) =>
     pipe(
-      Effect.tryPromise(() =>
-        client.workflow.signalWithStart(
-          args.workflowType,
-          args as unknown as WorkflowSignalWithStartOptions
-        )
-      ),
+      Effect.tryPromise({
+        try: () =>
+          client.workflow.signalWithStart(
+            args.workflowType,
+            args as unknown as WorkflowSignalWithStartOptions
+          ),
+        catch: (e) => e,
+      }),
       Effect.map((x) => ({
         workflowId: x.workflowId,
         signaledRunId: x.signaledRunId,
@@ -177,7 +180,7 @@ export const signal = (
         Effect.try(() => client.workflow.getHandle(args.workflowId, args.runId))
       ),
       Effect.bind('executionDescription', ({ handle }) =>
-        Effect.tryPromise(() => handle.describe())
+        Effect.tryPromise({ try: () => handle.describe(), catch: (e) => e })
       ),
       Effect.bind('result', ({ handle }) =>
         Effect.tryPromise(() => handle.signal(args.signal, ...args.signalArgs))
