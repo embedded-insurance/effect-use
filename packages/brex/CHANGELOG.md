@@ -1,5 +1,16 @@
 # @effect-use/brex
 
+## 5.0.0
+
+### Major Changes
+
+- 91dec26: Use effect 3.12
+
+### Patch Changes
+
+- Updated dependencies [91dec26]
+  - @effect-use/http-client@5.0.0
+
 ## 4.0.0
 
 ### Major Changes

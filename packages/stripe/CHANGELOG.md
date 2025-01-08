@@ -1,5 +1,11 @@
 # @effect-use/stripe
 
+## 5.0.0
+
+### Major Changes
+
+- 91dec26: Use effect 3.12
+
 ## 4.0.0
 
 ### Major Changes
