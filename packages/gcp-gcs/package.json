@@ -3,9 +3,8 @@
   "version": "4.0.0",
   "packageManager": "yarn@3.5.1",
   "dependencies": {
-    "@effect/schema": "0.61.5",
     "@google-cloud/storage": "^6.10.1",
-    "effect": "2.2.3",
+    "effect": "3.12.1",
     "tmp": "^0.2.1"
   },
   "main": "dist/index.js",
@@ -15,7 +14,7 @@
   ],
   "devDependencies": {
     "jest": "29.5.0",
-    "typescript": "5.2.2"
+    "typescript": "5.7.2"
   },
   "scripts": {
     "build": "rimraf dist && tsc -p tsconfig.build.json",

@@ -75,9 +75,8 @@ export const makeURL = (input: string): Effect.Effect<URL, InvalidURL> =>
  * Creates an HTTP client
  *
  * @example
+ * import { Effect, pipe } from 'effect'
  * import * as HTTP from '@effect-use/http'
- * import * as Effect from '@effect/io/Effect'
- * import { pipe } from '@effect/data/Function'
  *
  * pipe(
  *   HTTP.make({
@@ -103,21 +102,24 @@ export const make = (args: Config): Effect.Effect<Client, never, Fetch> =>
           makeURL(`${args.baseURL || ''}${req.path || ''}`),
           Effect.tap((url) => Effect.logDebug(`${method} ${url.toString()}`)),
           Effect.flatMap((url) =>
-            Effect.tryPromise((signal) => {
-              return fetch(url.toString(), {
-                ...req,
-                method,
-                signal: req.signal || signal,
-                headers: {
-                  ...args.headers,
-                  ...req.headers,
-                },
-              })
+            Effect.tryPromise({
+              try: (signal) => {
+                return fetch(url.toString(), {
+                  ...req,
+                  method,
+                  signal: req.signal || signal,
+                  headers: {
+                    ...args.headers,
+                    ...req.headers,
+                  },
+                })
+              },
+              catch: (e) => e,
             })
           ),
           Effect.mapError((e) => {
             if (isRecord(e) && e._tag === 'InvalidURL') {
-              return e as InvalidURL
+              return e as unknown as InvalidURL
             }
             return new FetchError({
               input: {

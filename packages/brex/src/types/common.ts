@@ -1,5 +1,5 @@
 import { pipe } from 'effect/Function'
-import * as S from '@effect/schema/Schema'
+import * as S from 'effect/Schema'
 
 /**
  * PaymentType
@@ -20,7 +20,9 @@ export const CurrencyAmount = pipe(
   S.Number,
   S.int(),
   S.nonNegative(),
-  S.description('Integer amount in lowest currency denomination')
+  S.annotations({
+    description: 'Integer amount in lowest currency denomination',
+  })
 )
 export type CurrencyAmount = S.Schema.Type<typeof CurrencyAmount>
 

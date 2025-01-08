@@ -14,7 +14,7 @@ const testClock: Clock.Clock = {
     return Effect.succeed(0)
   },
   sleep(duration: Duration.Duration): Effect.Effect<void> {
-    return Effect.void;
+    return Effect.void
   },
   unsafeCurrentTimeMillis(): number {
     return 0
@@ -105,7 +105,7 @@ describe('logError', () => {
           Effect.Do,
           Effect.flatMap(() => {
             functionThatThrowError()
-            return Effect.void;
+            return Effect.void
           }),
           Effect.catchAllCause((cause) =>
             Effect.logError('message in the log', cause)

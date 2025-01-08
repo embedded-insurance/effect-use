@@ -1798,12 +1798,11 @@ __metadata:
   resolution: "@effect-use/aws-s3@workspace:packages/aws-s3"
   dependencies:
     "@aws-sdk/client-s3": ^3.335.0
-    "@effect/schema": 0.61.5
     "@types/jest": ^29.5.1
-    effect: 2.2.3
+    effect: 3.12.1
     jest: 29.5.0
     ts-jest: 29.1.0
-    typescript: 5.2.2
+    typescript: 5.7.2
   languageName: unknown
   linkType: soft
 
@@ -1812,15 +1811,14 @@ __metadata:
   resolution: "@effect-use/brex@workspace:packages/brex"
   dependencies:
     "@effect-use/http-client": "workspace:^"
-    "@effect/schema": 0.61.5
     "@types/jest": ^29.5.2
     "@types/node": 20
-    effect: 2.2.3
+    effect: 3.12.1
     jest: 29.5.0
     prettier: 2.8.8
     ts-jest: 29.1.0
     ts-node: ^10.9.1
-    typescript: 5.2.2
+    typescript: 5.7.2
   languageName: unknown
   linkType: soft
 
@@ -1828,12 +1826,11 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@effect-use/gcp-gcs@workspace:packages/gcp-gcs"
   dependencies:
-    "@effect/schema": 0.61.5
     "@google-cloud/storage": ^6.10.1
-    effect: 2.2.3
+    effect: 3.12.1
     jest: 29.5.0
     tmp: ^0.2.1
-    typescript: 5.2.2
+    typescript: 5.7.2
   languageName: unknown
   linkType: soft
 
@@ -1841,15 +1838,14 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@effect-use/gcp-logging@workspace:packages/gcp-logging"
   dependencies:
-    "@effect/schema": 0.61.5
     "@types/jest": ^29.5.2
     "@types/node": 18
     "@types/uuid": ^9.0.1
-    effect: 2.2.3
+    effect: 3.12.1
     jest: 29.5.0
     ts-jest: 29.1.0
     ts-node: ^10.9.1
-    typescript: 5.2.2
+    typescript: 5.7.2
   languageName: unknown
   linkType: soft
 
@@ -1857,16 +1853,15 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@effect-use/github@workspace:packages/github"
   dependencies:
-    "@effect/schema": 0.61.5
     "@octokit/rest": ^20.0.1
     "@types/jest": ^29.5.2
     "@types/node": 20
     "@types/uuid": ^9.0.1
-    effect: 2.2.3
+    effect: 3.12.1
     jest: 29.5.0
     ts-jest: 29.1.0
     ts-node: ^10.9.1
-    typescript: 5.2.2
+    typescript: 5.7.2
   languageName: unknown
   linkType: soft
 
@@ -1874,15 +1869,14 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@effect-use/http-client@workspace:packages/http-client"
   dependencies:
-    "@effect/schema": 0.61.5
     "@types/jest": ^29.5.2
     "@types/node": 20
     "@types/uuid": ^9.0.1
-    effect: 2.2.3
+    effect: 3.12.1
     jest: 29.5.0
     ts-jest: 29.1.0
     ts-node: ^10.9.1
-    typescript: 5.2.2
+    typescript: 5.7.2
   languageName: unknown
   linkType: soft
 
@@ -1890,16 +1884,15 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@effect-use/stripe@workspace:packages/stripe"
   dependencies:
-    "@effect/schema": 0.61.5
     "@types/jest": ^29.5.2
     "@types/node": 20
-    effect: 2.2.3
+    effect: 3.12.1
     jest: 29.5.0
     prettier: 2.8.8
     stripe: ^12.17.0
     ts-jest: 29.1.0
     ts-node: ^10.9.1
-    typescript: 5.2.2
+    typescript: 5.7.2
   languageName: unknown
   linkType: soft
 
@@ -1908,10 +1901,9 @@ __metadata:
   resolution: "@effect-use/temporal-client@workspace:packages/temporal-client"
   dependencies:
     "@effect-use/temporal-config": "workspace:^"
-    "@effect/schema": 0.61.5
     "@temporalio/client": 1.8.6
     "@temporalio/workflow": 1.8.6
-    effect: 2.2.3
+    effect: 3.12.1
   languageName: unknown
   linkType: soft
 
@@ -1919,22 +1911,10 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@effect-use/temporal-config@workspace:packages/temporal-config"
   dependencies:
-    "@effect/schema": 0.61.5
-    effect: 2.2.3
-    typescript: 5.2.2
+    effect: 3.12.1
+    typescript: 5.7.2
   languageName: unknown
   linkType: soft
-
-"@effect/schema@npm:0.67.14":
-  version: 0.67.14
-  resolution: "@effect/schema@npm:0.67.14"
-  dependencies:
-    fast-check: ^3.17.2
-  peerDependencies:
-    effect: ^3.2.5
-  checksum: 929603e9aff64c041078748f64eeb62f859a7beb21ba5055480d62604b5f0246099496fb964691a37f56c58ee78660bde7b6a539cbd9af7eeda0386e654b1a69
-  languageName: node
-  linkType: hard
 
 "@gar/promisify@npm:^1.1.3":
   version: 1.1.3
@@ -4364,26 +4344,27 @@ __metadata:
   resolution: "effect-use@workspace:."
   dependencies:
     "@changesets/cli": 2.26.1
-    "@effect/schema": 0.67.14
     "@temporalio/testing": 1.8.6
     "@temporalio/worker": 1.8.6
     "@types/jest": ^29.5.1
     "@types/node": 18
-    effect: 3.2.5
+    effect: 3.12.1
     jest: 29.5.0
     prettier: 2.8.8
     rimraf: ^5.0.1
     ts-jest: 29.1.0
     ts-node: 10.9.1
     turbo: 1.10.13
-    typescript: 5.4.5
+    typescript: 5.7.2
   languageName: unknown
   linkType: soft
 
-"effect@npm:3.2.5":
-  version: 3.2.5
-  resolution: "effect@npm:3.2.5"
-  checksum: 0f8e0a8849d25d6882d0e2f7a5d602723ff17725f972cf860b2b36f6b35108b4dbfa9a63ec0871cd188377c57054b3947d38abcb8e42ebdbf04548fce9290d6b
+"effect@npm:3.12.1":
+  version: 3.12.1
+  resolution: "effect@npm:3.12.1"
+  dependencies:
+    fast-check: ^3.23.1
+  checksum: bcc0946b39797037c893daf6ed46254aafa7025c2a9f67498dde98a0b6c6bf41c2bb641063e2dbd9be9837d8223169b6a5fd6fa6f2e042174da54934cbf44b75
   languageName: node
   linkType: hard
 
@@ -4709,12 +4690,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"fast-check@npm:^3.17.2":
-  version: 3.19.0
-  resolution: "fast-check@npm:3.19.0"
+"fast-check@npm:^3.23.1":
+  version: 3.23.2
+  resolution: "fast-check@npm:3.23.2"
   dependencies:
     pure-rand: ^6.1.0
-  checksum: 7863849b45e66c2ea121510d99cb949ec55533822114421dde1d485c50f96850241d2119d212749b56871e06a0e034bcb6cc8fb5eb2f7d21d19e862ecaa19030
+  checksum: b815bd1a2bda33b8e1927a732368f94c3919d5c3b626065479e2389739dfbc6de885fdf48b7a576505edff4f8931798dc737c7bc7039a58b3412746f0d2e9b86
   languageName: node
   linkType: hard
 
@@ -8363,43 +8344,23 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typescript@npm:5.2.2":
-  version: 5.2.2
-  resolution: "typescript@npm:5.2.2"
+"typescript@npm:5.7.2":
+  version: 5.7.2
+  resolution: "typescript@npm:5.7.2"
   bin:
     tsc: bin/tsc
     tsserver: bin/tsserver
-  checksum: 7912821dac4d962d315c36800fe387cdc0a6298dba7ec171b350b4a6e988b51d7b8f051317786db1094bd7431d526b648aba7da8236607febb26cf5b871d2d3c
+  checksum: b55300c4cefee8ee380d14fa9359ccb41ff8b54c719f6bc49b424899d662a5ce62ece390ce769568c7f4d14af844085255e63788740084444eb12ef423b13433
   languageName: node
   linkType: hard
 
-"typescript@npm:5.4.5":
-  version: 5.4.5
-  resolution: "typescript@npm:5.4.5"
+"typescript@patch:typescript@5.7.2#~builtin<compat/typescript>":
+  version: 5.7.2
+  resolution: "typescript@patch:typescript@npm%3A5.7.2#~builtin<compat/typescript>::version=5.7.2&hash=77c9e2"
   bin:
     tsc: bin/tsc
     tsserver: bin/tsserver
-  checksum: 53c879c6fa1e3bcb194b274d4501ba1985894b2c2692fa079db03c5a5a7140587a1e04e1ba03184605d35f439b40192d9e138eb3279ca8eee313c081c8bcd9b0
-  languageName: node
-  linkType: hard
-
-"typescript@patch:typescript@5.2.2#~builtin<compat/typescript>":
-  version: 5.2.2
-  resolution: "typescript@patch:typescript@npm%3A5.2.2#~builtin<compat/typescript>::version=5.2.2&hash=77c9e2"
-  bin:
-    tsc: bin/tsc
-    tsserver: bin/tsserver
-  checksum: 07106822b4305de3f22835cbba949a2b35451cad50888759b6818421290ff95d522b38ef7919e70fb381c5fe9c1c643d7dea22c8b31652a717ddbd57b7f4d554
-  languageName: node
-  linkType: hard
-
-"typescript@patch:typescript@5.4.5#~builtin<compat/typescript>":
-  version: 5.4.5
-  resolution: "typescript@patch:typescript@npm%3A5.4.5#~builtin<compat/typescript>::version=5.4.5&hash=77c9e2"
-  bin:
-    tsc: bin/tsc
-    tsserver: bin/tsserver
-  checksum: 2373c693f3b328f3b2387c3efafe6d257b057a142f9a79291854b14ff4d5367d3d730810aee981726b677ae0fd8329b23309da3b6aaab8263dbdccf1da07a3ba
+  checksum: 803430c6da2ba73c25a21880d8d4f08a56d9d2444e6db2ea949ac4abceeece8e4a442b7b9b585db7d8a0b47ebda2060e45fe8ee8b8aca23e27ec1d4844987ee6
   languageName: node
   linkType: hard
 

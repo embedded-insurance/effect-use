@@ -3,7 +3,7 @@ import * as Context from 'effect/Context'
 import { flow, pipe } from 'effect/Function'
 import * as Effect from 'effect/Effect'
 import * as Layer from 'effect/Layer'
-import * as S from '@effect/schema/Schema'
+import * as S from 'effect/Schema'
 import {
   BrexCreateTransferPayload,
   CreateTransferResponse,
@@ -119,7 +119,9 @@ const createTransfer = (
         )
       )
     ),
-    Effect.flatMap((response) => Effect.tryPromise(() => response.json())),
+    Effect.flatMap((response) =>
+      Effect.tryPromise({ try: () => response.json(), catch: (e) => e })
+    ),
     Effect.tapErrorCause((e) =>
       Effect.logError('Failed to create Brex transfer', e)
     )
@@ -133,7 +135,9 @@ const getTransfer = (
       client.get({
         path: `/v1/transfers?id=${id}`,
       }),
-      Effect.flatMap((response) => Effect.tryPromise(() => response.json())),
+      Effect.flatMap((response) =>
+        Effect.tryPromise({ try: () => response.json(), catch: (e) => e })
+      ),
       Effect.tapErrorCause((e) =>
         Effect.logError(`Failed to retrieve Brex transfer`, e)
       )
@@ -160,7 +164,7 @@ const listTransfers = (
       Effect.let('path', ({ queryParams }) => '/v1/transfers?' + queryParams),
       Effect.bind('response', ({ path }) => client.get({ path })),
       Effect.flatMap(({ response }) =>
-        Effect.tryPromise(() => response.json())
+        Effect.tryPromise({ try: () => response.json(), catch: (e) => e })
       ),
       Effect.tapErrorCause((e) =>
         Effect.logError(`Failed to list Brex transfers`, e)
@@ -180,7 +184,9 @@ const getVendor = (
     Effect.flatMap(BrexHTTPClient, (client) =>
       client.get({ path: `/v1/vendors?id=${id}` })
     ),
-    Effect.flatMap((response) => Effect.tryPromise(() => response.json())),
+    Effect.flatMap((response) =>
+      Effect.tryPromise({ try: () => response.json(), catch: (e) => e })
+    ),
     Effect.tapErrorCause((e) =>
       Effect.logError(`Failed to retrieve Brex vendor`, e)
     )
@@ -195,7 +201,9 @@ const listVendors = (): Effect.Effect<
     BrexHTTPClient,
     Effect.tap(() => Effect.logDebug('Listing Brex vendors')),
     Effect.flatMap((client) => client.get({ path: `/v1/vendors` })),
-    Effect.flatMap((response) => Effect.tryPromise(() => response.json())),
+    Effect.flatMap((response) =>
+      Effect.tryPromise({ try: () => response.json(), catch: (e) => e })
+    ),
     Effect.tapErrorCause((e) =>
       Effect.logError(`Failed to retrieve Brex vendors`, e)
     )

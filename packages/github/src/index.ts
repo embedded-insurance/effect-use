@@ -32,14 +32,16 @@ export const getFileContents = (args: {
 }) =>
   Effect.flatMap(GitHub, (api) =>
     pipe(
-      Effect.tryPromise(() =>
-        api.repos.getContent({
-          headers: {
-            'X-GitHub-Api-Version': '2022-11-28',
-          },
-          ...args,
-        })
-      ),
+      Effect.tryPromise({
+        try: () =>
+          api.repos.getContent({
+            headers: {
+              'X-GitHub-Api-Version': '2022-11-28',
+            },
+            ...args,
+          }),
+        catch: (e) => e,
+      }),
       Effect.flatMap((x) =>
         Array.isArray(x) ? Effect.fail(x) : Effect.succeed(x)
       )
@@ -85,12 +87,14 @@ export const createOrUpdateFileContents = (args: {
   }
 }) =>
   Effect.flatMap(GitHub, (api) =>
-    Effect.tryPromise(() =>
-      api.request('PUT /repos/{owner}/{repo}/contents/{path}', {
-        headers: { 'X-GitHub-Api-Version': '2022-11-28' },
-        ...args,
-      })
-    )
+    Effect.tryPromise({
+      try: () =>
+        api.request('PUT /repos/{owner}/{repo}/contents/{path}', {
+          headers: { 'X-GitHub-Api-Version': '2022-11-28' },
+          ...args,
+        }),
+      catch: (e) => e,
+    })
   )
 
 export const makeGitHubLayer = (token?: string) =>
